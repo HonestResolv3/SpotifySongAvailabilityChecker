@@ -59,18 +59,22 @@ namespace SpotifySongAvailabilityChecker
             {
                 if (string.IsNullOrWhiteSpace(txtAlbumID.Text))
                 {
-                    MessageBox.Show("Please enter in an album ID to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please enter in an album URL to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
+                string id;
                 FullAlbum album;
                 try
                 {
-                    album = client.Albums.Get(txtAlbumID.Text).Result;
+                    int beginIndex = txtAlbumID.Text.LastIndexOf("/") + 1;
+                    int endIndex = txtAlbumID.Text.IndexOf("?si=") - 1;
+                    id = txtAlbumID.Text.Substring(beginIndex, endIndex - beginIndex + 1);
+                    album = client.Albums.Get(id).Result;
                 }
                 catch
                 {
-                    MessageBox.Show("Please provide a valid Album ID", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please provide a valid album URL", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -98,18 +102,22 @@ namespace SpotifySongAvailabilityChecker
             {
                 if (string.IsNullOrWhiteSpace(txtTrackID.Text))
                 {
-                    MessageBox.Show("Please enter in a track ID to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please enter in a track URL to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
+                string id;
                 FullTrack track;
                 try
                 {
-                    track = client.Tracks.Get(txtTrackID.Text).Result;
+                    int beginIndex = txtTrackID.Text.LastIndexOf("/") + 1;
+                    int endIndex = txtTrackID.Text.IndexOf("?si=") - 1;
+                    id = txtTrackID.Text.Substring(beginIndex, endIndex - beginIndex + 1);
+                    track = client.Tracks.Get(id).Result;
                 }
                 catch
                 {
-                    MessageBox.Show("Please provide a valid Track ID", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please provide a valid track URL", "Track URL error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
