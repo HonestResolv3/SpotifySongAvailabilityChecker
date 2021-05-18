@@ -63,9 +63,23 @@ namespace SpotifySongAvailabilityChecker
                     return;
                 }
 
-                FullAlbum album = client.Albums.Get(txtAlbumID.Text).Result;
-                lblContentTitle.Text += album.Name;
-                lblAuthor.Text += album.Artists[0].Name;
+                FullAlbum album;
+                try
+                {
+                    album = client.Albums.Get(txtAlbumID.Text).Result;
+                }
+                catch
+                {
+                    MessageBox.Show("Please provide a valid Album ID", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                lblContentTitle.Text = string.Concat("Title: ", album.Name);
+                lblAuthor.Text = "Artists: ";
+
+                foreach (SimpleArtist artist in album.Artists)
+                    lblAuthor.Text += string.Concat(artist.Name, ", ");
+
                 lstAvailability.Items.Clear();
                 foreach (string s in album.AvailableMarkets)
                 {
@@ -88,9 +102,23 @@ namespace SpotifySongAvailabilityChecker
                     return;
                 }
 
-                FullTrack track = client.Tracks.Get(txtTrackID.Text).Result;
-                lblContentTitle.Text += track.Name;
-                lblAuthor.Text += track.Artists[0].Name;
+                FullTrack track;
+                try
+                {
+                    track = client.Tracks.Get(txtTrackID.Text).Result;
+                }
+                catch
+                {
+                    MessageBox.Show("Please provide a valid Track ID", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                lblContentTitle.Text = string.Concat("Title: ", track.Name);
+                lblAuthor.Text = "Artists: ";
+
+                foreach (SimpleArtist artist in track.Artists)
+                    lblAuthor.Text += string.Concat(artist.Name, ", ");
+
                 lstAvailability.Items.Clear();
                 foreach (string s in track.AvailableMarkets)
                 {

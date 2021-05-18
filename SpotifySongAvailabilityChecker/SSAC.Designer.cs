@@ -48,7 +48,7 @@ namespace SpotifySongAvailabilityChecker
             this.lstAvailability.FormattingEnabled = true;
             this.lstAvailability.Location = new System.Drawing.Point(331, 18);
             this.lstAvailability.Name = "lstAvailability";
-            this.lstAvailability.Size = new System.Drawing.Size(312, 212);
+            this.lstAvailability.Size = new System.Drawing.Size(312, 238);
             this.lstAvailability.TabIndex = 2;
             // 
             // txtTrackID
@@ -85,7 +85,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnCheckAvailability
             // 
-            this.btnCheckAvailability.Location = new System.Drawing.Point(55, 208);
+            this.btnCheckAvailability.Location = new System.Drawing.Point(55, 226);
             this.btnCheckAvailability.Name = "btnCheckAvailability";
             this.btnCheckAvailability.Size = new System.Drawing.Size(112, 23);
             this.btnCheckAvailability.TabIndex = 7;
@@ -106,19 +106,17 @@ namespace SpotifySongAvailabilityChecker
             // 
             // lblAuthor
             // 
-            this.lblAuthor.AutoSize = true;
-            this.lblAuthor.Location = new System.Drawing.Point(51, 170);
+            this.lblAuthor.Location = new System.Drawing.Point(51, 183);
             this.lblAuthor.Name = "lblAuthor";
-            this.lblAuthor.Size = new System.Drawing.Size(44, 13);
+            this.lblAuthor.Size = new System.Drawing.Size(234, 35);
             this.lblAuthor.TabIndex = 11;
-            this.lblAuthor.Text = "Author: ";
+            this.lblAuthor.Text = "Authors: ";
             // 
             // lblContentTitle
             // 
-            this.lblContentTitle.AutoSize = true;
-            this.lblContentTitle.Location = new System.Drawing.Point(51, 144);
+            this.lblContentTitle.Location = new System.Drawing.Point(51, 145);
             this.lblContentTitle.Name = "lblContentTitle";
-            this.lblContentTitle.Size = new System.Drawing.Size(33, 13);
+            this.lblContentTitle.Size = new System.Drawing.Size(234, 38);
             this.lblContentTitle.TabIndex = 10;
             this.lblContentTitle.Text = "Title: ";
             // 
@@ -140,7 +138,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnToken
             // 
-            this.btnToken.Location = new System.Drawing.Point(173, 208);
+            this.btnToken.Location = new System.Drawing.Point(173, 226);
             this.btnToken.Name = "btnToken";
             this.btnToken.Size = new System.Drawing.Size(112, 23);
             this.btnToken.TabIndex = 17;
@@ -152,7 +150,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(655, 243);
+            this.ClientSize = new System.Drawing.Size(655, 266);
             this.Controls.Add(this.btnToken);
             this.Controls.Add(this.txtToken);
             this.Controls.Add(this.lblToken);
