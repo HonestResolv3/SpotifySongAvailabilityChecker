@@ -149,32 +149,5 @@ namespace SpotifySongAvailabilityChecker
             Uri requestUri = request.ToUri();
             BrowserUtil.Open(requestUri);
         }
-
-        /**
-         * Credit to Brock Allen for finding this hack how to make URL's load cross-platform
-         * URL here: https://brockallen.com/2016/09/24/process-start-for-urls-on-net-core/
-         */
-        private void runUrlLoad(string Url)
-        {
-            try
-            {
-                Process.Start(Url);
-            }
-            catch
-            {
-                // This area checks the platform the program is running on and then starts a new process with the URL and with different commands depending on the system
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    Url = Url.Replace("&", "^&");
-                    Process.Start(new ProcessStartInfo("cmd", $"/c start {Url}") { CreateNoWindow = true });
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                    Process.Start("xdg-open", Url);
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                    Process.Start("open", Url);
-                else
-                    throw;
-            }
-        }
     }
 }

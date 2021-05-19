@@ -47,15 +47,17 @@ namespace SpotifySongAvailabilityChecker
             // 
             this.lstAvailability.FormattingEnabled = true;
             this.lstAvailability.Location = new System.Drawing.Point(405, 18);
+            this.lstAvailability.MaximumSize = new System.Drawing.Size(238, 238);
+            this.lstAvailability.MinimumSize = new System.Drawing.Size(238, 238);
             this.lstAvailability.Name = "lstAvailability";
             this.lstAvailability.Size = new System.Drawing.Size(238, 238);
             this.lstAvailability.TabIndex = 2;
             // 
             // txtTrackID
             // 
-            this.txtTrackID.Location = new System.Drawing.Point(94, 22);
+            this.txtTrackID.Location = new System.Drawing.Point(77, 22);
             this.txtTrackID.Name = "txtTrackID";
-            this.txtTrackID.Size = new System.Drawing.Size(305, 20);
+            this.txtTrackID.Size = new System.Drawing.Size(322, 20);
             this.txtTrackID.TabIndex = 4;
             // 
             // lblTrackID
@@ -69,9 +71,9 @@ namespace SpotifySongAvailabilityChecker
             // 
             // txtAlbumID
             // 
-            this.txtAlbumID.Location = new System.Drawing.Point(94, 50);
+            this.txtAlbumID.Location = new System.Drawing.Point(77, 50);
             this.txtAlbumID.Name = "txtAlbumID";
-            this.txtAlbumID.Size = new System.Drawing.Size(305, 20);
+            this.txtAlbumID.Size = new System.Drawing.Size(322, 20);
             this.txtAlbumID.TabIndex = 6;
             // 
             // lblAlbumID
