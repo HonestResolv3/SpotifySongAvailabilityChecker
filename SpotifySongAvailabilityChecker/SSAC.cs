@@ -1,9 +1,9 @@
 ﻿using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.InteropServices;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SpotifySongAvailabilityChecker
@@ -11,6 +11,8 @@ namespace SpotifySongAvailabilityChecker
     public partial class SSAC : Form
     {
         static SpotifyClient client;
+        List<string> availability = new List<string>();
+        List<string> subsection = new List<string>();
         RegionInfo albumInfo;
         RegionInfo trackInfo;
 
@@ -40,11 +42,11 @@ namespace SpotifySongAvailabilityChecker
 
         private void btnCheckAvailability_Click(object sender, EventArgs e)
         {
-            /*if (client == null)
+            if (string.IsNullOrWhiteSpace(txtToken.Text))
             {
-                MessageBox.Show("You need to get an access token by \"Get Token\" to continue", "No token provided", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please enter in a token to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }*/
+            }
 
             try
             {
@@ -83,6 +85,7 @@ namespace SpotifySongAvailabilityChecker
 
                 foreach (SimpleArtist artist in album.Artists)
                     lblAuthor.Text += string.Concat(artist.Name, ", ");
+                lblAuthor.Text = lblAuthor.Text.Substring(0, lblAuthor.Text.Length - 2);
 
                 lstAvailability.Items.Clear();
                 foreach (string s in album.AvailableMarkets)
@@ -90,7 +93,9 @@ namespace SpotifySongAvailabilityChecker
                     try
                     {
                         albumInfo = new RegionInfo(s.ToLowerInvariant());
-                        lstAvailability.Items.Add(string.Concat(s, " - ", albumInfo.DisplayName));
+                        string information = string.Concat(s, " - ", albumInfo.DisplayName);
+                        lstAvailability.Items.Add(information);
+                        availability.Add(information);
                     }
                     catch (Exception ex)
                     {
@@ -126,14 +131,18 @@ namespace SpotifySongAvailabilityChecker
 
                 foreach (SimpleArtist artist in track.Artists)
                     lblAuthor.Text += string.Concat(artist.Name, ", ");
+                lblAuthor.Text = lblAuthor.Text.Substring(0, lblAuthor.Text.Length - 2);
 
                 lstAvailability.Items.Clear();
+                availability.Clear();
                 foreach (string s in track.AvailableMarkets)
                 {
                     try
                     {
                         trackInfo = new RegionInfo(s.ToLowerInvariant());
-                        lstAvailability.Items.Add(string.Concat(s, " - ", trackInfo.DisplayName));
+                        string information = string.Concat(s, " - ", trackInfo.DisplayName);
+                        lstAvailability.Items.Add(information);
+                        availability.Add(information);
                     }
                     catch (Exception ex)
                     {
@@ -148,6 +157,28 @@ namespace SpotifySongAvailabilityChecker
             LoginRequest request = new LoginRequest(new Uri("https://webpages.uncc.edu/hquresh1/SpotifyRedirect/callback/"), "4f8281c491f244d0a4b2058dbb4587a6", LoginRequest.ResponseType.Token);
             Uri requestUri = request.ToUri();
             BrowserUtil.Open(requestUri);
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearchInput.Text))
+            {
+                MessageBox.Show("Enter a search term to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            subsection = availability.Where(r => r.Contains(txtSearchInput.Text)).ToList();
+
+            lstAvailability.Items.Clear();
+            foreach (string s in subsection)
+                lstAvailability.Items.Add(s);
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            lstAvailability.Items.Clear();
+            foreach (string s in availability)
+                lstAvailability.Items.Add(s);
         }
     }
 }
