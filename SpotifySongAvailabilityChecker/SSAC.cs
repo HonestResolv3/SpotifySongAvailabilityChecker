@@ -161,6 +161,27 @@ namespace SpotifySongAvailabilityChecker
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            DoSearch();   
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            lstAvailability.Items.Clear();
+            foreach (string s in availability)
+                lstAvailability.Items.Add(s);
+        }
+
+        private void txtSearchInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != (char)Keys.Enter)
+                return;
+
+            DoSearch();
+
+        }
+
+        private void DoSearch()
+        {
             if (string.IsNullOrWhiteSpace(txtSearchInput.Text))
             {
                 MessageBox.Show("Enter a search term to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -171,13 +192,6 @@ namespace SpotifySongAvailabilityChecker
 
             lstAvailability.Items.Clear();
             foreach (string s in subsection)
-                lstAvailability.Items.Add(s);
-        }
-
-        private void btnReset_Click(object sender, EventArgs e)
-        {
-            lstAvailability.Items.Clear();
-            foreach (string s in availability)
                 lstAvailability.Items.Add(s);
         }
     }

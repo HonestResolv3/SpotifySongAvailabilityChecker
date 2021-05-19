@@ -156,6 +156,7 @@ namespace SpotifySongAvailabilityChecker
             this.txtSearchInput.Name = "txtSearchInput";
             this.txtSearchInput.Size = new System.Drawing.Size(227, 20);
             this.txtSearchInput.TabIndex = 19;
+            this.txtSearchInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchInput_KeyPress);
             // 
             // btnSearch
             // 
