@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SpotifySongAvailabilityChecker")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A C# program to check availability of songs and albums using the Spotify API")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("CasualHonest / Hashim Qureshi")]
 [assembly: AssemblyProduct("SpotifySongAvailabilityChecker")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
