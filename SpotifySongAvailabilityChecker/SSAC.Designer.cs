@@ -29,6 +29,7 @@ namespace SpotifySongAvailabilityChecker
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SSAC));
             this.lstAvailability = new System.Windows.Forms.ListBox();
             this.txtTrackID = new System.Windows.Forms.TextBox();
             this.lblTrackID = new System.Windows.Forms.Label();
@@ -196,6 +197,7 @@ namespace SpotifySongAvailabilityChecker
             this.Controls.Add(this.txtTrackID);
             this.Controls.Add(this.lblTrackID);
             this.Controls.Add(this.lstAvailability);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SSAC";
             this.Text = "Spotify Song Availability Checker";
             this.Load += new System.EventHandler(this.SSAC_Load);
