@@ -44,7 +44,7 @@ namespace SpotifySongAvailabilityChecker
         {
             if (string.IsNullOrWhiteSpace(txtToken.Text))
             {
-                MessageBox.Show("Please enter in a token to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please enter in an access token to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -72,11 +72,29 @@ namespace SpotifySongAvailabilityChecker
                     int beginIndex = txtAlbumID.Text.LastIndexOf("/") + 1;
                     int endIndex = txtAlbumID.Text.IndexOf("?si=") - 1;
                     id = txtAlbumID.Text.Substring(beginIndex, endIndex - beginIndex + 1);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    MessageBox.Show(
+                        "The information you have provided cannot be converted into an album ID\n\n" +
+                        "On a Spotify album, click \"Copy Album Link\"", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                try
+                {
                     album = client.Albums.Get(id).Result;
                 }
-                catch
+                catch (AggregateException ae)
                 {
-                    MessageBox.Show("Please provide a valid album URL", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Exception ex = ae.GetBaseException();
+
+                    if (ex is APIException)
+                        MessageBox.Show("Please provide a valid album URL", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else if (ex is APIUnauthorizedException)
+                        MessageBox.Show("Please use a new access token as the current one has expired", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                        MessageBox.Show(ex.Message, "Exception occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -85,22 +103,30 @@ namespace SpotifySongAvailabilityChecker
 
                 foreach (SimpleArtist artist in album.Artists)
                     lblAuthor.Text += string.Concat(artist.Name, ", ");
-                lblAuthor.Text = lblAuthor.Text.Substring(0, lblAuthor.Text.Length - 2);
 
+                lblAuthor.Text = lblAuthor.Text.Substring(0, lblAuthor.Text.Length - 2);
                 lstAvailability.Items.Clear();
-                foreach (string s in album.AvailableMarkets)
+                availability.Clear();
+
+                try
                 {
-                    try
+                    foreach (string s in album.AvailableMarkets)
                     {
                         albumInfo = new RegionInfo(s.ToLowerInvariant());
                         string information = string.Concat(s, " - ", albumInfo.DisplayName);
                         lstAvailability.Items.Add(information);
                         availability.Add(information);
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Exception thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                }
+                catch (ArgumentException an)
+                {
+                    MessageBox.Show(string.Concat("RegionInfo: ", an.ParamName, " caused a conversion error"), "Region could occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Exception occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
             else
@@ -118,11 +144,29 @@ namespace SpotifySongAvailabilityChecker
                     int beginIndex = txtTrackID.Text.LastIndexOf("/") + 1;
                     int endIndex = txtTrackID.Text.IndexOf("?si=") - 1;
                     id = txtTrackID.Text.Substring(beginIndex, endIndex - beginIndex + 1);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    MessageBox.Show(
+                        "The information you have provided cannot be converted into an album ID\n\n" +
+                        "On a Spotify album, click \"Copy Album Link\"", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                try
+                {
                     track = client.Tracks.Get(id).Result;
                 }
-                catch
+                catch (AggregateException ae)
                 {
-                    MessageBox.Show("Please provide a valid track URL", "Track URL error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Exception ex = ae.GetBaseException();
+
+                    if (ex is APIException)
+                        MessageBox.Show("Please provide a valid album URL", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else if (ex is APIUnauthorizedException)
+                        MessageBox.Show("Please use a new access token as the current one has expired", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                        MessageBox.Show(ex.Message, "Exception occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -131,23 +175,30 @@ namespace SpotifySongAvailabilityChecker
 
                 foreach (SimpleArtist artist in track.Artists)
                     lblAuthor.Text += string.Concat(artist.Name, ", ");
-                lblAuthor.Text = lblAuthor.Text.Substring(0, lblAuthor.Text.Length - 2);
 
+                lblAuthor.Text = lblAuthor.Text.Substring(0, lblAuthor.Text.Length - 2);
                 lstAvailability.Items.Clear();
                 availability.Clear();
-                foreach (string s in track.AvailableMarkets)
+
+                try
                 {
-                    try
+                    foreach (string s in track.AvailableMarkets)
                     {
-                        trackInfo = new RegionInfo(s.ToLowerInvariant());
-                        string information = string.Concat(s, " - ", trackInfo.DisplayName);
+                        albumInfo = new RegionInfo(s.ToLowerInvariant());
+                        string information = string.Concat(s, " - ", albumInfo.DisplayName);
                         lstAvailability.Items.Add(information);
                         availability.Add(information);
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Exception thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                }
+                catch (ArgumentException an)
+                {
+                    MessageBox.Show(string.Concat("RegionInfo: ", an.ParamName, " caused a conversion error"), "Region could occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Exception occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
         }
