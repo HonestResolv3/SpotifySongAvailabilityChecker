@@ -128,6 +128,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             this.txtToken.Location = new System.Drawing.Point(94, 71);
             this.txtToken.Name = "txtToken";
+            this.txtToken.ReadOnly = true;
             this.txtToken.Size = new System.Drawing.Size(305, 20);
             this.txtToken.TabIndex = 13;
             // 
@@ -199,6 +200,8 @@ namespace SpotifySongAvailabilityChecker
             this.Controls.Add(this.lblTrackID);
             this.Controls.Add(this.lstAvailability);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(831, 326);
+            this.MinimumSize = new System.Drawing.Size(831, 326);
             this.Name = "SSAC";
             this.Text = "Spotify Song Availability Checker";
             this.Load += new System.EventHandler(this.SSAC_Load);

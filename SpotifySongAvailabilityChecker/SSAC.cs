@@ -4,13 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SpotifySongAvailabilityChecker
 {
     public partial class SSAC : Form
     {
+        static EmbedIOAuthServer server;
         static SpotifyClient client;
+
         List<string> availability = new List<string>();
         List<string> subsection = new List<string>();
         RegionInfo albumInfo;
@@ -44,17 +47,8 @@ namespace SpotifySongAvailabilityChecker
         {
             if (string.IsNullOrWhiteSpace(txtToken.Text))
             {
-                MessageBox.Show("Please enter in an access token to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please generate an access token by clicking \"Get Access Token\" to continue", "Missing access token", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
-
-            try
-            {
-                client = new SpotifyClient(txtToken.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Exception thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             if (chkIsAlbum.Checked)
@@ -98,11 +92,11 @@ namespace SpotifySongAvailabilityChecker
                     return;
                 }
 
-                lblContentTitle.Text = string.Concat("Title: ", album.Name);
+                lblContentTitle.Text = $"Title: {album.Name}";
                 lblAuthor.Text = "Artists: ";
 
                 foreach (SimpleArtist artist in album.Artists)
-                    lblAuthor.Text += string.Concat(artist.Name, ", ");
+                    lblAuthor.Text += $"{artist.Name}, ";
 
                 lblAuthor.Text = lblAuthor.Text.Substring(0, lblAuthor.Text.Length - 2);
                 lstAvailability.Items.Clear();
@@ -113,14 +107,14 @@ namespace SpotifySongAvailabilityChecker
                     foreach (string s in album.AvailableMarkets)
                     {
                         albumInfo = new RegionInfo(s.ToLowerInvariant());
-                        string information = string.Concat(s, " - ", albumInfo.DisplayName);
+                        string information = $"{s} - {albumInfo.DisplayName}";
                         lstAvailability.Items.Add(information);
                         availability.Add(information);
                     }
                 }
                 catch (ArgumentException an)
                 {
-                    MessageBox.Show(string.Concat("RegionInfo: ", an.ParamName, " caused a conversion error"), "Region could occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"RegionInfo: {an.ParamName} caused a conversion error", "Region could occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (Exception ex)
@@ -170,11 +164,11 @@ namespace SpotifySongAvailabilityChecker
                     return;
                 }
 
-                lblContentTitle.Text = string.Concat("Title: ", track.Name);
+                lblContentTitle.Text = $"Title: {track.Name}";
                 lblAuthor.Text = "Artists: ";
 
                 foreach (SimpleArtist artist in track.Artists)
-                    lblAuthor.Text += string.Concat(artist.Name, ", ");
+                    lblAuthor.Text += $"{artist.Name}, ";
 
                 lblAuthor.Text = lblAuthor.Text.Substring(0, lblAuthor.Text.Length - 2);
                 lstAvailability.Items.Clear();
@@ -184,15 +178,15 @@ namespace SpotifySongAvailabilityChecker
                 {
                     foreach (string s in track.AvailableMarkets)
                     {
-                        albumInfo = new RegionInfo(s.ToLowerInvariant());
-                        string information = string.Concat(s, " - ", albumInfo.DisplayName);
+                        trackInfo = new RegionInfo(s.ToLowerInvariant());
+                        string information = $"{s} - {trackInfo.DisplayName}";
                         lstAvailability.Items.Add(information);
                         availability.Add(information);
                     }
                 }
                 catch (ArgumentException an)
                 {
-                    MessageBox.Show(string.Concat("RegionInfo: ", an.ParamName, " caused a conversion error"), "Region could occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"RegionInfo: {an.ParamName} caused a conversion error", "Region could occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (Exception ex)
@@ -203,9 +197,15 @@ namespace SpotifySongAvailabilityChecker
             }
         }
 
-        private void btnToken_Click(object sender, EventArgs e)
+        private async void btnToken_Click(object sender, EventArgs e)
         {
-            LoginRequest request = new LoginRequest(new Uri("https://webpages.uncc.edu/hquresh1/SpotifyRedirect/callback/"), "4f8281c491f244d0a4b2058dbb4587a6", LoginRequest.ResponseType.Token);
+            server = new EmbedIOAuthServer(new Uri("http://localhost:5000/callback"), 5000);
+            await server.Start();
+
+            server.ImplictGrantReceived += OnImplicitGrantReceived;
+            server.ErrorReceived += OnErrorReceived;
+
+            LoginRequest request = new LoginRequest(server.BaseUri, "4f8281c491f244d0a4b2058dbb4587a6", LoginRequest.ResponseType.Token);
             Uri requestUri = request.ToUri();
             BrowserUtil.Open(requestUri);
         }
@@ -229,6 +229,24 @@ namespace SpotifySongAvailabilityChecker
 
             DoSearch();
 
+        }
+
+        private async Task OnImplicitGrantReceived(object sender, ImplictGrantResponse response)
+        {
+            server.ImplictGrantReceived -= OnImplicitGrantReceived;
+            await server.Stop();
+            client = new SpotifyClient(response.AccessToken);
+            txtToken.Invoke(new Action(() => txtToken.Text = response.AccessToken));
+        }
+
+        private async Task OnErrorReceived(object sender, string error, string state)
+        {
+            server.ErrorReceived -= OnErrorReceived;
+            await server.Stop();
+            MessageBox.Show(
+                "There was an error trying to authorize your Spotify account with the program\n\n" +
+                $"Error Message: {error}\n\n" +
+                $"State: {state}", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void DoSearch()

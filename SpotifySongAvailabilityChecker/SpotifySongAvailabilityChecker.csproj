@@ -50,14 +50,14 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SpotifyAPI.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SpotifyAPI.Web.6.1.0\lib\netstandard2.0\SpotifyAPI.Web.dll</HintPath>
+      <HintPath>..\packages\SpotifyAPI.Web.6.2.0\lib\netstandard2.0\SpotifyAPI.Web.dll</HintPath>
     </Reference>
     <Reference Include="SpotifyAPI.Web.Auth, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SpotifyAPI.Web.Auth.6.1.0\lib\netstandard2.0\SpotifyAPI.Web.Auth.dll</HintPath>
+      <HintPath>..\packages\SpotifyAPI.Web.Auth.6.2.0\lib\netstandard2.0\SpotifyAPI.Web.Auth.dll</HintPath>
     </Reference>
     <Reference Include="Swan.Lite, Version=3.0.0.0, Culture=neutral, PublicKeyToken=30c707c872729fff, processorArchitecture=MSIL">
       <HintPath>..\packages\Unosquare.Swan.Lite.3.0.0\lib\net461\Swan.Lite.dll</HintPath>
