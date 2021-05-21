@@ -142,8 +142,8 @@ namespace SpotifySongAvailabilityChecker
                 catch (ArgumentOutOfRangeException)
                 {
                     MessageBox.Show(
-                        "The information you have provided cannot be converted into an album ID\n\n" +
-                        "On a Spotify album, click \"Copy Album Link\"", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        "The information you have provided cannot be converted into an track ID\n\n" +
+                        "On a Spotify album, click \"Copy Song Link\"", "Track ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -156,7 +156,7 @@ namespace SpotifySongAvailabilityChecker
                     Exception ex = ae.GetBaseException();
 
                     if (ex is APIException)
-                        MessageBox.Show("Please provide a valid album URL", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Please provide a valid track URL", "Track ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else if (ex is APIUnauthorizedException)
                         MessageBox.Show("Please use a new access token as the current one has expired", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
