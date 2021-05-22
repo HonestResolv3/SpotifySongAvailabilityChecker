@@ -16,9 +16,9 @@ namespace SpotifySongAvailabilityChecker
         static EmbedIOAuthServer server;
         static SpotifyClient client;
 
-        List<string> availability = new List<string>();
-        List<string> subsection = new List<string>();
-        List<SearchObject> searches = new List<SearchObject>();
+        List<ListViewItem> availability = new List<ListViewItem>();
+        List<ListViewItem> subsection = new List<ListViewItem>();
+        List<SearchObject> searches;
 
         RegionInfo albumInfo;
         RegionInfo trackInfo;
@@ -36,9 +36,22 @@ namespace SpotifySongAvailabilityChecker
         private void SSAC_Load(object sender, EventArgs e)
         {
             txtAlbumID.Enabled = false;
-            searches = File.ReadAllLines(Path.Combine(historyLocation, "SearchHistory.json")).Select(line => JsonConvert.DeserializeObject<SearchObject>(line)).ToList();
+            VerifyStoragePath();
+
+            try
+            {
+                searches = File.ReadAllLines(Path.Combine(historyLocation, "SearchHistory.json")).Select(line => JsonConvert.DeserializeObject<SearchObject>(line)).ToList();
+            }
+            catch
+            {
+                searches = new List<SearchObject>();
+            }
+
             foreach (SearchObject obj in searches)
-                lstSearches.Items.Add(obj);
+            {
+                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.GetCorrectType(), obj.GetCorrectLink()});
+                lvwSearchHistory.Items.Add(item);
+            }
         }
 
         private void chkIsAlbum_CheckedChanged(object sender, EventArgs e)
@@ -107,25 +120,26 @@ namespace SpotifySongAvailabilityChecker
                 albumObj = new SearchObject(album.Name);
                 albumObj.AlbumLink = txtAlbumID.Text;
 
+                foreach (SimpleArtist artist in album.Artists)
+                    albumObj.Author += $"{artist.Name}, ";
+                albumObj.Author = albumObj.Author.Substring(0, albumObj.Author.Length - 2);
+
                 try
                 {
-                    if (!Directory.Exists(historyLocation))
-                        Directory.CreateDirectory(historyLocation);
-
-                    if (!File.Exists(Path.Combine(historyLocation, "SearchHistory.json")))
-                        File.Create(Path.Combine(historyLocation, "SearchHistory.json"));
-
+                    VerifyStoragePath();
                     File.AppendAllText(Path.Combine(historyLocation, "SearchHistory.json"), $"{JsonConvert.SerializeObject(albumObj)}\n");
-
-                    searches.Add(albumObj);
-                    lstSearches.Items.Add(albumObj);
                 }
                 catch (IOException io)
                 {
                     MessageBox.Show(
                         "There was an error trying to create an entry in the search history file\n\n" +
                         $"Error: {io.Message}", "Search history error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+
+                searches.Add(albumObj);
+                ListViewItem item = new ListViewItem(new string[] { albumObj.Title, albumObj.Author, albumObj.GetCorrectType(), albumObj.GetCorrectLink() });
+                lvwSearchHistory.Items.Add(item);
 
                 txtTitle.Text = album.Name;
                 rtbAuthors.Text = string.Empty;
@@ -137,7 +151,7 @@ namespace SpotifySongAvailabilityChecker
                 foreach (Copyright copyright in album.Copyrights)
                     rtbCopyright.Text += $"{copyright.Text}\n";
 
-                lstAvailability.Items.Clear();
+                lvwAvailability.Items.Clear();
                 availability.Clear();
 
                 try
@@ -146,8 +160,9 @@ namespace SpotifySongAvailabilityChecker
                     {
                         albumInfo = new RegionInfo(s.ToLowerInvariant());
                         string information = $"{s} - {albumInfo.DisplayName}";
-                        lstAvailability.Items.Add(information);
-                        availability.Add(information);
+                        ListViewItem info = new ListViewItem(new string[] { s, albumInfo.DisplayName });
+                        lvwAvailability.Items.Add(info);
+                        availability.Add(info);
                     }
                 }
                 catch (ArgumentException an)
@@ -205,25 +220,26 @@ namespace SpotifySongAvailabilityChecker
                 trackObj = new SearchObject(track.Name);
                 trackObj.SongLink = txtTrackID.Text;
 
+                foreach (SimpleArtist artist in track.Artists)
+                    trackObj.Author += $"{artist.Name}, ";
+                trackObj.Author = trackObj.Author.Substring(0, trackObj.Author.Length - 2);
+
                 try
                 {
-                    if (!Directory.Exists(historyLocation))
-                        Directory.CreateDirectory(historyLocation);
-
-                    if (!File.Exists(Path.Combine(historyLocation, "SearchHistory.json")))
-                        File.Create(Path.Combine(historyLocation, "SearchHistory.json"));
-
+                    VerifyStoragePath();
                     File.AppendAllText(Path.Combine(historyLocation, "SearchHistory.json"), $"{JsonConvert.SerializeObject(trackObj)}\n");
-
-                    searches.Add(trackObj);
-                    lstSearches.Items.Add(trackObj);
                 }
                 catch (IOException io)
                 {
                     MessageBox.Show(
                         "There was an error trying to create an entry in the search history file\n\n" +
                         $"Error: {io.Message}", "Search history error" , MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+
+                searches.Add(trackObj);
+                ListViewItem item = new ListViewItem(new string[] { trackObj.Title, trackObj.Author, trackObj.GetCorrectType(), trackObj.GetCorrectLink() });
+                lvwSearchHistory.Items.Add(item);
 
                 txtTitle.Text = track.Name;
                 rtbAuthors.Text = string.Empty;
@@ -234,7 +250,7 @@ namespace SpotifySongAvailabilityChecker
                 foreach (SimpleArtist artist in track.Artists)
                     rtbAuthors.Text += $"{artist.Name}\n";
 
-                lstAvailability.Items.Clear();
+                lvwAvailability.Items.Clear();
                 availability.Clear();
 
                 try
@@ -243,8 +259,9 @@ namespace SpotifySongAvailabilityChecker
                     {
                         trackInfo = new RegionInfo(s.ToLowerInvariant());
                         string information = $"{s} - {trackInfo.DisplayName}";
-                        lstAvailability.Items.Add(information);
-                        availability.Add(information);
+                        ListViewItem info = new ListViewItem(new string[] { s, trackInfo.DisplayName });
+                        lvwAvailability.Items.Add(info);
+                        availability.Add(info);
                     }
                 }
                 catch (ArgumentException an)
@@ -280,9 +297,9 @@ namespace SpotifySongAvailabilityChecker
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            lstAvailability.Items.Clear();
-            foreach (string s in availability)
-                lstAvailability.Items.Add(s);
+            lvwAvailability.Items.Clear();
+            foreach (ListViewItem item in availability)
+                lvwAvailability.Items.Add(item);
         }
 
         private void txtSearchInput_KeyPress(object sender, KeyPressEventArgs e)
@@ -320,11 +337,20 @@ namespace SpotifySongAvailabilityChecker
                 return;
             }
 
-            subsection = availability.Where(r => r.Contains(txtSearchInput.Text)).ToList();
+            subsection = availability.Where(r => r.SubItems[1].Text.Contains(txtSearchInput.Text)).ToList();
 
-            lstAvailability.Items.Clear();
-            foreach (string s in subsection)
-                lstAvailability.Items.Add(s);
+            lvwAvailability.Items.Clear();
+            foreach (ListViewItem item in subsection)
+                lvwAvailability.Items.Add(item);
+        }
+
+        private void VerifyStoragePath()
+        {
+            if (!Directory.Exists(historyLocation))
+                Directory.CreateDirectory(historyLocation);
+
+            if (!File.Exists(Path.Combine(historyLocation, "SearchHistory.json")))
+                File.Create(Path.Combine(historyLocation, "SearchHistory.json"));
         }
     }
 }

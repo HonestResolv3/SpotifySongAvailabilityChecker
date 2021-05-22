@@ -30,7 +30,6 @@ namespace SpotifySongAvailabilityChecker
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SSAC));
-            this.lstAvailability = new System.Windows.Forms.ListBox();
             this.txtTrackID = new System.Windows.Forms.TextBox();
             this.lblTrackID = new System.Windows.Forms.Label();
             this.txtAlbumID = new System.Windows.Forms.TextBox();
@@ -47,28 +46,27 @@ namespace SpotifySongAvailabilityChecker
             this.btnReset = new System.Windows.Forms.Button();
             this.tctrlMain = new System.Windows.Forms.TabControl();
             this.tpgAvailability = new System.Windows.Forms.TabPage();
+            this.lvwAvailability = new System.Windows.Forms.ListView();
+            this.chdrCountryCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chdrCountry = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tpgSearchHistory = new System.Windows.Forms.TabPage();
+            this.lvwSearchHistory = new System.Windows.Forms.ListView();
+            this.chdrTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chdrAuthor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chdrType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chdrLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblCopyright = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.rtbAuthors = new System.Windows.Forms.RichTextBox();
             this.rtbCopyright = new System.Windows.Forms.RichTextBox();
             this.gbxInput = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lstSearches = new System.Windows.Forms.ListBox();
             this.tctrlMain.SuspendLayout();
             this.tpgAvailability.SuspendLayout();
             this.tpgSearchHistory.SuspendLayout();
             this.gbxInput.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lstAvailability
-            // 
-            this.lstAvailability.FormattingEnabled = true;
-            this.lstAvailability.Location = new System.Drawing.Point(6, 31);
-            this.lstAvailability.Name = "lstAvailability";
-            this.lstAvailability.Size = new System.Drawing.Size(383, 277);
-            this.lstAvailability.TabIndex = 22;
             // 
             // txtTrackID
             // 
@@ -170,13 +168,13 @@ namespace SpotifySongAvailabilityChecker
             // 
             this.txtSearchInput.Location = new System.Drawing.Point(6, 6);
             this.txtSearchInput.Name = "txtSearchInput";
-            this.txtSearchInput.Size = new System.Drawing.Size(227, 22);
+            this.txtSearchInput.Size = new System.Drawing.Size(328, 22);
             this.txtSearchInput.TabIndex = 18;
             this.txtSearchInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchInput_KeyPress);
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(239, 5);
+            this.btnSearch.Location = new System.Drawing.Point(340, 5);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(73, 23);
             this.btnSearch.TabIndex = 19;
@@ -186,7 +184,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(316, 5);
+            this.btnReset.Location = new System.Drawing.Point(417, 6);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(73, 23);
             this.btnReset.TabIndex = 20;
@@ -201,33 +199,90 @@ namespace SpotifySongAvailabilityChecker
             this.tctrlMain.Location = new System.Drawing.Point(445, 8);
             this.tctrlMain.Name = "tctrlMain";
             this.tctrlMain.SelectedIndex = 0;
-            this.tctrlMain.Size = new System.Drawing.Size(403, 339);
+            this.tctrlMain.Size = new System.Drawing.Size(503, 339);
             this.tctrlMain.TabIndex = 17;
             // 
             // tpgAvailability
             // 
+            this.tpgAvailability.Controls.Add(this.lvwAvailability);
             this.tpgAvailability.Controls.Add(this.txtSearchInput);
             this.tpgAvailability.Controls.Add(this.btnReset);
-            this.tpgAvailability.Controls.Add(this.lstAvailability);
             this.tpgAvailability.Controls.Add(this.btnSearch);
             this.tpgAvailability.Location = new System.Drawing.Point(4, 22);
             this.tpgAvailability.Name = "tpgAvailability";
             this.tpgAvailability.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgAvailability.Size = new System.Drawing.Size(395, 313);
+            this.tpgAvailability.Size = new System.Drawing.Size(495, 313);
             this.tpgAvailability.TabIndex = 0;
             this.tpgAvailability.Text = "Availability";
             this.tpgAvailability.UseVisualStyleBackColor = true;
             // 
+            // lvwAvailability
+            // 
+            this.lvwAvailability.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chdrCountryCode,
+            this.chdrCountry});
+            this.lvwAvailability.HideSelection = false;
+            this.lvwAvailability.Location = new System.Drawing.Point(6, 34);
+            this.lvwAvailability.Name = "lvwAvailability";
+            this.lvwAvailability.Size = new System.Drawing.Size(483, 273);
+            this.lvwAvailability.TabIndex = 25;
+            this.lvwAvailability.UseCompatibleStateImageBehavior = false;
+            this.lvwAvailability.View = System.Windows.Forms.View.Details;
+            // 
+            // chdrCountryCode
+            // 
+            this.chdrCountryCode.Text = "Country Code";
+            this.chdrCountryCode.Width = 120;
+            // 
+            // chdrCountry
+            // 
+            this.chdrCountry.Text = "Country Name";
+            this.chdrCountry.Width = 360;
+            // 
             // tpgSearchHistory
             // 
-            this.tpgSearchHistory.Controls.Add(this.lstSearches);
+            this.tpgSearchHistory.Controls.Add(this.lvwSearchHistory);
             this.tpgSearchHistory.Location = new System.Drawing.Point(4, 22);
             this.tpgSearchHistory.Name = "tpgSearchHistory";
             this.tpgSearchHistory.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgSearchHistory.Size = new System.Drawing.Size(395, 313);
+            this.tpgSearchHistory.Size = new System.Drawing.Size(495, 313);
             this.tpgSearchHistory.TabIndex = 1;
             this.tpgSearchHistory.Text = "Search History";
             this.tpgSearchHistory.UseVisualStyleBackColor = true;
+            // 
+            // lvwSearchHistory
+            // 
+            this.lvwSearchHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chdrTitle,
+            this.chdrAuthor,
+            this.chdrType,
+            this.chdrLink});
+            this.lvwSearchHistory.HideSelection = false;
+            this.lvwSearchHistory.Location = new System.Drawing.Point(6, 6);
+            this.lvwSearchHistory.Name = "lvwSearchHistory";
+            this.lvwSearchHistory.Size = new System.Drawing.Size(483, 301);
+            this.lvwSearchHistory.TabIndex = 24;
+            this.lvwSearchHistory.UseCompatibleStateImageBehavior = false;
+            this.lvwSearchHistory.View = System.Windows.Forms.View.Details;
+            // 
+            // chdrTitle
+            // 
+            this.chdrTitle.Text = "Title";
+            this.chdrTitle.Width = 120;
+            // 
+            // chdrAuthor
+            // 
+            this.chdrAuthor.Text = "Author";
+            this.chdrAuthor.Width = 120;
+            // 
+            // chdrType
+            // 
+            this.chdrType.Text = "Type";
+            // 
+            // chdrLink
+            // 
+            this.chdrLink.Text = "Link";
+            this.chdrLink.Width = 284;
             // 
             // lblCopyright
             // 
@@ -296,20 +351,11 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Content Information";
             // 
-            // lstSearches
-            // 
-            this.lstSearches.FormattingEnabled = true;
-            this.lstSearches.HorizontalScrollbar = true;
-            this.lstSearches.Location = new System.Drawing.Point(6, 6);
-            this.lstSearches.Name = "lstSearches";
-            this.lstSearches.Size = new System.Drawing.Size(383, 251);
-            this.lstSearches.TabIndex = 23;
-            // 
             // SSAC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(853, 354);
+            this.ClientSize = new System.Drawing.Size(954, 354);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbxInput);
             this.Controls.Add(this.tctrlMain);
@@ -319,8 +365,8 @@ namespace SpotifySongAvailabilityChecker
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(869, 393);
-            this.MinimumSize = new System.Drawing.Size(869, 393);
+            this.MaximumSize = new System.Drawing.Size(970, 393);
+            this.MinimumSize = new System.Drawing.Size(970, 393);
             this.Name = "SSAC";
             this.Text = "Spotify Song Availability Checker";
             this.Load += new System.EventHandler(this.SSAC_Load);
@@ -337,7 +383,6 @@ namespace SpotifySongAvailabilityChecker
         }
 
         #endregion
-        private System.Windows.Forms.ListBox lstAvailability;
         private System.Windows.Forms.TextBox txtTrackID;
         private System.Windows.Forms.Label lblTrackID;
         private System.Windows.Forms.TextBox txtAlbumID;
@@ -361,7 +406,14 @@ namespace SpotifySongAvailabilityChecker
         private System.Windows.Forms.RichTextBox rtbCopyright;
         private System.Windows.Forms.GroupBox gbxInput;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ListBox lstSearches;
+        private System.Windows.Forms.ListView lvwSearchHistory;
+        private System.Windows.Forms.ColumnHeader chdrTitle;
+        private System.Windows.Forms.ColumnHeader chdrLink;
+        private System.Windows.Forms.ColumnHeader chdrType;
+        private System.Windows.Forms.ColumnHeader chdrAuthor;
+        private System.Windows.Forms.ListView lvwAvailability;
+        private System.Windows.Forms.ColumnHeader chdrCountryCode;
+        private System.Windows.Forms.ColumnHeader chdrCountry;
     }
 }
 
