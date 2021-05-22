@@ -20,6 +20,9 @@ namespace SpotifySongAvailabilityChecker
         List<ListViewItem> subsection = new List<ListViewItem>();
         List<SearchObject> searches;
 
+        ListViewItem itemAvailability;
+        ListViewItem itemSearch;
+
         RegionInfo albumInfo;
         RegionInfo trackInfo;
 
@@ -138,8 +141,8 @@ namespace SpotifySongAvailabilityChecker
                 }
 
                 searches.Add(albumObj);
-                ListViewItem item = new ListViewItem(new string[] { albumObj.Title, albumObj.Author, albumObj.GetCorrectType(), albumObj.GetCorrectLink() });
-                lvwSearchHistory.Items.Add(item);
+                itemSearch = new ListViewItem(new string[] { albumObj.Title, albumObj.Author, albumObj.GetCorrectType(), albumObj.GetCorrectLink() });
+                lvwSearchHistory.Items.Add(itemSearch);
 
                 txtTitle.Text = album.Name;
                 rtbAuthors.Text = string.Empty;
@@ -148,8 +151,8 @@ namespace SpotifySongAvailabilityChecker
                 foreach (SimpleArtist artist in album.Artists)
                     rtbAuthors.Text += $"{artist.Name}\n";
 
-                foreach (Copyright copyright in album.Copyrights)
-                    rtbCopyright.Text += $"{copyright.Text}\n";
+                for (int i = 0; i < album.Copyrights.Count; i++)
+                    rtbCopyright.Text += i == 0 ? $"\u00A9{album.Copyrights[i].Text}\n" : $"\u2117{album.Copyrights[i].Text}\n";
 
                 lvwAvailability.Items.Clear();
                 availability.Clear();
@@ -159,10 +162,9 @@ namespace SpotifySongAvailabilityChecker
                     foreach (string s in album.AvailableMarkets)
                     {
                         albumInfo = new RegionInfo(s.ToLowerInvariant());
-                        string information = $"{s} - {albumInfo.DisplayName}";
-                        ListViewItem info = new ListViewItem(new string[] { s, albumInfo.DisplayName });
-                        lvwAvailability.Items.Add(info);
-                        availability.Add(info);
+                        itemAvailability = new ListViewItem(new string[] { s, albumInfo.DisplayName });
+                        lvwAvailability.Items.Add(itemAvailability);
+                        availability.Add(itemAvailability);
                     }
                 }
                 catch (ArgumentException an)
@@ -238,8 +240,8 @@ namespace SpotifySongAvailabilityChecker
                 }
 
                 searches.Add(trackObj);
-                ListViewItem item = new ListViewItem(new string[] { trackObj.Title, trackObj.Author, trackObj.GetCorrectType(), trackObj.GetCorrectLink() });
-                lvwSearchHistory.Items.Add(item);
+                itemSearch = new ListViewItem(new string[] { trackObj.Title, trackObj.Author, trackObj.GetCorrectType(), trackObj.GetCorrectLink() });
+                lvwSearchHistory.Items.Add(itemSearch);
 
                 txtTitle.Text = track.Name;
                 rtbAuthors.Text = string.Empty;
@@ -258,10 +260,9 @@ namespace SpotifySongAvailabilityChecker
                     foreach (string s in track.AvailableMarkets)
                     {
                         trackInfo = new RegionInfo(s.ToLowerInvariant());
-                        string information = $"{s} - {trackInfo.DisplayName}";
-                        ListViewItem info = new ListViewItem(new string[] { s, trackInfo.DisplayName });
-                        lvwAvailability.Items.Add(info);
-                        availability.Add(info);
+                        itemAvailability = new ListViewItem(new string[] { s, trackInfo.DisplayName });
+                        lvwAvailability.Items.Add(itemAvailability);
+                        availability.Add(itemAvailability);
                     }
                 }
                 catch (ArgumentException an)
