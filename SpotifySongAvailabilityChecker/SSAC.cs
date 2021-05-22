@@ -17,8 +17,10 @@ namespace SpotifySongAvailabilityChecker
         static SpotifyClient client;
 
         List<ListViewItem> availability = new List<ListViewItem>();
-        List<ListViewItem> subsection = new List<ListViewItem>();
+        List<ListViewItem> availabilitySubsection;
+
         List<SearchObject> searches;
+        List<SearchObject> searchSubsection;
 
         ListViewItem itemAvailability;
         ListViewItem itemSearch;
@@ -30,6 +32,7 @@ namespace SpotifySongAvailabilityChecker
         SearchObject trackObj;
 
         string historyLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SSAC_Storage");
+        bool searchActivated;
 
         public SSAC()
         {
@@ -39,6 +42,8 @@ namespace SpotifySongAvailabilityChecker
         private void SSAC_Load(object sender, EventArgs e)
         {
             txtAlbumID.Enabled = false;
+            cbxSearchHistoryType.SelectedIndex = 0;
+            cbxAvailabilitySearch.SelectedIndex = 0;
             VerifyStoragePath();
 
             try
@@ -140,6 +145,7 @@ namespace SpotifySongAvailabilityChecker
                     return;
                 }
 
+                ResetSearchHistory();
                 searches.Add(albumObj);
                 itemSearch = new ListViewItem(new string[] { albumObj.Title, albumObj.Author, albumObj.GetCorrectType(), albumObj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(itemSearch);
@@ -239,6 +245,7 @@ namespace SpotifySongAvailabilityChecker
                     return;
                 }
 
+                ResetSearchHistory();
                 searches.Add(trackObj);
                 itemSearch = new ListViewItem(new string[] { trackObj.Title, trackObj.Author, trackObj.GetCorrectType(), trackObj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(itemSearch);
@@ -267,7 +274,7 @@ namespace SpotifySongAvailabilityChecker
                 }
                 catch (ArgumentException an)
                 {
-                    MessageBox.Show($"RegionInfo: {an.ParamName} caused a conversion error", "Region could occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"RegionInfo: {an.ParamName} caused a conversion error", "Region error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (Exception ex)
@@ -330,6 +337,45 @@ namespace SpotifySongAvailabilityChecker
                 $"State: {state}", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        private void btnSearchHistory_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearchHistory.Text))
+            {
+                MessageBox.Show("Enter a search term to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            searchActivated = true;
+            lvwSearchHistory.Items.Clear();
+            switch (cbxSearchHistoryType.SelectedIndex)
+            {
+                case 0:
+                    searchSubsection = searches.Where(r => r.Title.Contains(txtSearchHistory.Text)).ToList();
+                    break;
+                case 1:
+                    searchSubsection = searches.Where(r => r.Author.Contains(txtSearchHistory.Text)).ToList();
+                    break;
+                case 2:
+                    searchSubsection = searches.Where(r => r.GetCorrectType().Contains(txtSearchHistory.Text)).ToList();
+                    break;
+                case 3:
+                    searchSubsection = searches.Where(r => r.GetCorrectLink().Contains(txtSearchHistory.Text)).ToList();
+                    break;
+            }
+
+            foreach (SearchObject obj in searchSubsection)
+            {
+                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.GetCorrectType(), obj.GetCorrectLink() });
+                lvwSearchHistory.Items.Add(item);
+            }
+        }
+
+        private void btnResetHistorySearch_Click(object sender, EventArgs e)
+        {
+            ResetSearchHistory();
+        }
+
+
         private void DoSearch()
         {
             if (string.IsNullOrWhiteSpace(txtSearchInput.Text))
@@ -338,10 +384,10 @@ namespace SpotifySongAvailabilityChecker
                 return;
             }
 
-            subsection = availability.Where(r => r.SubItems[1].Text.Contains(txtSearchInput.Text)).ToList();
+            availabilitySubsection = availability.Where(r => r.SubItems[cbxAvailabilitySearch.SelectedIndex].Text.Contains(txtSearchInput.Text)).ToList();
 
             lvwAvailability.Items.Clear();
-            foreach (ListViewItem item in subsection)
+            foreach (ListViewItem item in availabilitySubsection)
                 lvwAvailability.Items.Add(item);
         }
 
@@ -352,6 +398,17 @@ namespace SpotifySongAvailabilityChecker
 
             if (!File.Exists(Path.Combine(historyLocation, "SearchHistory.json")))
                 File.Create(Path.Combine(historyLocation, "SearchHistory.json"));
+        }
+
+        private void ResetSearchHistory()
+        {
+            searchActivated = false;
+            lvwSearchHistory.Items.Clear();
+            foreach (SearchObject obj in searches)
+            {
+                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.GetCorrectType(), obj.GetCorrectLink() });
+                lvwSearchHistory.Items.Add(item);
+            }
         }
     }
 }
