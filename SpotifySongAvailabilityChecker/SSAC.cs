@@ -92,13 +92,16 @@ namespace SpotifySongAvailabilityChecker
                     return;
                 }
 
-                lblContentTitle.Text = $"Title: {album.Name}";
-                lblAuthor.Text = "Artists: ";
+                txtTitle.Text = album.Name;
+                rtbAuthors.Text = string.Empty;
+                rtbCopyright.Text = string.Empty;
 
                 foreach (SimpleArtist artist in album.Artists)
-                    lblAuthor.Text += $"{artist.Name}, ";
+                    rtbAuthors.Text += $"{artist.Name}\n";
 
-                lblAuthor.Text = lblAuthor.Text.Substring(0, lblAuthor.Text.Length - 2);
+                foreach (Copyright copyright in album.Copyrights)
+                    rtbCopyright.Text += $"{copyright.Text}\n";
+
                 lstAvailability.Items.Clear();
                 availability.Clear();
 
@@ -114,7 +117,7 @@ namespace SpotifySongAvailabilityChecker
                 }
                 catch (ArgumentException an)
                 {
-                    MessageBox.Show($"RegionInfo: {an.ParamName} caused a conversion error", "Region could occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"RegionInfo {an.ParamName} caused a conversion error", "Region error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (Exception ex)
@@ -164,13 +167,15 @@ namespace SpotifySongAvailabilityChecker
                     return;
                 }
 
-                lblContentTitle.Text = $"Title: {track.Name}";
-                lblAuthor.Text = "Artists: ";
+                txtTitle.Text = track.Name;
+                rtbAuthors.Text = string.Empty;
+                rtbCopyright.Text = "N/A (Only available on albums)";
+
+                txtTitle.Text = track.Name;
 
                 foreach (SimpleArtist artist in track.Artists)
-                    lblAuthor.Text += $"{artist.Name}, ";
+                    rtbAuthors.Text += $"{artist.Name}\n";
 
-                lblAuthor.Text = lblAuthor.Text.Substring(0, lblAuthor.Text.Length - 2);
                 lstAvailability.Items.Clear();
                 availability.Clear();
 
