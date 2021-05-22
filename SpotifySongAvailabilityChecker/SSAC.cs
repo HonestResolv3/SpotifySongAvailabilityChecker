@@ -1,8 +1,10 @@
-﻿using SpotifyAPI.Web;
+﻿using Newtonsoft.Json;
+using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,8 +18,15 @@ namespace SpotifySongAvailabilityChecker
 
         List<string> availability = new List<string>();
         List<string> subsection = new List<string>();
+        List<SearchObject> searches = new List<SearchObject>();
+
         RegionInfo albumInfo;
         RegionInfo trackInfo;
+
+        SearchObject albumObj;
+        SearchObject trackObj;
+
+        string historyLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SSAC_Storage");
 
         public SSAC()
         {
@@ -27,6 +36,9 @@ namespace SpotifySongAvailabilityChecker
         private void SSAC_Load(object sender, EventArgs e)
         {
             txtAlbumID.Enabled = false;
+            searches = File.ReadAllLines(Path.Combine(historyLocation, "SearchHistory.json")).Select(line => JsonConvert.DeserializeObject<SearchObject>(line)).ToList();
+            foreach (SearchObject obj in searches)
+                lstSearches.Items.Add(obj);
         }
 
         private void chkIsAlbum_CheckedChanged(object sender, EventArgs e)
@@ -90,6 +102,29 @@ namespace SpotifySongAvailabilityChecker
                     else
                         MessageBox.Show(ex.Message, "Exception occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
+                }
+
+                albumObj = new SearchObject(album.Name);
+                albumObj.AlbumLink = txtAlbumID.Text;
+
+                try
+                {
+                    if (!Directory.Exists(historyLocation))
+                        Directory.CreateDirectory(historyLocation);
+
+                    if (!File.Exists(Path.Combine(historyLocation, "SearchHistory.json")))
+                        File.Create(Path.Combine(historyLocation, "SearchHistory.json"));
+
+                    File.AppendAllText(Path.Combine(historyLocation, "SearchHistory.json"), $"{JsonConvert.SerializeObject(albumObj)}\n");
+
+                    searches.Add(albumObj);
+                    lstSearches.Items.Add(albumObj);
+                }
+                catch (IOException io)
+                {
+                    MessageBox.Show(
+                        "There was an error trying to create an entry in the search history file\n\n" +
+                        $"Error: {io.Message}", "Search history error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 txtTitle.Text = album.Name;
@@ -165,6 +200,29 @@ namespace SpotifySongAvailabilityChecker
                     else
                         MessageBox.Show(ex.Message, "Exception occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
+                }
+
+                trackObj = new SearchObject(track.Name);
+                trackObj.SongLink = txtTrackID.Text;
+
+                try
+                {
+                    if (!Directory.Exists(historyLocation))
+                        Directory.CreateDirectory(historyLocation);
+
+                    if (!File.Exists(Path.Combine(historyLocation, "SearchHistory.json")))
+                        File.Create(Path.Combine(historyLocation, "SearchHistory.json"));
+
+                    File.AppendAllText(Path.Combine(historyLocation, "SearchHistory.json"), $"{JsonConvert.SerializeObject(trackObj)}\n");
+
+                    searches.Add(trackObj);
+                    lstSearches.Items.Add(trackObj);
+                }
+                catch (IOException io)
+                {
+                    MessageBox.Show(
+                        "There was an error trying to create an entry in the search history file\n\n" +
+                        $"Error: {io.Message}", "Search history error" , MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 txtTitle.Text = track.Name;
