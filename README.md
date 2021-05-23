@@ -16,7 +16,7 @@ Credits:
 Application:
 ![image](./images/Application1.png)
 
-Application with information entered:
+Application with information entered amd filtered by Country Name:
 ![image](./images/Application2.png)
 
 Application with search history with some items and filtered by Author:
