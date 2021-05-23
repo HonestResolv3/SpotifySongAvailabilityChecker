@@ -41,18 +41,14 @@ namespace SpotifySongAvailabilityChecker
             this.txtToken = new System.Windows.Forms.TextBox();
             this.lblToken = new System.Windows.Forms.Label();
             this.btnToken = new System.Windows.Forms.Button();
-            this.txtSearchInput = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.tctrlMain = new System.Windows.Forms.TabControl();
-            this.tpgAvailability = new System.Windows.Forms.TabPage();
-            this.cbxAvailabilitySearch = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lbl = new System.Windows.Forms.Label();
-            this.lvwAvailability = new System.Windows.Forms.ListView();
-            this.chdrCountryCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chdrCountry = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblCopyright = new System.Windows.Forms.Label();
+            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.rtbAuthors = new System.Windows.Forms.RichTextBox();
+            this.rtbCopyright = new System.Windows.Forms.RichTextBox();
+            this.gbxInput = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tpgSearchHistory = new System.Windows.Forms.TabPage();
+            this.btnFavoriteSong = new System.Windows.Forms.Button();
             this.btnUseSearch = new System.Windows.Forms.Button();
             this.lblSearchInput = new System.Windows.Forms.Label();
             this.cbxSearchHistoryType = new System.Windows.Forms.ComboBox();
@@ -61,21 +57,35 @@ namespace SpotifySongAvailabilityChecker
             this.txtSearchHistory = new System.Windows.Forms.TextBox();
             this.btnResetHistorySearch = new System.Windows.Forms.Button();
             this.lvwSearchHistory = new System.Windows.Forms.ListView();
+            this.chdrFavorite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chdrTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chdrAuthor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chdrType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chdrLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblCopyright = new System.Windows.Forms.Label();
-            this.txtTitle = new System.Windows.Forms.TextBox();
-            this.rtbAuthors = new System.Windows.Forms.RichTextBox();
-            this.rtbCopyright = new System.Windows.Forms.RichTextBox();
-            this.gbxInput = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tctrlMain.SuspendLayout();
-            this.tpgAvailability.SuspendLayout();
-            this.tpgSearchHistory.SuspendLayout();
+            this.tpgAvailability = new System.Windows.Forms.TabPage();
+            this.cbxAvailabilitySearch = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lbl = new System.Windows.Forms.Label();
+            this.lvwAvailability = new System.Windows.Forms.ListView();
+            this.chdrCountryCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chdrCountry = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.txtSearchInput = new System.Windows.Forms.TextBox();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.tctrlMain = new System.Windows.Forms.TabControl();
+            this.tpgSettings = new System.Windows.Forms.TabPage();
+            this.gbxListDisplay = new System.Windows.Forms.GroupBox();
+            this.chkShowGridlines = new System.Windows.Forms.CheckBox();
+            this.gbxSearching = new System.Windows.Forms.GroupBox();
+            this.chkAutomaticallySwitchTabs = new System.Windows.Forms.CheckBox();
             this.gbxInput.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tpgSearchHistory.SuspendLayout();
+            this.tpgAvailability.SuspendLayout();
+            this.tctrlMain.SuspendLayout();
+            this.tpgSettings.SuspendLayout();
+            this.gbxListDisplay.SuspendLayout();
+            this.gbxSearching.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtTrackID
@@ -176,234 +186,6 @@ namespace SpotifySongAvailabilityChecker
             this.btnToken.UseVisualStyleBackColor = true;
             this.btnToken.Click += new System.EventHandler(this.btnToken_Click);
             // 
-            // txtSearchInput
-            // 
-            this.txtSearchInput.Location = new System.Drawing.Point(87, 6);
-            this.txtSearchInput.Name = "txtSearchInput";
-            this.txtSearchInput.Size = new System.Drawing.Size(402, 22);
-            this.txtSearchInput.TabIndex = 19;
-            this.txtSearchInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchInput_KeyPress);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(260, 33);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(112, 23);
-            this.btnSearch.TabIndex = 22;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // btnReset
-            // 
-            this.btnReset.Location = new System.Drawing.Point(377, 33);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(112, 23);
-            this.btnReset.TabIndex = 23;
-            this.btnReset.Text = "Reset";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
-            // tctrlMain
-            // 
-            this.tctrlMain.Controls.Add(this.tpgAvailability);
-            this.tctrlMain.Controls.Add(this.tpgSearchHistory);
-            this.tctrlMain.Location = new System.Drawing.Point(445, 8);
-            this.tctrlMain.Name = "tctrlMain";
-            this.tctrlMain.SelectedIndex = 0;
-            this.tctrlMain.Size = new System.Drawing.Size(503, 339);
-            this.tctrlMain.TabIndex = 17;
-            // 
-            // tpgAvailability
-            // 
-            this.tpgAvailability.Controls.Add(this.cbxAvailabilitySearch);
-            this.tpgAvailability.Controls.Add(this.label1);
-            this.tpgAvailability.Controls.Add(this.lbl);
-            this.tpgAvailability.Controls.Add(this.lvwAvailability);
-            this.tpgAvailability.Controls.Add(this.txtSearchInput);
-            this.tpgAvailability.Controls.Add(this.btnReset);
-            this.tpgAvailability.Controls.Add(this.btnSearch);
-            this.tpgAvailability.Location = new System.Drawing.Point(4, 22);
-            this.tpgAvailability.Name = "tpgAvailability";
-            this.tpgAvailability.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgAvailability.Size = new System.Drawing.Size(495, 313);
-            this.tpgAvailability.TabIndex = 0;
-            this.tpgAvailability.Text = "Availability";
-            this.tpgAvailability.UseVisualStyleBackColor = true;
-            // 
-            // cbxAvailabilitySearch
-            // 
-            this.cbxAvailabilitySearch.FormattingEnabled = true;
-            this.cbxAvailabilitySearch.Items.AddRange(new object[] {
-            "Country Code",
-            "Country Name"});
-            this.cbxAvailabilitySearch.Location = new System.Drawing.Point(68, 34);
-            this.cbxAvailabilitySearch.Name = "cbxAvailabilitySearch";
-            this.cbxAvailabilitySearch.Size = new System.Drawing.Size(185, 21);
-            this.cbxAvailabilitySearch.TabIndex = 21;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Search Input:";
-            // 
-            // lbl
-            // 
-            this.lbl.AutoSize = true;
-            this.lbl.Location = new System.Drawing.Point(6, 37);
-            this.lbl.Name = "lbl";
-            this.lbl.Size = new System.Drawing.Size(58, 13);
-            this.lbl.TabIndex = 20;
-            this.lbl.Text = "Search By:";
-            // 
-            // lvwAvailability
-            // 
-            this.lvwAvailability.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.chdrCountryCode,
-            this.chdrCountry});
-            this.lvwAvailability.HideSelection = false;
-            this.lvwAvailability.Location = new System.Drawing.Point(6, 62);
-            this.lvwAvailability.Name = "lvwAvailability";
-            this.lvwAvailability.Size = new System.Drawing.Size(483, 245);
-            this.lvwAvailability.TabIndex = 24;
-            this.lvwAvailability.UseCompatibleStateImageBehavior = false;
-            this.lvwAvailability.View = System.Windows.Forms.View.Details;
-            // 
-            // chdrCountryCode
-            // 
-            this.chdrCountryCode.Text = "Country Code";
-            this.chdrCountryCode.Width = 120;
-            // 
-            // chdrCountry
-            // 
-            this.chdrCountry.Text = "Country Name";
-            this.chdrCountry.Width = 360;
-            // 
-            // tpgSearchHistory
-            // 
-            this.tpgSearchHistory.Controls.Add(this.btnUseSearch);
-            this.tpgSearchHistory.Controls.Add(this.lblSearchInput);
-            this.tpgSearchHistory.Controls.Add(this.cbxSearchHistoryType);
-            this.tpgSearchHistory.Controls.Add(this.lblSearchPrompt);
-            this.tpgSearchHistory.Controls.Add(this.btnSearchHistory);
-            this.tpgSearchHistory.Controls.Add(this.txtSearchHistory);
-            this.tpgSearchHistory.Controls.Add(this.btnResetHistorySearch);
-            this.tpgSearchHistory.Controls.Add(this.lvwSearchHistory);
-            this.tpgSearchHistory.Location = new System.Drawing.Point(4, 22);
-            this.tpgSearchHistory.Name = "tpgSearchHistory";
-            this.tpgSearchHistory.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgSearchHistory.Size = new System.Drawing.Size(495, 313);
-            this.tpgSearchHistory.TabIndex = 1;
-            this.tpgSearchHistory.Text = "Search History";
-            this.tpgSearchHistory.UseVisualStyleBackColor = true;
-            // 
-            // btnUseSearch
-            // 
-            this.btnUseSearch.Location = new System.Drawing.Point(192, 283);
-            this.btnUseSearch.Name = "btnUseSearch";
-            this.btnUseSearch.Size = new System.Drawing.Size(112, 23);
-            this.btnUseSearch.TabIndex = 32;
-            this.btnUseSearch.Text = "Use Search Info";
-            this.btnUseSearch.UseVisualStyleBackColor = true;
-            this.btnUseSearch.Click += new System.EventHandler(this.btnUseSearch_Click);
-            // 
-            // lblSearchInput
-            // 
-            this.lblSearchInput.AutoSize = true;
-            this.lblSearchInput.Location = new System.Drawing.Point(6, 9);
-            this.lblSearchInput.Name = "lblSearchInput";
-            this.lblSearchInput.Size = new System.Drawing.Size(75, 13);
-            this.lblSearchInput.TabIndex = 25;
-            this.lblSearchInput.Text = "Search Input:";
-            // 
-            // cbxSearchHistoryType
-            // 
-            this.cbxSearchHistoryType.FormattingEnabled = true;
-            this.cbxSearchHistoryType.Items.AddRange(new object[] {
-            "Title",
-            "Author",
-            "Type",
-            "Link"});
-            this.cbxSearchHistoryType.Location = new System.Drawing.Point(68, 34);
-            this.cbxSearchHistoryType.Name = "cbxSearchHistoryType";
-            this.cbxSearchHistoryType.Size = new System.Drawing.Size(185, 21);
-            this.cbxSearchHistoryType.TabIndex = 28;
-            // 
-            // lblSearchPrompt
-            // 
-            this.lblSearchPrompt.AutoSize = true;
-            this.lblSearchPrompt.Location = new System.Drawing.Point(6, 37);
-            this.lblSearchPrompt.Name = "lblSearchPrompt";
-            this.lblSearchPrompt.Size = new System.Drawing.Size(58, 13);
-            this.lblSearchPrompt.TabIndex = 27;
-            this.lblSearchPrompt.Text = "Search By:";
-            // 
-            // btnSearchHistory
-            // 
-            this.btnSearchHistory.Location = new System.Drawing.Point(260, 33);
-            this.btnSearchHistory.Name = "btnSearchHistory";
-            this.btnSearchHistory.Size = new System.Drawing.Size(112, 23);
-            this.btnSearchHistory.TabIndex = 29;
-            this.btnSearchHistory.Text = "Search";
-            this.btnSearchHistory.UseVisualStyleBackColor = true;
-            this.btnSearchHistory.Click += new System.EventHandler(this.btnSearchHistory_Click);
-            // 
-            // txtSearchHistory
-            // 
-            this.txtSearchHistory.Location = new System.Drawing.Point(87, 6);
-            this.txtSearchHistory.Name = "txtSearchHistory";
-            this.txtSearchHistory.Size = new System.Drawing.Size(402, 22);
-            this.txtSearchHistory.TabIndex = 26;
-            // 
-            // btnResetHistorySearch
-            // 
-            this.btnResetHistorySearch.Location = new System.Drawing.Point(377, 33);
-            this.btnResetHistorySearch.Name = "btnResetHistorySearch";
-            this.btnResetHistorySearch.Size = new System.Drawing.Size(112, 23);
-            this.btnResetHistorySearch.TabIndex = 30;
-            this.btnResetHistorySearch.Text = "Reset";
-            this.btnResetHistorySearch.UseVisualStyleBackColor = true;
-            this.btnResetHistorySearch.Click += new System.EventHandler(this.btnResetHistorySearch_Click);
-            // 
-            // lvwSearchHistory
-            // 
-            this.lvwSearchHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.chdrTitle,
-            this.chdrAuthor,
-            this.chdrType,
-            this.chdrLink});
-            this.lvwSearchHistory.HideSelection = false;
-            this.lvwSearchHistory.Location = new System.Drawing.Point(6, 62);
-            this.lvwSearchHistory.Name = "lvwSearchHistory";
-            this.lvwSearchHistory.Size = new System.Drawing.Size(483, 214);
-            this.lvwSearchHistory.TabIndex = 31;
-            this.lvwSearchHistory.UseCompatibleStateImageBehavior = false;
-            this.lvwSearchHistory.View = System.Windows.Forms.View.Details;
-            this.lvwSearchHistory.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwSearchHistory_ItemSelectionChanged);
-            // 
-            // chdrTitle
-            // 
-            this.chdrTitle.Text = "Title";
-            this.chdrTitle.Width = 120;
-            // 
-            // chdrAuthor
-            // 
-            this.chdrAuthor.Text = "Author";
-            this.chdrAuthor.Width = 120;
-            // 
-            // chdrType
-            // 
-            this.chdrType.Text = "Type";
-            // 
-            // chdrLink
-            // 
-            this.chdrLink.Text = "Link";
-            this.chdrLink.Width = 284;
-            // 
             // lblCopyright
             // 
             this.lblCopyright.AutoSize = true;
@@ -472,6 +254,310 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Content Information";
             // 
+            // tpgSearchHistory
+            // 
+            this.tpgSearchHistory.Controls.Add(this.btnFavoriteSong);
+            this.tpgSearchHistory.Controls.Add(this.btnUseSearch);
+            this.tpgSearchHistory.Controls.Add(this.lblSearchInput);
+            this.tpgSearchHistory.Controls.Add(this.cbxSearchHistoryType);
+            this.tpgSearchHistory.Controls.Add(this.lblSearchPrompt);
+            this.tpgSearchHistory.Controls.Add(this.btnSearchHistory);
+            this.tpgSearchHistory.Controls.Add(this.txtSearchHistory);
+            this.tpgSearchHistory.Controls.Add(this.btnResetHistorySearch);
+            this.tpgSearchHistory.Controls.Add(this.lvwSearchHistory);
+            this.tpgSearchHistory.Location = new System.Drawing.Point(4, 22);
+            this.tpgSearchHistory.Name = "tpgSearchHistory";
+            this.tpgSearchHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tpgSearchHistory.Size = new System.Drawing.Size(495, 313);
+            this.tpgSearchHistory.TabIndex = 1;
+            this.tpgSearchHistory.Text = "Search History";
+            this.tpgSearchHistory.UseVisualStyleBackColor = true;
+            // 
+            // btnFavoriteSong
+            // 
+            this.btnFavoriteSong.Location = new System.Drawing.Point(254, 283);
+            this.btnFavoriteSong.Name = "btnFavoriteSong";
+            this.btnFavoriteSong.Size = new System.Drawing.Size(123, 23);
+            this.btnFavoriteSong.TabIndex = 33;
+            this.btnFavoriteSong.Text = "Favorite/Unfavorite";
+            this.btnFavoriteSong.UseVisualStyleBackColor = true;
+            this.btnFavoriteSong.Click += new System.EventHandler(this.btnFavoriteSong_Click);
+            // 
+            // btnUseSearch
+            // 
+            this.btnUseSearch.Location = new System.Drawing.Point(136, 283);
+            this.btnUseSearch.Name = "btnUseSearch";
+            this.btnUseSearch.Size = new System.Drawing.Size(112, 23);
+            this.btnUseSearch.TabIndex = 32;
+            this.btnUseSearch.Text = "Use Search Info";
+            this.btnUseSearch.UseVisualStyleBackColor = true;
+            this.btnUseSearch.Click += new System.EventHandler(this.btnUseSearch_Click);
+            // 
+            // lblSearchInput
+            // 
+            this.lblSearchInput.AutoSize = true;
+            this.lblSearchInput.Location = new System.Drawing.Point(6, 9);
+            this.lblSearchInput.Name = "lblSearchInput";
+            this.lblSearchInput.Size = new System.Drawing.Size(75, 13);
+            this.lblSearchInput.TabIndex = 25;
+            this.lblSearchInput.Text = "Search Input:";
+            // 
+            // cbxSearchHistoryType
+            // 
+            this.cbxSearchHistoryType.FormattingEnabled = true;
+            this.cbxSearchHistoryType.Items.AddRange(new object[] {
+            "Favorites",
+            "Title",
+            "Author",
+            "Type",
+            "Link"});
+            this.cbxSearchHistoryType.Location = new System.Drawing.Point(68, 34);
+            this.cbxSearchHistoryType.Name = "cbxSearchHistoryType";
+            this.cbxSearchHistoryType.Size = new System.Drawing.Size(185, 21);
+            this.cbxSearchHistoryType.TabIndex = 28;
+            // 
+            // lblSearchPrompt
+            // 
+            this.lblSearchPrompt.AutoSize = true;
+            this.lblSearchPrompt.Location = new System.Drawing.Point(6, 37);
+            this.lblSearchPrompt.Name = "lblSearchPrompt";
+            this.lblSearchPrompt.Size = new System.Drawing.Size(58, 13);
+            this.lblSearchPrompt.TabIndex = 27;
+            this.lblSearchPrompt.Text = "Search By:";
+            // 
+            // btnSearchHistory
+            // 
+            this.btnSearchHistory.Location = new System.Drawing.Point(260, 33);
+            this.btnSearchHistory.Name = "btnSearchHistory";
+            this.btnSearchHistory.Size = new System.Drawing.Size(112, 23);
+            this.btnSearchHistory.TabIndex = 29;
+            this.btnSearchHistory.Text = "Search";
+            this.btnSearchHistory.UseVisualStyleBackColor = true;
+            this.btnSearchHistory.Click += new System.EventHandler(this.btnSearchHistory_Click);
+            // 
+            // txtSearchHistory
+            // 
+            this.txtSearchHistory.Location = new System.Drawing.Point(87, 6);
+            this.txtSearchHistory.Name = "txtSearchHistory";
+            this.txtSearchHistory.Size = new System.Drawing.Size(402, 22);
+            this.txtSearchHistory.TabIndex = 26;
+            // 
+            // btnResetHistorySearch
+            // 
+            this.btnResetHistorySearch.Location = new System.Drawing.Point(377, 33);
+            this.btnResetHistorySearch.Name = "btnResetHistorySearch";
+            this.btnResetHistorySearch.Size = new System.Drawing.Size(112, 23);
+            this.btnResetHistorySearch.TabIndex = 30;
+            this.btnResetHistorySearch.Text = "Reset";
+            this.btnResetHistorySearch.UseVisualStyleBackColor = true;
+            this.btnResetHistorySearch.Click += new System.EventHandler(this.btnResetHistorySearch_Click);
+            // 
+            // lvwSearchHistory
+            // 
+            this.lvwSearchHistory.AllowColumnReorder = true;
+            this.lvwSearchHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chdrFavorite,
+            this.chdrTitle,
+            this.chdrAuthor,
+            this.chdrType,
+            this.chdrLink});
+            this.lvwSearchHistory.FullRowSelect = true;
+            this.lvwSearchHistory.HideSelection = false;
+            this.lvwSearchHistory.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.lvwSearchHistory.Location = new System.Drawing.Point(6, 62);
+            this.lvwSearchHistory.Name = "lvwSearchHistory";
+            this.lvwSearchHistory.Size = new System.Drawing.Size(483, 214);
+            this.lvwSearchHistory.TabIndex = 31;
+            this.lvwSearchHistory.UseCompatibleStateImageBehavior = false;
+            this.lvwSearchHistory.View = System.Windows.Forms.View.Details;
+            this.lvwSearchHistory.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwSearchHistory_ItemSelectionChanged);
+            // 
+            // chdrFavorite
+            // 
+            this.chdrFavorite.Text = "★";
+            this.chdrFavorite.Width = 25;
+            // 
+            // chdrTitle
+            // 
+            this.chdrTitle.Text = "Title";
+            this.chdrTitle.Width = 120;
+            // 
+            // chdrAuthor
+            // 
+            this.chdrAuthor.Text = "Author";
+            this.chdrAuthor.Width = 120;
+            // 
+            // chdrType
+            // 
+            this.chdrType.Text = "Type";
+            // 
+            // chdrLink
+            // 
+            this.chdrLink.Text = "Link";
+            this.chdrLink.Width = 284;
+            // 
+            // tpgAvailability
+            // 
+            this.tpgAvailability.Controls.Add(this.cbxAvailabilitySearch);
+            this.tpgAvailability.Controls.Add(this.label1);
+            this.tpgAvailability.Controls.Add(this.lbl);
+            this.tpgAvailability.Controls.Add(this.lvwAvailability);
+            this.tpgAvailability.Controls.Add(this.txtSearchInput);
+            this.tpgAvailability.Controls.Add(this.btnReset);
+            this.tpgAvailability.Controls.Add(this.btnSearch);
+            this.tpgAvailability.Location = new System.Drawing.Point(4, 22);
+            this.tpgAvailability.Name = "tpgAvailability";
+            this.tpgAvailability.Padding = new System.Windows.Forms.Padding(3);
+            this.tpgAvailability.Size = new System.Drawing.Size(495, 313);
+            this.tpgAvailability.TabIndex = 0;
+            this.tpgAvailability.Text = "Availability";
+            this.tpgAvailability.UseVisualStyleBackColor = true;
+            // 
+            // cbxAvailabilitySearch
+            // 
+            this.cbxAvailabilitySearch.FormattingEnabled = true;
+            this.cbxAvailabilitySearch.Items.AddRange(new object[] {
+            "Country Code",
+            "Country Name"});
+            this.cbxAvailabilitySearch.Location = new System.Drawing.Point(68, 34);
+            this.cbxAvailabilitySearch.Name = "cbxAvailabilitySearch";
+            this.cbxAvailabilitySearch.Size = new System.Drawing.Size(185, 21);
+            this.cbxAvailabilitySearch.TabIndex = 21;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(75, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Search Input:";
+            // 
+            // lbl
+            // 
+            this.lbl.AutoSize = true;
+            this.lbl.Location = new System.Drawing.Point(6, 37);
+            this.lbl.Name = "lbl";
+            this.lbl.Size = new System.Drawing.Size(58, 13);
+            this.lbl.TabIndex = 20;
+            this.lbl.Text = "Search By:";
+            // 
+            // lvwAvailability
+            // 
+            this.lvwAvailability.AllowColumnReorder = true;
+            this.lvwAvailability.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chdrCountryCode,
+            this.chdrCountry});
+            this.lvwAvailability.FullRowSelect = true;
+            this.lvwAvailability.HideSelection = false;
+            this.lvwAvailability.Location = new System.Drawing.Point(6, 62);
+            this.lvwAvailability.Name = "lvwAvailability";
+            this.lvwAvailability.Size = new System.Drawing.Size(483, 245);
+            this.lvwAvailability.TabIndex = 24;
+            this.lvwAvailability.UseCompatibleStateImageBehavior = false;
+            this.lvwAvailability.View = System.Windows.Forms.View.Details;
+            // 
+            // chdrCountryCode
+            // 
+            this.chdrCountryCode.Text = "Country Code";
+            this.chdrCountryCode.Width = 120;
+            // 
+            // chdrCountry
+            // 
+            this.chdrCountry.Text = "Country Name";
+            this.chdrCountry.Width = 360;
+            // 
+            // txtSearchInput
+            // 
+            this.txtSearchInput.Location = new System.Drawing.Point(87, 6);
+            this.txtSearchInput.Name = "txtSearchInput";
+            this.txtSearchInput.Size = new System.Drawing.Size(402, 22);
+            this.txtSearchInput.TabIndex = 19;
+            this.txtSearchInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchInput_KeyPress);
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(377, 33);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(112, 23);
+            this.btnReset.TabIndex = 23;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(260, 33);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(112, 23);
+            this.btnSearch.TabIndex = 22;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // tctrlMain
+            // 
+            this.tctrlMain.Controls.Add(this.tpgAvailability);
+            this.tctrlMain.Controls.Add(this.tpgSearchHistory);
+            this.tctrlMain.Controls.Add(this.tpgSettings);
+            this.tctrlMain.Location = new System.Drawing.Point(445, 8);
+            this.tctrlMain.Name = "tctrlMain";
+            this.tctrlMain.SelectedIndex = 0;
+            this.tctrlMain.Size = new System.Drawing.Size(503, 339);
+            this.tctrlMain.TabIndex = 17;
+            // 
+            // tpgSettings
+            // 
+            this.tpgSettings.Controls.Add(this.gbxListDisplay);
+            this.tpgSettings.Controls.Add(this.gbxSearching);
+            this.tpgSettings.Location = new System.Drawing.Point(4, 22);
+            this.tpgSettings.Name = "tpgSettings";
+            this.tpgSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tpgSettings.Size = new System.Drawing.Size(495, 313);
+            this.tpgSettings.TabIndex = 2;
+            this.tpgSettings.Text = "Settings";
+            this.tpgSettings.UseVisualStyleBackColor = true;
+            // 
+            // gbxListDisplay
+            // 
+            this.gbxListDisplay.Controls.Add(this.chkShowGridlines);
+            this.gbxListDisplay.Location = new System.Drawing.Point(6, 51);
+            this.gbxListDisplay.Name = "gbxListDisplay";
+            this.gbxListDisplay.Size = new System.Drawing.Size(483, 43);
+            this.gbxListDisplay.TabIndex = 1;
+            this.gbxListDisplay.TabStop = false;
+            this.gbxListDisplay.Text = "List Display";
+            // 
+            // chkShowGridlines
+            // 
+            this.chkShowGridlines.AutoSize = true;
+            this.chkShowGridlines.Location = new System.Drawing.Point(143, 17);
+            this.chkShowGridlines.Name = "chkShowGridlines";
+            this.chkShowGridlines.Size = new System.Drawing.Size(187, 17);
+            this.chkShowGridlines.TabIndex = 0;
+            this.chkShowGridlines.Text = "Show gridlines on list displays?";
+            this.chkShowGridlines.UseVisualStyleBackColor = true;
+            // 
+            // gbxSearching
+            // 
+            this.gbxSearching.Controls.Add(this.chkAutomaticallySwitchTabs);
+            this.gbxSearching.Location = new System.Drawing.Point(6, 6);
+            this.gbxSearching.Name = "gbxSearching";
+            this.gbxSearching.Size = new System.Drawing.Size(483, 43);
+            this.gbxSearching.TabIndex = 0;
+            this.gbxSearching.TabStop = false;
+            this.gbxSearching.Text = "Searching";
+            // 
+            // chkAutomaticallySwitchTabs
+            // 
+            this.chkAutomaticallySwitchTabs.AutoSize = true;
+            this.chkAutomaticallySwitchTabs.Location = new System.Drawing.Point(93, 17);
+            this.chkAutomaticallySwitchTabs.Name = "chkAutomaticallySwitchTabs";
+            this.chkAutomaticallySwitchTabs.Size = new System.Drawing.Size(302, 17);
+            this.chkAutomaticallySwitchTabs.TabIndex = 0;
+            this.chkAutomaticallySwitchTabs.Text = "Switch tab to Availability when a search is performed?";
+            this.chkAutomaticallySwitchTabs.UseVisualStyleBackColor = true;
+            // 
             // SSAC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -490,16 +576,22 @@ namespace SpotifySongAvailabilityChecker
             this.MinimumSize = new System.Drawing.Size(970, 393);
             this.Name = "SSAC";
             this.Text = "Spotify Song Availability Checker";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SSAC_FormClosing);
             this.Load += new System.EventHandler(this.SSAC_Load);
-            this.tctrlMain.ResumeLayout(false);
-            this.tpgAvailability.ResumeLayout(false);
-            this.tpgAvailability.PerformLayout();
-            this.tpgSearchHistory.ResumeLayout(false);
-            this.tpgSearchHistory.PerformLayout();
             this.gbxInput.ResumeLayout(false);
             this.gbxInput.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tpgSearchHistory.ResumeLayout(false);
+            this.tpgSearchHistory.PerformLayout();
+            this.tpgAvailability.ResumeLayout(false);
+            this.tpgAvailability.PerformLayout();
+            this.tctrlMain.ResumeLayout(false);
+            this.tpgSettings.ResumeLayout(false);
+            this.gbxListDisplay.ResumeLayout(false);
+            this.gbxListDisplay.PerformLayout();
+            this.gbxSearching.ResumeLayout(false);
+            this.gbxSearching.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -516,36 +608,43 @@ namespace SpotifySongAvailabilityChecker
         private System.Windows.Forms.TextBox txtToken;
         private System.Windows.Forms.Label lblToken;
         private System.Windows.Forms.Button btnToken;
-        private System.Windows.Forms.TextBox txtSearchInput;
-        private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.TabControl tctrlMain;
-        private System.Windows.Forms.TabPage tpgAvailability;
-        private System.Windows.Forms.TabPage tpgSearchHistory;
         private System.Windows.Forms.Label lblCopyright;
         private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.RichTextBox rtbAuthors;
         private System.Windows.Forms.RichTextBox rtbCopyright;
         private System.Windows.Forms.GroupBox gbxInput;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ListView lvwSearchHistory;
-        private System.Windows.Forms.ColumnHeader chdrTitle;
-        private System.Windows.Forms.ColumnHeader chdrLink;
-        private System.Windows.Forms.ColumnHeader chdrType;
-        private System.Windows.Forms.ColumnHeader chdrAuthor;
-        private System.Windows.Forms.ListView lvwAvailability;
-        private System.Windows.Forms.ColumnHeader chdrCountryCode;
-        private System.Windows.Forms.ColumnHeader chdrCountry;
-        private System.Windows.Forms.TextBox txtSearchHistory;
-        private System.Windows.Forms.Button btnResetHistorySearch;
-        private System.Windows.Forms.Button btnSearchHistory;
+        private System.Windows.Forms.TabPage tpgSearchHistory;
+        private System.Windows.Forms.Button btnFavoriteSong;
+        private System.Windows.Forms.Button btnUseSearch;
         private System.Windows.Forms.Label lblSearchInput;
         private System.Windows.Forms.ComboBox cbxSearchHistoryType;
         private System.Windows.Forms.Label lblSearchPrompt;
+        private System.Windows.Forms.Button btnSearchHistory;
+        private System.Windows.Forms.TextBox txtSearchHistory;
+        private System.Windows.Forms.Button btnResetHistorySearch;
+        private System.Windows.Forms.TabPage tpgAvailability;
         private System.Windows.Forms.ComboBox cbxAvailabilitySearch;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbl;
-        private System.Windows.Forms.Button btnUseSearch;
+        private System.Windows.Forms.ListView lvwAvailability;
+        private System.Windows.Forms.ColumnHeader chdrCountryCode;
+        private System.Windows.Forms.ColumnHeader chdrCountry;
+        private System.Windows.Forms.TextBox txtSearchInput;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.TabControl tctrlMain;
+        private System.Windows.Forms.ListView lvwSearchHistory;
+        private System.Windows.Forms.ColumnHeader chdrTitle;
+        private System.Windows.Forms.ColumnHeader chdrAuthor;
+        private System.Windows.Forms.ColumnHeader chdrType;
+        private System.Windows.Forms.ColumnHeader chdrLink;
+        private System.Windows.Forms.ColumnHeader chdrFavorite;
+        private System.Windows.Forms.TabPage tpgSettings;
+        private System.Windows.Forms.GroupBox gbxListDisplay;
+        private System.Windows.Forms.CheckBox chkShowGridlines;
+        private System.Windows.Forms.GroupBox gbxSearching;
+        private System.Windows.Forms.CheckBox chkAutomaticallySwitchTabs;
     }
 }
 

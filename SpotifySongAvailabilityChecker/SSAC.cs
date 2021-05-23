@@ -16,10 +16,12 @@ namespace SpotifySongAvailabilityChecker
         static EmbedIOAuthServer server;
         static SpotifyClient client;
 
+        Dictionary<string, bool> settings = new Dictionary<string, bool>();
+
         List<ListViewItem> availability = new List<ListViewItem>();
         List<ListViewItem> availabilitySubsection;
 
-        List<SearchObject> searches;
+        List<SearchObject> searches = new List<SearchObject>();
         List<SearchObject> searchSubsection;
 
         ListViewItem itemAvailability;
@@ -31,7 +33,7 @@ namespace SpotifySongAvailabilityChecker
         SearchObject albumObj;
         SearchObject trackObj;
 
-        string historyLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SSAC_Storage");
+        string locationForSSACContent = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SSAC_Storage");
         bool searchActivated;
         int searchSectionIndex;
 
@@ -49,16 +51,45 @@ namespace SpotifySongAvailabilityChecker
 
             try
             {
-                searches = File.ReadAllLines(Path.Combine(historyLocation, "SearchHistory.json")).Select(line => JsonConvert.DeserializeObject<SearchObject>(line)).ToList();
+                searches = JsonConvert.DeserializeObject<List<SearchObject>>(File.ReadAllText(Path.Combine(locationForSSACContent, "SearchHistory.json")));
             }
             catch
             {
-                searches = new List<SearchObject>();
+                MessageBox.Show("Search history file is not in the right format, attempting to delete", "History format error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                {
+                    File.Delete(Path.Combine(locationForSSACContent, "SearchHistory.json"));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "There was an error trying to delete the history file\n\n" +
+                        $"Error: {ex.Message}", "File delete error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            try
+            {
+                settings = JsonConvert.DeserializeObject<Dictionary<string, bool>>(File.ReadAllText(Path.Combine(locationForSSACContent, "Settings.json")));
+            }
+            catch
+            {
+                MessageBox.Show("Settings file is not in the right format, attempting to delete", "Setting format error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                {
+                    File.Delete(Path.Combine(locationForSSACContent, "Settings.json"));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "There was an error trying to delete the settings file\n\n" +
+                        $"Error: {ex.Message}", "File delete error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
             foreach (SearchObject obj in searches)
             {
-                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink()});
+                ListViewItem item = new ListViewItem(new string[] { obj.GetFavoriteUnicode(), obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink()});
                 lvwSearchHistory.Items.Add(item);
             }
         }
@@ -129,6 +160,7 @@ namespace SpotifySongAvailabilityChecker
                 albumObj = new SearchObject(album.Name);
                 albumObj.AlbumLink = txtAlbumID.Text;
                 albumObj.Type = Enums.ObjectType.Album;
+                albumObj.IsFavorite = false;
 
                 foreach (SimpleArtist artist in album.Artists)
                     albumObj.Author += $"{artist.Name}, ";
@@ -137,7 +169,7 @@ namespace SpotifySongAvailabilityChecker
                 try
                 {
                     VerifyStoragePath();
-                    File.AppendAllText(Path.Combine(historyLocation, "SearchHistory.json"), $"{JsonConvert.SerializeObject(albumObj)}\n");
+                    File.AppendAllText(Path.Combine(locationForSSACContent, "SearchHistory.json"), $"{JsonConvert.SerializeObject(albumObj)}\n");
                 }
                 catch (IOException io)
                 {
@@ -149,7 +181,7 @@ namespace SpotifySongAvailabilityChecker
 
                 ResetSearchHistory();
                 searches.Add(albumObj);
-                itemSearch = new ListViewItem(new string[] { albumObj.Title, albumObj.Author, albumObj.Type.ToString(), albumObj.GetCorrectLink() });
+                itemSearch = new ListViewItem(new string[] { albumObj.GetFavoriteUnicode(), albumObj.Title, albumObj.Author, albumObj.Type.ToString(), albumObj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(itemSearch);
 
                 txtTitle.Text = album.Name;
@@ -231,6 +263,7 @@ namespace SpotifySongAvailabilityChecker
                 trackObj = new SearchObject(track.Name);
                 trackObj.SongLink = txtTrackID.Text;
                 trackObj.Type = Enums.ObjectType.Song;
+                trackObj.IsFavorite = false;
 
                 foreach (SimpleArtist artist in track.Artists)
                     trackObj.Author += $"{artist.Name}, ";
@@ -239,7 +272,7 @@ namespace SpotifySongAvailabilityChecker
                 try
                 {
                     VerifyStoragePath();
-                    File.AppendAllText(Path.Combine(historyLocation, "SearchHistory.json"), $"{JsonConvert.SerializeObject(trackObj)}\n");
+                    File.AppendAllText(Path.Combine(locationForSSACContent, "SearchHistory.json"), $"{JsonConvert.SerializeObject(trackObj)}\n");
                 }
                 catch (IOException io)
                 {
@@ -251,7 +284,7 @@ namespace SpotifySongAvailabilityChecker
 
                 ResetSearchHistory();
                 searches.Add(trackObj);
-                itemSearch = new ListViewItem(new string[] { trackObj.Title, trackObj.Author, trackObj.Type.ToString(), trackObj.GetCorrectLink() });
+                itemSearch = new ListViewItem(new string[] { trackObj.GetFavoriteUnicode(), trackObj.Title, trackObj.Author, trackObj.Type.ToString(), trackObj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(itemSearch);
 
                 txtTitle.Text = track.Name;
@@ -355,22 +388,25 @@ namespace SpotifySongAvailabilityChecker
             switch (cbxSearchHistoryType.SelectedIndex)
             {
                 case 0:
-                    searchSubsection = searches.Where(r => r.Title.Contains(txtSearchHistory.Text)).ToList();
+                    searchSubsection = searches.Where(r => r.IsFavorite).ToList();
                     break;
                 case 1:
-                    searchSubsection = searches.Where(r => r.Author.Contains(txtSearchHistory.Text)).ToList();
+                    searchSubsection = searches.Where(r => r.Title.Contains(txtSearchHistory.Text)).ToList();
                     break;
                 case 2:
-                    searchSubsection = searches.Where(r => r.Type.ToString().Contains(txtSearchHistory.Text)).ToList();
+                    searchSubsection = searches.Where(r => r.Author.Contains(txtSearchHistory.Text)).ToList();
                     break;
                 case 3:
+                    searchSubsection = searches.Where(r => r.Type.ToString().Contains(txtSearchHistory.Text)).ToList();
+                    break;
+                case 4:
                     searchSubsection = searches.Where(r => r.GetCorrectLink().Contains(txtSearchHistory.Text)).ToList();
                     break;
             }
 
             foreach (SearchObject obj in searchSubsection)
             {
-                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
+                ListViewItem item = new ListViewItem(new string[] { obj.GetFavoriteUnicode(), obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(item);
             }
         }
@@ -378,42 +414,6 @@ namespace SpotifySongAvailabilityChecker
         private void btnResetHistorySearch_Click(object sender, EventArgs e)
         {
             ResetSearchHistory();
-        }
-
-
-        private void DoSearch()
-        {
-            if (string.IsNullOrWhiteSpace(txtSearchInput.Text))
-            {
-                MessageBox.Show("Enter a search term to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            availabilitySubsection = availability.Where(r => r.SubItems[cbxAvailabilitySearch.SelectedIndex].Text.Contains(txtSearchInput.Text)).ToList();
-
-            lvwAvailability.Items.Clear();
-            foreach (ListViewItem item in availabilitySubsection)
-                lvwAvailability.Items.Add(item);
-        }
-
-        private void VerifyStoragePath()
-        {
-            if (!Directory.Exists(historyLocation))
-                Directory.CreateDirectory(historyLocation);
-
-            if (!File.Exists(Path.Combine(historyLocation, "SearchHistory.json")))
-                File.Create(Path.Combine(historyLocation, "SearchHistory.json"));
-        }
-
-        private void ResetSearchHistory()
-        {
-            searchActivated = false;
-            lvwSearchHistory.Items.Clear();
-            foreach (SearchObject obj in searches)
-            {
-                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
-                lvwSearchHistory.Items.Add(item);
-            }
         }
 
         private void btnUseSearch_Click(object sender, EventArgs e)
@@ -462,6 +462,78 @@ namespace SpotifySongAvailabilityChecker
         private void lvwSearchHistory_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             searchSectionIndex = e.ItemIndex;
+        }
+
+        private void DoSearch()
+        {
+            if (string.IsNullOrWhiteSpace(txtSearchInput.Text))
+            {
+                MessageBox.Show("Enter a search term to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            availabilitySubsection = availability.Where(r => r.SubItems[cbxAvailabilitySearch.SelectedIndex].Text.Contains(txtSearchInput.Text)).ToList();
+
+            lvwAvailability.Items.Clear();
+            foreach (ListViewItem item in availabilitySubsection)
+                lvwAvailability.Items.Add(item);
+        }
+
+        private void VerifyStoragePath()
+        {
+            if (!Directory.Exists(locationForSSACContent))
+                Directory.CreateDirectory(locationForSSACContent);
+
+            if (!File.Exists(Path.Combine(locationForSSACContent, "SearchHistory.json")))
+                File.Create(Path.Combine(locationForSSACContent, "SearchHistory.json"));
+        }
+
+        private void ResetSearchHistory()
+        {
+            searchActivated = false;
+            lvwSearchHistory.Items.Clear();
+            foreach (SearchObject obj in searches)
+            {
+                ListViewItem item = new ListViewItem(new string[] { obj.GetFavoriteUnicode(), obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
+                lvwSearchHistory.Items.Add(item);
+            }
+        }
+
+        private void btnFavoriteSong_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SSAC_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            string searchHistoryObject = JsonConvert.SerializeObject(searches, Formatting.Indented);
+            string settingsObject = JsonConvert.SerializeObject(settings, Formatting.Indented);
+
+            try
+            {
+                File.WriteAllText(Path.Combine(locationForSSACContent, "SearchHistory.json"), searchHistoryObject);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show($"The program does not have the proper rights to save the search history at: {Path.Combine(locationForSSACContent, "SearchHistory.json")}", "Permissions error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show($"The program cannot access: {Path.Combine(locationForSSACContent, "SearchHistory.json")}", "File access error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            try
+            {
+                File.WriteAllText(Path.Combine(locationForSSACContent, "Settings.json"), settingsObject);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show($"The program does not have the proper rights to save the search history at: {Path.Combine(locationForSSACContent, "Settings.json")}", "Permissions error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show($"The program cannot access: {Path.Combine(locationForSSACContent, "Settings.json")}", "File access error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

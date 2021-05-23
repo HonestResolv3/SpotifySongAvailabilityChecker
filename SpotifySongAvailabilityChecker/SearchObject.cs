@@ -22,6 +22,11 @@
             get;
             set;
         }
+        public bool IsFavorite
+        {
+            get;
+            set;
+        }
 
         public Enums.ObjectType Type
         {
@@ -37,6 +42,11 @@
         public string GetCorrectLink()
         {
             return string.IsNullOrWhiteSpace(AlbumLink) ? SongLink : AlbumLink;
+        }
+
+        public string GetFavoriteUnicode()
+        {
+            return IsFavorite ? "\u2605" : string.Empty;
         }
     }
 }
