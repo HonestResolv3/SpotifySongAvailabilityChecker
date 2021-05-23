@@ -46,13 +46,20 @@ namespace SpotifySongAvailabilityChecker
             this.btnReset = new System.Windows.Forms.Button();
             this.tctrlMain = new System.Windows.Forms.TabControl();
             this.tpgAvailability = new System.Windows.Forms.TabPage();
+            this.cbxAvailabilitySearch = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lbl = new System.Windows.Forms.Label();
             this.lvwAvailability = new System.Windows.Forms.ListView();
             this.chdrCountryCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chdrCountry = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tpgSearchHistory = new System.Windows.Forms.TabPage();
+            this.btnUseSearch = new System.Windows.Forms.Button();
+            this.lblSearchInput = new System.Windows.Forms.Label();
+            this.cbxSearchHistoryType = new System.Windows.Forms.ComboBox();
+            this.lblSearchPrompt = new System.Windows.Forms.Label();
+            this.btnSearchHistory = new System.Windows.Forms.Button();
             this.txtSearchHistory = new System.Windows.Forms.TextBox();
             this.btnResetHistorySearch = new System.Windows.Forms.Button();
-            this.btnSearchHistory = new System.Windows.Forms.Button();
             this.lvwSearchHistory = new System.Windows.Forms.ListView();
             this.chdrTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chdrAuthor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -64,12 +71,6 @@ namespace SpotifySongAvailabilityChecker
             this.rtbCopyright = new System.Windows.Forms.RichTextBox();
             this.gbxInput = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblSearchPrompt = new System.Windows.Forms.Label();
-            this.cbxSearchHistoryType = new System.Windows.Forms.ComboBox();
-            this.lblSearchInput = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lbl = new System.Windows.Forms.Label();
-            this.cbxAvailabilitySearch = new System.Windows.Forms.ComboBox();
             this.tctrlMain.SuspendLayout();
             this.tpgAvailability.SuspendLayout();
             this.tpgSearchHistory.SuspendLayout();
@@ -230,6 +231,35 @@ namespace SpotifySongAvailabilityChecker
             this.tpgAvailability.Text = "Availability";
             this.tpgAvailability.UseVisualStyleBackColor = true;
             // 
+            // cbxAvailabilitySearch
+            // 
+            this.cbxAvailabilitySearch.FormattingEnabled = true;
+            this.cbxAvailabilitySearch.Items.AddRange(new object[] {
+            "Country Code",
+            "Country Name"});
+            this.cbxAvailabilitySearch.Location = new System.Drawing.Point(68, 34);
+            this.cbxAvailabilitySearch.Name = "cbxAvailabilitySearch";
+            this.cbxAvailabilitySearch.Size = new System.Drawing.Size(185, 21);
+            this.cbxAvailabilitySearch.TabIndex = 32;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(75, 13);
+            this.label1.TabIndex = 31;
+            this.label1.Text = "Search Input:";
+            // 
+            // lbl
+            // 
+            this.lbl.AutoSize = true;
+            this.lbl.Location = new System.Drawing.Point(6, 37);
+            this.lbl.Name = "lbl";
+            this.lbl.Size = new System.Drawing.Size(58, 13);
+            this.lbl.TabIndex = 30;
+            this.lbl.Text = "Search By:";
+            // 
             // lvwAvailability
             // 
             this.lvwAvailability.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -255,6 +285,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // tpgSearchHistory
             // 
+            this.tpgSearchHistory.Controls.Add(this.btnUseSearch);
             this.tpgSearchHistory.Controls.Add(this.lblSearchInput);
             this.tpgSearchHistory.Controls.Add(this.cbxSearchHistoryType);
             this.tpgSearchHistory.Controls.Add(this.lblSearchPrompt);
@@ -269,6 +300,57 @@ namespace SpotifySongAvailabilityChecker
             this.tpgSearchHistory.TabIndex = 1;
             this.tpgSearchHistory.Text = "Search History";
             this.tpgSearchHistory.UseVisualStyleBackColor = true;
+            // 
+            // btnUseSearch
+            // 
+            this.btnUseSearch.Location = new System.Drawing.Point(192, 283);
+            this.btnUseSearch.Name = "btnUseSearch";
+            this.btnUseSearch.Size = new System.Drawing.Size(112, 23);
+            this.btnUseSearch.TabIndex = 30;
+            this.btnUseSearch.Text = "Use Search Info";
+            this.btnUseSearch.UseVisualStyleBackColor = true;
+            this.btnUseSearch.Click += new System.EventHandler(this.btnUseSearch_Click);
+            // 
+            // lblSearchInput
+            // 
+            this.lblSearchInput.AutoSize = true;
+            this.lblSearchInput.Location = new System.Drawing.Point(6, 9);
+            this.lblSearchInput.Name = "lblSearchInput";
+            this.lblSearchInput.Size = new System.Drawing.Size(75, 13);
+            this.lblSearchInput.TabIndex = 29;
+            this.lblSearchInput.Text = "Search Input:";
+            // 
+            // cbxSearchHistoryType
+            // 
+            this.cbxSearchHistoryType.FormattingEnabled = true;
+            this.cbxSearchHistoryType.Items.AddRange(new object[] {
+            "Title",
+            "Author",
+            "Type",
+            "Link"});
+            this.cbxSearchHistoryType.Location = new System.Drawing.Point(68, 34);
+            this.cbxSearchHistoryType.Name = "cbxSearchHistoryType";
+            this.cbxSearchHistoryType.Size = new System.Drawing.Size(185, 21);
+            this.cbxSearchHistoryType.TabIndex = 28;
+            // 
+            // lblSearchPrompt
+            // 
+            this.lblSearchPrompt.AutoSize = true;
+            this.lblSearchPrompt.Location = new System.Drawing.Point(6, 37);
+            this.lblSearchPrompt.Name = "lblSearchPrompt";
+            this.lblSearchPrompt.Size = new System.Drawing.Size(58, 13);
+            this.lblSearchPrompt.TabIndex = 15;
+            this.lblSearchPrompt.Text = "Search By:";
+            // 
+            // btnSearchHistory
+            // 
+            this.btnSearchHistory.Location = new System.Drawing.Point(260, 33);
+            this.btnSearchHistory.Name = "btnSearchHistory";
+            this.btnSearchHistory.Size = new System.Drawing.Size(112, 23);
+            this.btnSearchHistory.TabIndex = 26;
+            this.btnSearchHistory.Text = "Search";
+            this.btnSearchHistory.UseVisualStyleBackColor = true;
+            this.btnSearchHistory.Click += new System.EventHandler(this.btnSearchHistory_Click);
             // 
             // txtSearchHistory
             // 
@@ -287,16 +369,6 @@ namespace SpotifySongAvailabilityChecker
             this.btnResetHistorySearch.UseVisualStyleBackColor = true;
             this.btnResetHistorySearch.Click += new System.EventHandler(this.btnResetHistorySearch_Click);
             // 
-            // btnSearchHistory
-            // 
-            this.btnSearchHistory.Location = new System.Drawing.Point(260, 33);
-            this.btnSearchHistory.Name = "btnSearchHistory";
-            this.btnSearchHistory.Size = new System.Drawing.Size(112, 23);
-            this.btnSearchHistory.TabIndex = 26;
-            this.btnSearchHistory.Text = "Search";
-            this.btnSearchHistory.UseVisualStyleBackColor = true;
-            this.btnSearchHistory.Click += new System.EventHandler(this.btnSearchHistory_Click);
-            // 
             // lvwSearchHistory
             // 
             this.lvwSearchHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -307,10 +379,11 @@ namespace SpotifySongAvailabilityChecker
             this.lvwSearchHistory.HideSelection = false;
             this.lvwSearchHistory.Location = new System.Drawing.Point(6, 62);
             this.lvwSearchHistory.Name = "lvwSearchHistory";
-            this.lvwSearchHistory.Size = new System.Drawing.Size(483, 245);
+            this.lvwSearchHistory.Size = new System.Drawing.Size(483, 214);
             this.lvwSearchHistory.TabIndex = 24;
             this.lvwSearchHistory.UseCompatibleStateImageBehavior = false;
             this.lvwSearchHistory.View = System.Windows.Forms.View.Details;
+            this.lvwSearchHistory.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwSearchHistory_ItemSelectionChanged);
             // 
             // chdrTitle
             // 
@@ -399,66 +472,6 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Content Information";
             // 
-            // lblSearchPrompt
-            // 
-            this.lblSearchPrompt.AutoSize = true;
-            this.lblSearchPrompt.Location = new System.Drawing.Point(6, 37);
-            this.lblSearchPrompt.Name = "lblSearchPrompt";
-            this.lblSearchPrompt.Size = new System.Drawing.Size(58, 13);
-            this.lblSearchPrompt.TabIndex = 15;
-            this.lblSearchPrompt.Text = "Search By:";
-            // 
-            // cbxSearchHistoryType
-            // 
-            this.cbxSearchHistoryType.FormattingEnabled = true;
-            this.cbxSearchHistoryType.Items.AddRange(new object[] {
-            "Title",
-            "Author",
-            "Type",
-            "Link"});
-            this.cbxSearchHistoryType.Location = new System.Drawing.Point(68, 34);
-            this.cbxSearchHistoryType.Name = "cbxSearchHistoryType";
-            this.cbxSearchHistoryType.Size = new System.Drawing.Size(185, 21);
-            this.cbxSearchHistoryType.TabIndex = 28;
-            // 
-            // lblSearchInput
-            // 
-            this.lblSearchInput.AutoSize = true;
-            this.lblSearchInput.Location = new System.Drawing.Point(6, 9);
-            this.lblSearchInput.Name = "lblSearchInput";
-            this.lblSearchInput.Size = new System.Drawing.Size(75, 13);
-            this.lblSearchInput.TabIndex = 29;
-            this.lblSearchInput.Text = "Search Input:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 13);
-            this.label1.TabIndex = 31;
-            this.label1.Text = "Search Input:";
-            // 
-            // lbl
-            // 
-            this.lbl.AutoSize = true;
-            this.lbl.Location = new System.Drawing.Point(6, 37);
-            this.lbl.Name = "lbl";
-            this.lbl.Size = new System.Drawing.Size(58, 13);
-            this.lbl.TabIndex = 30;
-            this.lbl.Text = "Search By:";
-            // 
-            // cbxAvailabilitySearch
-            // 
-            this.cbxAvailabilitySearch.FormattingEnabled = true;
-            this.cbxAvailabilitySearch.Items.AddRange(new object[] {
-            "Country Code",
-            "Country Name"});
-            this.cbxAvailabilitySearch.Location = new System.Drawing.Point(68, 34);
-            this.cbxAvailabilitySearch.Name = "cbxAvailabilitySearch";
-            this.cbxAvailabilitySearch.Size = new System.Drawing.Size(185, 21);
-            this.cbxAvailabilitySearch.TabIndex = 32;
-            // 
             // SSAC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -532,6 +545,7 @@ namespace SpotifySongAvailabilityChecker
         private System.Windows.Forms.ComboBox cbxAvailabilitySearch;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbl;
+        private System.Windows.Forms.Button btnUseSearch;
     }
 }
 

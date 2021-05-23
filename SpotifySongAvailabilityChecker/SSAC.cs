@@ -33,6 +33,7 @@ namespace SpotifySongAvailabilityChecker
 
         string historyLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SSAC_Storage");
         bool searchActivated;
+        int searchSectionIndex;
 
         public SSAC()
         {
@@ -57,7 +58,7 @@ namespace SpotifySongAvailabilityChecker
 
             foreach (SearchObject obj in searches)
             {
-                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.GetCorrectType(), obj.GetCorrectLink()});
+                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink()});
                 lvwSearchHistory.Items.Add(item);
             }
         }
@@ -127,6 +128,7 @@ namespace SpotifySongAvailabilityChecker
 
                 albumObj = new SearchObject(album.Name);
                 albumObj.AlbumLink = txtAlbumID.Text;
+                albumObj.Type = Enums.ObjectType.Album;
 
                 foreach (SimpleArtist artist in album.Artists)
                     albumObj.Author += $"{artist.Name}, ";
@@ -147,7 +149,7 @@ namespace SpotifySongAvailabilityChecker
 
                 ResetSearchHistory();
                 searches.Add(albumObj);
-                itemSearch = new ListViewItem(new string[] { albumObj.Title, albumObj.Author, albumObj.GetCorrectType(), albumObj.GetCorrectLink() });
+                itemSearch = new ListViewItem(new string[] { albumObj.Title, albumObj.Author, albumObj.Type.ToString(), albumObj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(itemSearch);
 
                 txtTitle.Text = album.Name;
@@ -172,6 +174,7 @@ namespace SpotifySongAvailabilityChecker
                         lvwAvailability.Items.Add(itemAvailability);
                         availability.Add(itemAvailability);
                     }
+                    tctrlMain.SelectedIndex = 0;
                 }
                 catch (ArgumentException an)
                 {
@@ -227,6 +230,7 @@ namespace SpotifySongAvailabilityChecker
 
                 trackObj = new SearchObject(track.Name);
                 trackObj.SongLink = txtTrackID.Text;
+                trackObj.Type = Enums.ObjectType.Song;
 
                 foreach (SimpleArtist artist in track.Artists)
                     trackObj.Author += $"{artist.Name}, ";
@@ -247,7 +251,7 @@ namespace SpotifySongAvailabilityChecker
 
                 ResetSearchHistory();
                 searches.Add(trackObj);
-                itemSearch = new ListViewItem(new string[] { trackObj.Title, trackObj.Author, trackObj.GetCorrectType(), trackObj.GetCorrectLink() });
+                itemSearch = new ListViewItem(new string[] { trackObj.Title, trackObj.Author, trackObj.Type.ToString(), trackObj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(itemSearch);
 
                 txtTitle.Text = track.Name;
@@ -271,6 +275,7 @@ namespace SpotifySongAvailabilityChecker
                         lvwAvailability.Items.Add(itemAvailability);
                         availability.Add(itemAvailability);
                     }
+                    tctrlMain.SelectedIndex = 0;
                 }
                 catch (ArgumentException an)
                 {
@@ -356,7 +361,7 @@ namespace SpotifySongAvailabilityChecker
                     searchSubsection = searches.Where(r => r.Author.Contains(txtSearchHistory.Text)).ToList();
                     break;
                 case 2:
-                    searchSubsection = searches.Where(r => r.GetCorrectType().Contains(txtSearchHistory.Text)).ToList();
+                    searchSubsection = searches.Where(r => r.Type.ToString().Contains(txtSearchHistory.Text)).ToList();
                     break;
                 case 3:
                     searchSubsection = searches.Where(r => r.GetCorrectLink().Contains(txtSearchHistory.Text)).ToList();
@@ -365,7 +370,7 @@ namespace SpotifySongAvailabilityChecker
 
             foreach (SearchObject obj in searchSubsection)
             {
-                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.GetCorrectType(), obj.GetCorrectLink() });
+                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(item);
             }
         }
@@ -406,9 +411,57 @@ namespace SpotifySongAvailabilityChecker
             lvwSearchHistory.Items.Clear();
             foreach (SearchObject obj in searches)
             {
-                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.GetCorrectType(), obj.GetCorrectLink() });
+                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(item);
             }
+        }
+
+        private void btnUseSearch_Click(object sender, EventArgs e)
+        {
+            if (searchSectionIndex < 0 || searchSectionIndex >= lvwSearchHistory.Items.Count)
+            {
+                MessageBox.Show("Please select an item from the list to use (if there are any items)", "Selection error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string urlToUse;
+            Enums.ObjectType type;
+            if (searchActivated)
+            {
+                urlToUse = searchSubsection[searchSectionIndex].GetCorrectLink();
+                type = searchSubsection[searchSectionIndex].Type;
+            }
+            else
+            {
+                urlToUse = searches[searchSectionIndex].GetCorrectLink();
+                type = searches[searchSectionIndex].Type;
+            }
+
+            switch (type)
+            {
+                case Enums.ObjectType.Song:
+                    txtTrackID.Text = urlToUse;
+                    break;
+                case Enums.ObjectType.Album:
+                    txtAlbumID.Text = urlToUse;
+                    break;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtToken.Text))
+            {
+                if (chkIsAlbum.Checked && type == Enums.ObjectType.Song)
+                    chkIsAlbum.Checked = false;
+                else if (!chkIsAlbum.Checked && type == Enums.ObjectType.Album)
+                    chkIsAlbum.Checked = true;
+
+                btnCheckAvailability_Click(sender, e);
+                tctrlMain.SelectedIndex = 0;
+            }
+        }
+
+        private void lvwSearchHistory_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            searchSectionIndex = e.ItemIndex;
         }
     }
 }
