@@ -84,6 +84,8 @@ namespace SpotifySongAvailabilityChecker
             this.chkShowGridlines = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.chkAutoSwitchTabs = new System.Windows.Forms.CheckBox();
+            this.gbxGeneral = new System.Windows.Forms.GroupBox();
+            this.chkEnableExperiments = new System.Windows.Forms.CheckBox();
             this.gbxInput.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tpgSearchHistory.SuspendLayout();
@@ -93,6 +95,7 @@ namespace SpotifySongAvailabilityChecker
             this.gbxProgramDisplay.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.gbxGeneral.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtTrackID
@@ -547,6 +550,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // tpgSettings
             // 
+            this.tpgSettings.Controls.Add(this.gbxGeneral);
             this.tpgSettings.Controls.Add(this.gbxProgramDisplay);
             this.tpgSettings.Controls.Add(this.groupBox2);
             this.tpgSettings.Controls.Add(this.groupBox3);
@@ -563,7 +567,7 @@ namespace SpotifySongAvailabilityChecker
             this.gbxProgramDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxProgramDisplay.Controls.Add(this.chkEnableProgramResize);
-            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 146);
+            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 182);
             this.gbxProgramDisplay.Name = "gbxProgramDisplay";
             this.gbxProgramDisplay.Size = new System.Drawing.Size(483, 45);
             this.gbxProgramDisplay.TabIndex = 4;
@@ -589,7 +593,7 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox2.Controls.Add(this.lblDefSortOrder);
             this.groupBox2.Controls.Add(this.chkAllowColumnReorder);
             this.groupBox2.Controls.Add(this.chkShowGridlines);
-            this.groupBox2.Location = new System.Drawing.Point(6, 51);
+            this.groupBox2.Location = new System.Drawing.Point(6, 76);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(483, 89);
             this.groupBox2.TabIndex = 3;
@@ -598,6 +602,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // cbxDefSortOrder
             // 
+            this.cbxDefSortOrder.Enabled = false;
             this.cbxDefSortOrder.FormattingEnabled = true;
             this.cbxDefSortOrder.Items.AddRange(new object[] {
             "None",
@@ -607,6 +612,7 @@ namespace SpotifySongAvailabilityChecker
             this.cbxDefSortOrder.Name = "cbxDefSortOrder";
             this.cbxDefSortOrder.Size = new System.Drawing.Size(121, 21);
             this.cbxDefSortOrder.TabIndex = 9;
+            this.cbxDefSortOrder.SelectedIndexChanged += new System.EventHandler(this.cbxDefSortOrder_SelectedIndexChanged);
             // 
             // lblDefSortOrder
             // 
@@ -644,7 +650,7 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.chkAutoSwitchTabs);
-            this.groupBox3.Location = new System.Drawing.Point(6, 6);
+            this.groupBox3.Location = new System.Drawing.Point(6, 17);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(483, 43);
             this.groupBox3.TabIndex = 2;
@@ -660,6 +666,29 @@ namespace SpotifySongAvailabilityChecker
             this.chkAutoSwitchTabs.TabIndex = 0;
             this.chkAutoSwitchTabs.Text = "Switch tab to Availability when a search is performed?";
             this.chkAutoSwitchTabs.UseVisualStyleBackColor = true;
+            // 
+            // gbxGeneral
+            // 
+            this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxGeneral.Controls.Add(this.chkEnableExperiments);
+            this.gbxGeneral.Location = new System.Drawing.Point(6, 243);
+            this.gbxGeneral.Name = "gbxGeneral";
+            this.gbxGeneral.Size = new System.Drawing.Size(483, 45);
+            this.gbxGeneral.TabIndex = 5;
+            this.gbxGeneral.TabStop = false;
+            this.gbxGeneral.Text = "General Settings";
+            // 
+            // chkEnableExperiments
+            // 
+            this.chkEnableExperiments.AutoSize = true;
+            this.chkEnableExperiments.Location = new System.Drawing.Point(10, 20);
+            this.chkEnableExperiments.Name = "chkEnableExperiments";
+            this.chkEnableExperiments.Size = new System.Drawing.Size(180, 17);
+            this.chkEnableExperiments.TabIndex = 0;
+            this.chkEnableExperiments.Text = "Enable experimental features?";
+            this.chkEnableExperiments.UseVisualStyleBackColor = true;
+            this.chkEnableExperiments.CheckedChanged += new System.EventHandler(this.chkEnableExperiments_CheckedChanged);
             // 
             // SSAC
             // 
@@ -696,6 +725,8 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.gbxGeneral.ResumeLayout(false);
+            this.gbxGeneral.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -755,6 +786,8 @@ namespace SpotifySongAvailabilityChecker
         private System.Windows.Forms.ComboBox cbxDefSortOrder;
         private System.Windows.Forms.Label lblDefSortOrder;
         private System.Windows.Forms.CheckBox chkAllowColumnReorder;
+        private System.Windows.Forms.GroupBox gbxGeneral;
+        private System.Windows.Forms.CheckBox chkEnableExperiments;
     }
 }
 

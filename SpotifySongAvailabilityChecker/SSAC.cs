@@ -48,6 +48,7 @@ namespace SpotifySongAvailabilityChecker
             chkAutoSwitchTabs.Checked = true;
             chkEnableProgramResize.Checked = true;
             chkAllowColumnReorder.Checked = true;
+            cbxDefSortOrder.SelectedIndex = 0;
             cbxSearchHistoryType.SelectedIndex = 0;
             cbxAvailabilitySearch.SelectedIndex = 0;
             VerifyStoragePath();
@@ -70,25 +71,6 @@ namespace SpotifySongAvailabilityChecker
                         $"Error: {ex.Message}", "File delete error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
-            /*try
-            {
-                settings = JsonConvert.DeserializeObject<Dictionary<string, bool>>(File.ReadAllText(Path.Combine(locationForSSACContent, "Settings.json")));
-            }
-            catch
-            {
-                MessageBox.Show("Settings file is not in the right format, attempting to delete", "Setting format error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                try
-                {
-                    File.Delete(Path.Combine(locationForSSACContent, "Settings.json"));
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(
-                        "There was an error trying to delete the settings file\n\n" +
-                        $"Error: {ex.Message}", "File delete error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }*/
 
             if (searches != null)
             {
@@ -593,6 +575,33 @@ namespace SpotifySongAvailabilityChecker
                 lvwAvailability.AllowColumnReorder = false;
                 lvwSearchHistory.AllowColumnReorder = false;
             }
+        }
+
+        private void cbxDefSortOrder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (cbxDefSortOrder.SelectedIndex)
+            {
+                case 0:
+                    lvwAvailability.Sorting = SortOrder.None;
+                    lvwSearchHistory.Sorting = SortOrder.None;
+                    break;
+                case 1:
+                    lvwAvailability.Sorting = SortOrder.Ascending;
+                    lvwSearchHistory.Sorting = SortOrder.Ascending;
+                    break;
+                case 2:
+                    lvwAvailability.Sorting = SortOrder.Descending;
+                    lvwSearchHistory.Sorting = SortOrder.Descending;
+                    break;
+            }
+        }
+
+        private void chkEnableExperiments_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkEnableExperiments.Checked)
+                cbxDefSortOrder.Enabled = true;
+            else
+                cbxDefSortOrder.Enabled = false;
         }
     }
 }
