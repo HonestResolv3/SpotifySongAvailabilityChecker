@@ -53,6 +53,12 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RESTCountries.NET">
+      <HintPath>..\packages\RESTCountries.NET.1.0.0\lib\netstandard2.0\RESTCountries.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="SpotifyAPI.Web">
       <HintPath>..\packages\SpotifyAPI.Web.6.2.0\lib\netstandard2.0\SpotifyAPI.Web.dll</HintPath>
     </Reference>
@@ -190,6 +196,7 @@
     <Reference Include="System.ValueTuple">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />

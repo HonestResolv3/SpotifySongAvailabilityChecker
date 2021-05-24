@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using RESTCountries.Models;
+using RESTCountries.Services;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System;
@@ -24,11 +26,16 @@ namespace SpotifySongAvailabilityChecker
         List<SearchObject> searches = new List<SearchObject>();
         List<SearchObject> searchSubsection;
 
+        List<Country> countries;
+
         ListViewItem itemAvailability;
         ListViewItem itemSearch;
 
         RegionInfo albumInfo;
         RegionInfo trackInfo;
+
+        Country albumCountry;
+        Country trackCountry;
 
         SearchObject albumObj;
         SearchObject trackObj;
@@ -42,7 +49,7 @@ namespace SpotifySongAvailabilityChecker
             InitializeComponent();
         }
 
-        private void SSAC_Load(object sender, EventArgs e)
+        private async void SSAC_Load(object sender, EventArgs e)
         {
             txtAlbumID.Enabled = false;
             chkAutoSwitchTabs.Checked = true;
@@ -96,13 +103,16 @@ namespace SpotifySongAvailabilityChecker
             }
         }
 
-        private void btnCheckAvailability_Click(object sender, EventArgs e)
+        private async void btnCheckAvailability_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtToken.Text))
             {
                 MessageBox.Show("Please generate an access token by clicking \"Get Access Token\" to continue", "Missing access token", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            if (countries == null)
+                countries = await RESTCountriesAPI.GetAllCountriesAsync();
 
             if (chkIsAlbum.Checked)
             {
@@ -190,8 +200,8 @@ namespace SpotifySongAvailabilityChecker
                 {
                     foreach (string s in album.AvailableMarkets)
                     {
-                        albumInfo = new RegionInfo(s.ToLowerInvariant());
-                        itemAvailability = new ListViewItem(new string[] { s, albumInfo.DisplayName });
+                        albumCountry = countries.First(c => c.Alpha2Code.Equals(s));
+                        itemAvailability = new ListViewItem(new string[] { s, albumCountry.Name });
                         lvwAvailability.Items.Add(itemAvailability);
                         availability.Add(itemAvailability);
                     }
@@ -294,8 +304,8 @@ namespace SpotifySongAvailabilityChecker
                 {
                     foreach (string s in track.AvailableMarkets)
                     {
-                        trackInfo = new RegionInfo(s.ToLowerInvariant());
-                        itemAvailability = new ListViewItem(new string[] { s, trackInfo.DisplayName });
+                        trackCountry = countries.First(c => c.Alpha2Code.Equals(s));
+                        itemAvailability = new ListViewItem(new string[] { s, trackCountry.Name });
                         lvwAvailability.Items.Add(itemAvailability);
                         availability.Add(itemAvailability);
                     }
