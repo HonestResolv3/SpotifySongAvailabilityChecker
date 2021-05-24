@@ -18,7 +18,7 @@ namespace SpotifySongAvailabilityChecker
 
         Dictionary<string, bool> settings = new Dictionary<string, bool>();
 
-        List<ListViewItem> availability = new List<ListViewItem>();
+        readonly List<ListViewItem> availability = new List<ListViewItem>();
         List<ListViewItem> availabilitySubsection;
 
         List<SearchObject> searches = new List<SearchObject>();
@@ -33,7 +33,7 @@ namespace SpotifySongAvailabilityChecker
         SearchObject albumObj;
         SearchObject trackObj;
 
-        string locationForSSACContent = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SSAC_Storage");
+        readonly string locationForSSACContent = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SSAC_Storage");
         bool searchActivated;
         int searchSectionIndex;
 
@@ -45,6 +45,9 @@ namespace SpotifySongAvailabilityChecker
         private void SSAC_Load(object sender, EventArgs e)
         {
             txtAlbumID.Enabled = false;
+            chkAutoSwitchTabs.Checked = true;
+            chkEnableProgramResize.Checked = true;
+            chkAllowColumnReorder.Checked = true;
             cbxSearchHistoryType.SelectedIndex = 0;
             cbxAvailabilitySearch.SelectedIndex = 0;
             VerifyStoragePath();
@@ -68,7 +71,7 @@ namespace SpotifySongAvailabilityChecker
                 }
             }
 
-            try
+            /*try
             {
                 settings = JsonConvert.DeserializeObject<Dictionary<string, bool>>(File.ReadAllText(Path.Combine(locationForSSACContent, "Settings.json")));
             }
@@ -85,12 +88,15 @@ namespace SpotifySongAvailabilityChecker
                         "There was an error trying to delete the settings file\n\n" +
                         $"Error: {ex.Message}", "File delete error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
+            }*/
 
-            foreach (SearchObject obj in searches)
+            if (searches != null)
             {
-                ListViewItem item = new ListViewItem(new string[] { obj.GetFavoriteUnicode(), obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink()});
-                lvwSearchHistory.Items.Add(item);
+                foreach (SearchObject obj in searches)
+                {
+                    ListViewItem item = new ListViewItem(new string[] { obj.GetFavoriteUnicode(), obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
+                    lvwSearchHistory.Items.Add(item);
+                }
             }
         }
 
@@ -157,10 +163,12 @@ namespace SpotifySongAvailabilityChecker
                     return;
                 }
 
-                albumObj = new SearchObject(album.Name);
-                albumObj.AlbumLink = txtAlbumID.Text;
-                albumObj.Type = Enums.ObjectType.Album;
-                albumObj.IsFavorite = false;
+                albumObj = new SearchObject(album.Name)
+                {
+                    AlbumLink = txtAlbumID.Text,
+                    Type = Enums.ObjectType.Album,
+                    IsFavorite = false
+                };
 
                 foreach (SimpleArtist artist in album.Artists)
                     albumObj.Author += $"{artist.Name}, ";
@@ -169,7 +177,6 @@ namespace SpotifySongAvailabilityChecker
                 try
                 {
                     VerifyStoragePath();
-                    File.AppendAllText(Path.Combine(locationForSSACContent, "SearchHistory.json"), $"{JsonConvert.SerializeObject(albumObj)}\n");
                 }
                 catch (IOException io)
                 {
@@ -206,7 +213,8 @@ namespace SpotifySongAvailabilityChecker
                         lvwAvailability.Items.Add(itemAvailability);
                         availability.Add(itemAvailability);
                     }
-                    tctrlMain.SelectedIndex = 0;
+                    if (chkAutoSwitchTabs.Checked)
+                        tctrlMain.SelectedIndex = 0;
                 }
                 catch (ArgumentException an)
                 {
@@ -260,10 +268,12 @@ namespace SpotifySongAvailabilityChecker
                     return;
                 }
 
-                trackObj = new SearchObject(track.Name);
-                trackObj.SongLink = txtTrackID.Text;
-                trackObj.Type = Enums.ObjectType.Song;
-                trackObj.IsFavorite = false;
+                trackObj = new SearchObject(track.Name)
+                {
+                    SongLink = txtTrackID.Text,
+                    Type = Enums.ObjectType.Song,
+                    IsFavorite = false
+                };
 
                 foreach (SimpleArtist artist in track.Artists)
                     trackObj.Author += $"{artist.Name}, ";
@@ -272,7 +282,6 @@ namespace SpotifySongAvailabilityChecker
                 try
                 {
                     VerifyStoragePath();
-                    File.AppendAllText(Path.Combine(locationForSSACContent, "SearchHistory.json"), $"{JsonConvert.SerializeObject(trackObj)}\n");
                 }
                 catch (IOException io)
                 {
@@ -308,7 +317,8 @@ namespace SpotifySongAvailabilityChecker
                         lvwAvailability.Items.Add(itemAvailability);
                         availability.Add(itemAvailability);
                     }
-                    tctrlMain.SelectedIndex = 0;
+                    if (chkAutoSwitchTabs.Checked)
+                        tctrlMain.SelectedIndex = 0;
                 }
                 catch (ArgumentException an)
                 {
@@ -455,7 +465,8 @@ namespace SpotifySongAvailabilityChecker
                     chkIsAlbum.Checked = true;
 
                 btnCheckAvailability_Click(sender, e);
-                tctrlMain.SelectedIndex = 0;
+                if (chkAutoSwitchTabs.Checked)
+                    tctrlMain.SelectedIndex = 0;
             }
         }
 
@@ -482,10 +493,16 @@ namespace SpotifySongAvailabilityChecker
         private void VerifyStoragePath()
         {
             if (!Directory.Exists(locationForSSACContent))
-                Directory.CreateDirectory(locationForSSACContent);
+                _= Directory.CreateDirectory(locationForSSACContent);
 
             if (!File.Exists(Path.Combine(locationForSSACContent, "SearchHistory.json")))
-                File.Create(Path.Combine(locationForSSACContent, "SearchHistory.json"));
+                _ = File.Create(Path.Combine(locationForSSACContent, "SearchHistory.json"));
+        }
+
+        private void VerifySettingsPath()
+        {
+            if (!File.Exists(Path.Combine(locationForSSACContent, "Settings.json")))
+                _ = File.Create(Path.Combine(locationForSSACContent, "Settings.json"));
         }
 
         private void ResetSearchHistory()
@@ -533,6 +550,48 @@ namespace SpotifySongAvailabilityChecker
             catch (IOException)
             {
                 MessageBox.Show($"The program cannot access: {Path.Combine(locationForSSACContent, "Settings.json")}", "File access error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void chkShowGridlines_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkShowGridlines.Checked)
+            {
+                lvwAvailability.GridLines = true;
+                lvwSearchHistory.GridLines = true;
+            }
+            else
+            {
+                lvwAvailability.GridLines = false;
+                lvwSearchHistory.GridLines = false;
+            }
+        }
+
+        private void chkEnableProgramResize_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkEnableProgramResize.Checked)
+            {
+                FormBorderStyle = FormBorderStyle.Sizable;
+                MaximizeBox = true;
+            }
+            else
+            {
+                FormBorderStyle = FormBorderStyle.FixedSingle;
+                MaximizeBox = false;
+            }
+        }
+
+        private void chkAllowColumnReorder_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkAllowColumnReorder.Checked)
+            {
+                lvwAvailability.AllowColumnReorder = true;
+                lvwSearchHistory.AllowColumnReorder = true;
+            }
+            else
+            {
+                lvwAvailability.AllowColumnReorder = false;
+                lvwSearchHistory.AllowColumnReorder = false;
             }
         }
     }

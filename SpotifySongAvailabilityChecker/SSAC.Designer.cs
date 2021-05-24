@@ -73,19 +73,26 @@ namespace SpotifySongAvailabilityChecker
             this.btnReset = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.tctrlMain = new System.Windows.Forms.TabControl();
+            this.tpgFavorites = new System.Windows.Forms.TabPage();
             this.tpgSettings = new System.Windows.Forms.TabPage();
-            this.gbxListDisplay = new System.Windows.Forms.GroupBox();
+            this.gbxProgramDisplay = new System.Windows.Forms.GroupBox();
+            this.chkEnableProgramResize = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbxDefSortOrder = new System.Windows.Forms.ComboBox();
+            this.lblDefSortOrder = new System.Windows.Forms.Label();
+            this.chkAllowColumnReorder = new System.Windows.Forms.CheckBox();
             this.chkShowGridlines = new System.Windows.Forms.CheckBox();
-            this.gbxSearching = new System.Windows.Forms.GroupBox();
-            this.chkAutomaticallySwitchTabs = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chkAutoSwitchTabs = new System.Windows.Forms.CheckBox();
             this.gbxInput.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tpgSearchHistory.SuspendLayout();
             this.tpgAvailability.SuspendLayout();
             this.tctrlMain.SuspendLayout();
             this.tpgSettings.SuspendLayout();
-            this.gbxListDisplay.SuspendLayout();
-            this.gbxSearching.SuspendLayout();
+            this.gbxProgramDisplay.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtTrackID
@@ -275,6 +282,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnFavoriteSong
             // 
+            this.btnFavoriteSong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnFavoriteSong.Location = new System.Drawing.Point(254, 283);
             this.btnFavoriteSong.Name = "btnFavoriteSong";
             this.btnFavoriteSong.Size = new System.Drawing.Size(123, 23);
@@ -285,6 +293,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnUseSearch
             // 
+            this.btnUseSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUseSearch.Location = new System.Drawing.Point(136, 283);
             this.btnUseSearch.Name = "btnUseSearch";
             this.btnUseSearch.Size = new System.Drawing.Size(112, 23);
@@ -304,6 +313,8 @@ namespace SpotifySongAvailabilityChecker
             // 
             // cbxSearchHistoryType
             // 
+            this.cbxSearchHistoryType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxSearchHistoryType.FormattingEnabled = true;
             this.cbxSearchHistoryType.Items.AddRange(new object[] {
             "Favorites",
@@ -327,6 +338,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnSearchHistory
             // 
+            this.btnSearchHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearchHistory.Location = new System.Drawing.Point(260, 33);
             this.btnSearchHistory.Name = "btnSearchHistory";
             this.btnSearchHistory.Size = new System.Drawing.Size(112, 23);
@@ -337,6 +349,8 @@ namespace SpotifySongAvailabilityChecker
             // 
             // txtSearchHistory
             // 
+            this.txtSearchHistory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearchHistory.Location = new System.Drawing.Point(87, 6);
             this.txtSearchHistory.Name = "txtSearchHistory";
             this.txtSearchHistory.Size = new System.Drawing.Size(402, 22);
@@ -344,6 +358,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnResetHistorySearch
             // 
+            this.btnResetHistorySearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnResetHistorySearch.Location = new System.Drawing.Point(377, 33);
             this.btnResetHistorySearch.Name = "btnResetHistorySearch";
             this.btnResetHistorySearch.Size = new System.Drawing.Size(112, 23);
@@ -354,7 +369,9 @@ namespace SpotifySongAvailabilityChecker
             // 
             // lvwSearchHistory
             // 
-            this.lvwSearchHistory.AllowColumnReorder = true;
+            this.lvwSearchHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvwSearchHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chdrFavorite,
             this.chdrTitle,
@@ -415,6 +432,8 @@ namespace SpotifySongAvailabilityChecker
             // 
             // cbxAvailabilitySearch
             // 
+            this.cbxAvailabilitySearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxAvailabilitySearch.FormattingEnabled = true;
             this.cbxAvailabilitySearch.Items.AddRange(new object[] {
             "Country Code",
@@ -444,7 +463,9 @@ namespace SpotifySongAvailabilityChecker
             // 
             // lvwAvailability
             // 
-            this.lvwAvailability.AllowColumnReorder = true;
+            this.lvwAvailability.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvwAvailability.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chdrCountryCode,
             this.chdrCountry});
@@ -469,6 +490,8 @@ namespace SpotifySongAvailabilityChecker
             // 
             // txtSearchInput
             // 
+            this.txtSearchInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearchInput.Location = new System.Drawing.Point(87, 6);
             this.txtSearchInput.Name = "txtSearchInput";
             this.txtSearchInput.Size = new System.Drawing.Size(402, 22);
@@ -477,6 +500,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnReset
             // 
+            this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnReset.Location = new System.Drawing.Point(377, 33);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(112, 23);
@@ -487,6 +511,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnSearch
             // 
+            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearch.Location = new System.Drawing.Point(260, 33);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(112, 23);
@@ -497,8 +522,12 @@ namespace SpotifySongAvailabilityChecker
             // 
             // tctrlMain
             // 
+            this.tctrlMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tctrlMain.Controls.Add(this.tpgAvailability);
             this.tctrlMain.Controls.Add(this.tpgSearchHistory);
+            this.tctrlMain.Controls.Add(this.tpgFavorites);
             this.tctrlMain.Controls.Add(this.tpgSettings);
             this.tctrlMain.Location = new System.Drawing.Point(445, 8);
             this.tctrlMain.Name = "tctrlMain";
@@ -506,57 +535,131 @@ namespace SpotifySongAvailabilityChecker
             this.tctrlMain.Size = new System.Drawing.Size(503, 339);
             this.tctrlMain.TabIndex = 17;
             // 
+            // tpgFavorites
+            // 
+            this.tpgFavorites.Location = new System.Drawing.Point(4, 22);
+            this.tpgFavorites.Name = "tpgFavorites";
+            this.tpgFavorites.Padding = new System.Windows.Forms.Padding(3);
+            this.tpgFavorites.Size = new System.Drawing.Size(495, 313);
+            this.tpgFavorites.TabIndex = 2;
+            this.tpgFavorites.Text = "Favorites";
+            this.tpgFavorites.UseVisualStyleBackColor = true;
+            // 
             // tpgSettings
             // 
-            this.tpgSettings.Controls.Add(this.gbxListDisplay);
-            this.tpgSettings.Controls.Add(this.gbxSearching);
+            this.tpgSettings.Controls.Add(this.gbxProgramDisplay);
+            this.tpgSettings.Controls.Add(this.groupBox2);
+            this.tpgSettings.Controls.Add(this.groupBox3);
             this.tpgSettings.Location = new System.Drawing.Point(4, 22);
             this.tpgSettings.Name = "tpgSettings";
             this.tpgSettings.Padding = new System.Windows.Forms.Padding(3);
             this.tpgSettings.Size = new System.Drawing.Size(495, 313);
-            this.tpgSettings.TabIndex = 2;
+            this.tpgSettings.TabIndex = 3;
             this.tpgSettings.Text = "Settings";
             this.tpgSettings.UseVisualStyleBackColor = true;
             // 
-            // gbxListDisplay
+            // gbxProgramDisplay
             // 
-            this.gbxListDisplay.Controls.Add(this.chkShowGridlines);
-            this.gbxListDisplay.Location = new System.Drawing.Point(6, 51);
-            this.gbxListDisplay.Name = "gbxListDisplay";
-            this.gbxListDisplay.Size = new System.Drawing.Size(483, 43);
-            this.gbxListDisplay.TabIndex = 1;
-            this.gbxListDisplay.TabStop = false;
-            this.gbxListDisplay.Text = "List Display";
+            this.gbxProgramDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxProgramDisplay.Controls.Add(this.chkEnableProgramResize);
+            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 146);
+            this.gbxProgramDisplay.Name = "gbxProgramDisplay";
+            this.gbxProgramDisplay.Size = new System.Drawing.Size(483, 45);
+            this.gbxProgramDisplay.TabIndex = 4;
+            this.gbxProgramDisplay.TabStop = false;
+            this.gbxProgramDisplay.Text = "Main Display";
+            // 
+            // chkEnableProgramResize
+            // 
+            this.chkEnableProgramResize.AutoSize = true;
+            this.chkEnableProgramResize.Location = new System.Drawing.Point(10, 20);
+            this.chkEnableProgramResize.Name = "chkEnableProgramResize";
+            this.chkEnableProgramResize.Size = new System.Drawing.Size(156, 17);
+            this.chkEnableProgramResize.TabIndex = 0;
+            this.chkEnableProgramResize.Text = "Enable program resizing?";
+            this.chkEnableProgramResize.UseVisualStyleBackColor = true;
+            this.chkEnableProgramResize.CheckedChanged += new System.EventHandler(this.chkEnableProgramResize_CheckedChanged);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.cbxDefSortOrder);
+            this.groupBox2.Controls.Add(this.lblDefSortOrder);
+            this.groupBox2.Controls.Add(this.chkAllowColumnReorder);
+            this.groupBox2.Controls.Add(this.chkShowGridlines);
+            this.groupBox2.Location = new System.Drawing.Point(6, 51);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(483, 89);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "List Display";
+            // 
+            // cbxDefSortOrder
+            // 
+            this.cbxDefSortOrder.FormattingEnabled = true;
+            this.cbxDefSortOrder.Items.AddRange(new object[] {
+            "None",
+            "Ascending",
+            "Descending"});
+            this.cbxDefSortOrder.Location = new System.Drawing.Point(116, 62);
+            this.cbxDefSortOrder.Name = "cbxDefSortOrder";
+            this.cbxDefSortOrder.Size = new System.Drawing.Size(121, 21);
+            this.cbxDefSortOrder.TabIndex = 9;
+            // 
+            // lblDefSortOrder
+            // 
+            this.lblDefSortOrder.AutoSize = true;
+            this.lblDefSortOrder.Location = new System.Drawing.Point(7, 65);
+            this.lblDefSortOrder.Name = "lblDefSortOrder";
+            this.lblDefSortOrder.Size = new System.Drawing.Size(105, 13);
+            this.lblDefSortOrder.TabIndex = 8;
+            this.lblDefSortOrder.Text = "Default Sort Order:";
+            // 
+            // chkAllowColumnReorder
+            // 
+            this.chkAllowColumnReorder.AutoSize = true;
+            this.chkAllowColumnReorder.Location = new System.Drawing.Point(10, 42);
+            this.chkAllowColumnReorder.Name = "chkAllowColumnReorder";
+            this.chkAllowColumnReorder.Size = new System.Drawing.Size(194, 17);
+            this.chkAllowColumnReorder.TabIndex = 1;
+            this.chkAllowColumnReorder.Text = "Allow columns to be re-ordered?";
+            this.chkAllowColumnReorder.UseVisualStyleBackColor = true;
+            this.chkAllowColumnReorder.CheckedChanged += new System.EventHandler(this.chkAllowColumnReorder_CheckedChanged);
             // 
             // chkShowGridlines
             // 
             this.chkShowGridlines.AutoSize = true;
-            this.chkShowGridlines.Location = new System.Drawing.Point(143, 17);
+            this.chkShowGridlines.Location = new System.Drawing.Point(10, 19);
             this.chkShowGridlines.Name = "chkShowGridlines";
             this.chkShowGridlines.Size = new System.Drawing.Size(187, 17);
             this.chkShowGridlines.TabIndex = 0;
             this.chkShowGridlines.Text = "Show gridlines on list displays?";
             this.chkShowGridlines.UseVisualStyleBackColor = true;
+            this.chkShowGridlines.CheckedChanged += new System.EventHandler(this.chkShowGridlines_CheckedChanged);
             // 
-            // gbxSearching
+            // groupBox3
             // 
-            this.gbxSearching.Controls.Add(this.chkAutomaticallySwitchTabs);
-            this.gbxSearching.Location = new System.Drawing.Point(6, 6);
-            this.gbxSearching.Name = "gbxSearching";
-            this.gbxSearching.Size = new System.Drawing.Size(483, 43);
-            this.gbxSearching.TabIndex = 0;
-            this.gbxSearching.TabStop = false;
-            this.gbxSearching.Text = "Searching";
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.chkAutoSwitchTabs);
+            this.groupBox3.Location = new System.Drawing.Point(6, 6);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(483, 43);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Searching";
             // 
-            // chkAutomaticallySwitchTabs
+            // chkAutoSwitchTabs
             // 
-            this.chkAutomaticallySwitchTabs.AutoSize = true;
-            this.chkAutomaticallySwitchTabs.Location = new System.Drawing.Point(93, 17);
-            this.chkAutomaticallySwitchTabs.Name = "chkAutomaticallySwitchTabs";
-            this.chkAutomaticallySwitchTabs.Size = new System.Drawing.Size(302, 17);
-            this.chkAutomaticallySwitchTabs.TabIndex = 0;
-            this.chkAutomaticallySwitchTabs.Text = "Switch tab to Availability when a search is performed?";
-            this.chkAutomaticallySwitchTabs.UseVisualStyleBackColor = true;
+            this.chkAutoSwitchTabs.AutoSize = true;
+            this.chkAutoSwitchTabs.Location = new System.Drawing.Point(10, 18);
+            this.chkAutoSwitchTabs.Name = "chkAutoSwitchTabs";
+            this.chkAutoSwitchTabs.Size = new System.Drawing.Size(302, 17);
+            this.chkAutoSwitchTabs.TabIndex = 0;
+            this.chkAutoSwitchTabs.Text = "Switch tab to Availability when a search is performed?";
+            this.chkAutoSwitchTabs.UseVisualStyleBackColor = true;
             // 
             // SSAC
             // 
@@ -572,7 +675,6 @@ namespace SpotifySongAvailabilityChecker
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(970, 393);
             this.MinimumSize = new System.Drawing.Size(970, 393);
             this.Name = "SSAC";
             this.Text = "Spotify Song Availability Checker";
@@ -588,10 +690,12 @@ namespace SpotifySongAvailabilityChecker
             this.tpgAvailability.PerformLayout();
             this.tctrlMain.ResumeLayout(false);
             this.tpgSettings.ResumeLayout(false);
-            this.gbxListDisplay.ResumeLayout(false);
-            this.gbxListDisplay.PerformLayout();
-            this.gbxSearching.ResumeLayout(false);
-            this.gbxSearching.PerformLayout();
+            this.gbxProgramDisplay.ResumeLayout(false);
+            this.gbxProgramDisplay.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -640,11 +744,17 @@ namespace SpotifySongAvailabilityChecker
         private System.Windows.Forms.ColumnHeader chdrType;
         private System.Windows.Forms.ColumnHeader chdrLink;
         private System.Windows.Forms.ColumnHeader chdrFavorite;
+        private System.Windows.Forms.TabPage tpgFavorites;
         private System.Windows.Forms.TabPage tpgSettings;
-        private System.Windows.Forms.GroupBox gbxListDisplay;
+        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox chkShowGridlines;
-        private System.Windows.Forms.GroupBox gbxSearching;
-        private System.Windows.Forms.CheckBox chkAutomaticallySwitchTabs;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox chkAutoSwitchTabs;
+        private System.Windows.Forms.GroupBox gbxProgramDisplay;
+        private System.Windows.Forms.CheckBox chkEnableProgramResize;
+        private System.Windows.Forms.ComboBox cbxDefSortOrder;
+        private System.Windows.Forms.Label lblDefSortOrder;
+        private System.Windows.Forms.CheckBox chkAllowColumnReorder;
     }
 }
 
