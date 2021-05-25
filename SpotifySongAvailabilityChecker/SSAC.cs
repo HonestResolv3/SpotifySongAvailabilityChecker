@@ -25,9 +25,6 @@ namespace SpotifySongAvailabilityChecker
         List<SearchObject> searches = new List<SearchObject>();
         List<SearchObject> searchSubsection;
 
-        List<SearchObject> favorites = new List<SearchObject>();
-        List<SearchObject> favoritesSubsection;
-
         List<Country> countries;
 
         ListViewItem itemAvailability;
@@ -41,7 +38,6 @@ namespace SpotifySongAvailabilityChecker
 
         readonly string locationForSSACContent = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SSAC_Storage");
         bool searchActivated;
-        bool favoriteSearchActivated;
         int searchSectionIndex;
 
         public SSAC()
@@ -49,7 +45,7 @@ namespace SpotifySongAvailabilityChecker
             InitializeComponent();
         }
 
-        private async void SSAC_Load(object sender, EventArgs e)
+        private void SSAC_Load(object sender, EventArgs e)
         {
             txtAlbumID.Enabled = false;
             chkAutoSwitchTabs.Checked = true;
@@ -58,7 +54,6 @@ namespace SpotifySongAvailabilityChecker
             cbxDefSortOrder.SelectedIndex = 0;
             cbxSearchHistoryType.SelectedIndex = 0;
             cbxAvailabilitySearch.SelectedIndex = 0;
-            countries = await RESTCountriesAPI.GetAllCountriesAsync();
 
             try
             {
@@ -80,34 +75,8 @@ namespace SpotifySongAvailabilityChecker
                 }
                 catch (Exception ex)
                 {
-                    rtbDebugConsole.Text += 
-                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to delete the search history file{Environment.NewLine}" +
-                        $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
-                }
-            }
-
-            try
-            {
-                if (File.Exists(Path.Combine(locationForSSACContent, "Favorites.json")))
-                    favorites = JsonConvert.DeserializeObject<List<SearchObject>>(File.ReadAllText(Path.Combine(locationForSSACContent, "Favorites.json")));
-                else
-                    favorites = new List<SearchObject>();
-
-                if (favorites == null)
-                    favorites = new List<SearchObject>();
-            }
-            catch
-            {
-                rtbDebugConsole.Text +=
-                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] The favorites file is not in the right format, attempting to delete{Environment.NewLine}{Environment.NewLine}";
-                try
-                {
-                    File.Delete(Path.Combine(locationForSSACContent, "Favorites.json"));
-                }
-                catch (Exception ex)
-                {
                     rtbDebugConsole.Text +=
-                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to delete the favorites file{Environment.NewLine}" +
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to delete the search history file{Environment.NewLine}" +
                         $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
                 }
             }
@@ -121,15 +90,6 @@ namespace SpotifySongAvailabilityChecker
                 {
                     ListViewItem item = new ListViewItem(new string[] { obj.GetFavoriteUnicode(), obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
                     lvwSearchHistory.Items.Add(item);
-                }
-            }
-
-            if (favorites != null)
-            {
-                foreach (SearchObject obj in favorites)
-                {
-                    ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
-                    lvwFavorites.Items.Add(item);
                 }
             }
         }
@@ -148,13 +108,16 @@ namespace SpotifySongAvailabilityChecker
             }
         }
 
-        private void btnCheckAvailability_Click(object sender, EventArgs e)
+        private async void btnCheckAvailability_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtToken.Text))
             {
                 MessageBox.Show("Please generate an access token by clicking \"Get Access Token\" to continue", "Missing access token", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            if (countries == null)
+                countries = await RESTCountriesAPI.GetAllCountriesAsync();
 
             if (chkIsAlbum.Checked)
             {
@@ -523,45 +486,7 @@ namespace SpotifySongAvailabilityChecker
                 lvwSearchHistory.Items.Add(item);
             }
         }
-        private void btnUseFavoriteSearch_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtFavoriteSearchInput.Text))
-            {
-                MessageBox.Show("Enter a search term to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
 
-            switch (cbxSearchFavoriteType.SelectedIndex)
-            {
-                case 0:
-                    favoritesSubsection = favorites.Where(f => f.Title.Contains(txtFavoriteSearchInput.Text)).ToList();
-                    break;
-                case 1:
-                    favoritesSubsection = favorites.Where(f => f.Author.Contains(txtFavoriteSearchInput.Text)).ToList();
-                    break;
-                case 2:
-                    favoritesSubsection = favorites.Where(f => f.Type.ToString().Contains(txtFavoriteSearchInput.Text)).ToList();
-                    break;
-                case 3:
-                    favoritesSubsection = favorites.Where(f => f.GetCorrectLink().Contains(txtFavoriteSearchInput.Text)).ToList();
-                    break;
-            }
-
-            if (favoritesSubsection.Count == 0)
-            {
-                MessageBox.Show("There are no results that match", "No matching results", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            favoriteSearchActivated = true;
-            lvwFavorites.Items.Clear();
-
-            foreach (SearchObject obj in favoritesSubsection)
-            {
-                ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
-                lvwFavorites.Items.Add(item);
-            }
-        }
 
         private void btnResetHistorySearch_Click(object sender, EventArgs e)
         {
@@ -643,13 +568,11 @@ namespace SpotifySongAvailabilityChecker
                     lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = string.Empty;
                     lvwSearchHistory.Items.RemoveAt(searchSectionIndex);
                     searchSubsection.Remove(obj);
-                    favorites.Remove(obj);
                 }
                 else
                 {
                     searches[searches.IndexOf(obj)].IsFavorite = true;
                     lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = "\u2605";
-                    favorites.Add(obj);
                 }
             }
             else
@@ -658,13 +581,11 @@ namespace SpotifySongAvailabilityChecker
                 {
                     searches[searchSectionIndex].IsFavorite = false;
                     lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = string.Empty;
-                    favorites.Remove(searches[searchSectionIndex]);
                 }
                 else
                 {
                     searches[searchSectionIndex].IsFavorite = true;
                     lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = "\u2605";
-                    favorites.Add(searches[searchSectionIndex]);
                 }
             }
         }
@@ -673,7 +594,6 @@ namespace SpotifySongAvailabilityChecker
         {
             string searchHistoryObject = JsonConvert.SerializeObject(searches, Formatting.Indented);
             string settingsObject = JsonConvert.SerializeObject(settings, Formatting.Indented);
-            string favoritesObject = JsonConvert.SerializeObject(favorites, Formatting.Indented);
 
             try
             {
@@ -695,19 +615,6 @@ namespace SpotifySongAvailabilityChecker
             catch (UnauthorizedAccessException)
             {
                 MessageBox.Show($"The program does not have the proper rights to save the search history at: {Path.Combine(locationForSSACContent, "Settings.json")}", "Permissions error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (IOException)
-            {
-                MessageBox.Show($"The program cannot access: {Path.Combine(locationForSSACContent, "Settings.json")}", "File access error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            try
-            {
-                File.WriteAllText(Path.Combine(locationForSSACContent, "Favorites.json"), favoritesObject);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                MessageBox.Show($"The program does not have the proper rights to save the search history at: {Path.Combine(locationForSSACContent, "Favorites.json")}", "Permissions error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (IOException)
             {
@@ -797,11 +704,6 @@ namespace SpotifySongAvailabilityChecker
         {
             if (!File.Exists(Path.Combine(locationForSSACContent, "Settings.json")))
                 _ = File.Create(Path.Combine(locationForSSACContent, "Settings.json"));
-        }
-
-        private void btnResetFavoriteSearch_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
