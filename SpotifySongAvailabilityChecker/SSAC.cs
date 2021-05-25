@@ -5,7 +5,6 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,13 +25,13 @@ namespace SpotifySongAvailabilityChecker
         List<SearchObject> searches = new List<SearchObject>();
         List<SearchObject> searchSubsection;
 
+        List<SearchObject> favorites = new List<SearchObject>();
+        List<SearchObject> favoritesSubsection;
+
         List<Country> countries;
 
         ListViewItem itemAvailability;
         ListViewItem itemSearch;
-
-        RegionInfo albumInfo;
-        RegionInfo trackInfo;
 
         Country albumCountry;
         Country trackCountry;
@@ -49,7 +48,7 @@ namespace SpotifySongAvailabilityChecker
             InitializeComponent();
         }
 
-        private async void SSAC_Load(object sender, EventArgs e)
+        private void SSAC_Load(object sender, EventArgs e)
         {
             txtAlbumID.Enabled = false;
             chkAutoSwitchTabs.Checked = true;
@@ -62,20 +61,47 @@ namespace SpotifySongAvailabilityChecker
 
             try
             {
-                searches = JsonConvert.DeserializeObject<List<SearchObject>>(File.ReadAllText(Path.Combine(locationForSSACContent, "SearchHistory.json")));
+                if (File.Exists(Path.Combine(locationForSSACContent, "SearchHistory.json")))
+                    searches = JsonConvert.DeserializeObject<List<SearchObject>>(File.ReadAllText(Path.Combine(locationForSSACContent, "SearchHistory.json")));
+                else
+                    searches = new List<SearchObject>();
             }
             catch
             {
-                MessageBox.Show("Search history file is not in the right format, attempting to delete", "History format error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                rtbDebugConsole.Text +=
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] The search history file is not in the right format, attempting to delete{Environment.NewLine}{Environment.NewLine}";
                 try
                 {
                     File.Delete(Path.Combine(locationForSSACContent, "SearchHistory.json"));
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(
-                        "There was an error trying to delete the history file\n\n" +
-                        $"Error: {ex.Message}", "File delete error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    rtbDebugConsole.Text += 
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to delete the search history file{Environment.NewLine}" +
+                        $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
+                }
+            }
+
+            try
+            {
+                if (File.Exists(Path.Combine(locationForSSACContent, "Favorites.json")))
+                    favorites = JsonConvert.DeserializeObject<List<SearchObject>>(File.ReadAllText(Path.Combine(locationForSSACContent, "Favorites.json")));
+                else
+                    favorites = new List<SearchObject>();
+            }
+            catch
+            {
+                rtbDebugConsole.Text +=
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] The favorites file is not in the right format, attempting to delete{Environment.NewLine}{Environment.NewLine}";
+                try
+                {
+                    File.Delete(Path.Combine(locationForSSACContent, "Favorites.json"));
+                }
+                catch (Exception ex)
+                {
+                    rtbDebugConsole.Text +=
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to delete the favorites file{Environment.NewLine}" +
+                        $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
                 }
             }
 
@@ -85,6 +111,15 @@ namespace SpotifySongAvailabilityChecker
                 {
                     ListViewItem item = new ListViewItem(new string[] { obj.GetFavoriteUnicode(), obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
                     lvwSearchHistory.Items.Add(item);
+                }
+            }
+
+            if (favorites != null)
+            {
+                foreach (SearchObject obj in favorites)
+                {
+                    ListViewItem item = new ListViewItem(new string[] { obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
+                    lvwFavorites.Items.Add(item);
                 }
             }
         }
@@ -151,7 +186,9 @@ namespace SpotifySongAvailabilityChecker
                     else if (ex is APIUnauthorizedException)
                         MessageBox.Show("Please use a new access token as the current one has expired", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
-                        MessageBox.Show(ex.Message, "Exception occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        rtbDebugConsole.Text +=
+                            $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to get the album{Environment.NewLine}" +
+                            $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
                     return;
                 }
 
@@ -170,11 +207,18 @@ namespace SpotifySongAvailabilityChecker
                 {
                     VerifyStoragePath();
                 }
+                catch (UnauthorizedAccessException ua)
+                {
+                    rtbDebugConsole.Text +=
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to verify the storage file (Does the program have the proper permissions?){Environment.NewLine}" +
+                        $"Error: {ua}{Environment.NewLine}{Environment.NewLine}";
+                    return;
+                }
                 catch (IOException io)
                 {
-                    MessageBox.Show(
-                        "There was an error trying to create an entry in the search history file\n\n" +
-                        $"Error: {io.Message}", "Search history error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    rtbDebugConsole.Text +=
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] The program was not able to verify the storage properly{Environment.NewLine}" +
+                        $"Error: {io}{Environment.NewLine}{Environment.NewLine}";
                     return;
                 }
 
@@ -198,9 +242,16 @@ namespace SpotifySongAvailabilityChecker
 
                 try
                 {
+                    MessageBox.Show(album.AvailableMarkets.Count.ToString());
+                    if (album.AvailableMarkets.Count == 0)
+                    {
+                        itemAvailability = new ListViewItem(new string[] { "N/A (Song not available)", "(Song not available)" });
+                        lvwAvailability.Items.Add(itemAvailability);
+                    }
+
                     foreach (string s in album.AvailableMarkets)
                     {
-                        albumCountry = countries.First(c => c.Alpha2Code.Equals(s));
+                        albumCountry = countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
                         itemAvailability = new ListViewItem(new string[] { s, albumCountry.Name });
                         lvwAvailability.Items.Add(itemAvailability);
                         availability.Add(itemAvailability);
@@ -208,14 +259,18 @@ namespace SpotifySongAvailabilityChecker
                     if (chkAutoSwitchTabs.Checked)
                         tctrlMain.SelectedIndex = 0;
                 }
-                catch (ArgumentException an)
+                catch (ArgumentNullException an)
                 {
-                    MessageBox.Show($"RegionInfo {an.ParamName} caused a conversion error", "Region error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    rtbDebugConsole.Text +=
+                            $"[{DateTime.Now.ToString("HH:mm:ss tt")}] Argument \"{an.ParamName}\" caused a conversion error{Environment.NewLine}" +
+                            $"Error: {an}{Environment.NewLine}{Environment.NewLine}";
                     return;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Exception occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    rtbDebugConsole.Text +=
+                            $"[{DateTime.Now.ToString("HH:mm:ss tt")}] Exception occured{Environment.NewLine}" +
+                            $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
                     return;
                 }
             }
@@ -256,7 +311,9 @@ namespace SpotifySongAvailabilityChecker
                     else if (ex is APIUnauthorizedException)
                         MessageBox.Show("Please use a new access token as the current one has expired", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
-                        MessageBox.Show(ex.Message, "Exception occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        rtbDebugConsole.Text +=
+                            $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to get the track{Environment.NewLine}" +
+                            $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
                     return;
                 }
 
@@ -275,11 +332,18 @@ namespace SpotifySongAvailabilityChecker
                 {
                     VerifyStoragePath();
                 }
+                catch (UnauthorizedAccessException ua)
+                {
+                    rtbDebugConsole.Text +=
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to verify the storage file (Does the program have the proper permissions?){Environment.NewLine}" +
+                        $"Error: {ua}{Environment.NewLine}{Environment.NewLine}";
+                    return;
+                }
                 catch (IOException io)
                 {
-                    MessageBox.Show(
-                        "There was an error trying to create an entry in the search history file\n\n" +
-                        $"Error: {io.Message}", "Search history error" , MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    rtbDebugConsole.Text +=
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] The program was not able to verify the storage properly{Environment.NewLine}" +
+                        $"Error: {io}{Environment.NewLine}{Environment.NewLine}";
                     return;
                 }
 
@@ -302,9 +366,16 @@ namespace SpotifySongAvailabilityChecker
 
                 try
                 {
+                    if (track.AvailableMarkets.Count == 0)
+                    {
+                        itemAvailability = new ListViewItem(new string[] { "N/A (Song not available)", "N/A (Song not available)" });
+                        lvwAvailability.Items.Add(itemAvailability);
+                    }
+
+
                     foreach (string s in track.AvailableMarkets)
                     {
-                        trackCountry = countries.First(c => c.Alpha2Code.Equals(s));
+                        trackCountry = countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
                         itemAvailability = new ListViewItem(new string[] { s, trackCountry.Name });
                         lvwAvailability.Items.Add(itemAvailability);
                         availability.Add(itemAvailability);
@@ -312,14 +383,18 @@ namespace SpotifySongAvailabilityChecker
                     if (chkAutoSwitchTabs.Checked)
                         tctrlMain.SelectedIndex = 0;
                 }
-                catch (ArgumentException an)
+                catch (ArgumentNullException an)
                 {
-                    MessageBox.Show($"RegionInfo: {an.ParamName} caused a conversion error", "Region error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    rtbDebugConsole.Text +=
+                            $"[{DateTime.Now.ToString("HH:mm:ss tt")}] Argument \"{an.ParamName}\" caused a conversion error{Environment.NewLine}" +
+                            $"Error: {an}{Environment.NewLine}{Environment.NewLine}";
                     return;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Exception occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    rtbDebugConsole.Text +=
+                            $"[{DateTime.Now.ToString("HH:mm:ss tt")}] Exception occured{Environment.NewLine}" +
+                            $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
                     return;
                 }
             }
@@ -359,6 +434,15 @@ namespace SpotifySongAvailabilityChecker
 
         }
 
+
+        private void txtSearchHistory_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != (char)Keys.Enter)
+                return;
+
+            btnSearchHistory_Click(sender, e);
+        }
+
         private async Task OnImplicitGrantReceived(object sender, ImplictGrantResponse response)
         {
             server.ImplictGrantReceived -= OnImplicitGrantReceived;
@@ -379,9 +463,11 @@ namespace SpotifySongAvailabilityChecker
 
         private void btnSearchHistory_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtSearchHistory.Text))
+            if (string.IsNullOrWhiteSpace(txtSearchHistory.Text) && cbxSearchHistoryType.SelectedIndex != 0)
             {
-                MessageBox.Show("Enter a search term to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Enter a search term to continue\n\n" +
+                    "(Search by \"Favorites\" does not need a search term)", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -510,7 +596,39 @@ namespace SpotifySongAvailabilityChecker
 
         private void btnFavoriteSong_Click(object sender, EventArgs e)
         {
+            if (lvwSearchHistory.Items.Count <= 0)
+            {
+                MessageBox.Show("There is nothing in your search history to favorite", "No history error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            if (searchActivated)
+            {
+                SearchObject obj = searchSubsection[searchSectionIndex];
+                if (searches[searches.IndexOf(obj)].IsFavorite)
+                {
+                    searches[searches.IndexOf(obj)].IsFavorite = false;
+                    lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = string.Empty;
+                }
+                else
+                {
+                    searches[searches.IndexOf(obj)].IsFavorite = true;
+                    lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = "\u2605";
+                }
+            }
+            else
+            {
+                if (searches[searchSectionIndex].IsFavorite)
+                {
+                    searches[searchSectionIndex].IsFavorite = false;
+                    lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = string.Empty;
+                }
+                else
+                {
+                    searches[searchSectionIndex].IsFavorite = true;
+                    lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = "\u2605";
+                }
+            }
         }
 
         private void SSAC_FormClosing(object sender, FormClosingEventArgs e)
