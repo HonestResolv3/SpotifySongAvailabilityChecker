@@ -178,17 +178,5 @@ namespace SpotifySongAvailabilityChecker.Properties {
                 this["SelectedAlbum"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool EnableCountryCache {
-            get {
-                return ((bool)(this["EnableCountryCache"]));
-            }
-            set {
-                this["EnableCountryCache"] = value;
-            }
-        }
     }
 }

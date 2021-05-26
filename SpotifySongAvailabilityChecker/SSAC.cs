@@ -62,7 +62,6 @@ namespace SpotifySongAvailabilityChecker
             chkEnableProgramResize.Checked = Properties.Settings.Default.EnableProgramResize;
             chkEnableExperiments.Checked = Properties.Settings.Default.EnableExperiments;
             chkIsAlbum.Checked = Properties.Settings.Default.SelectedAlbum;
-            chkCacheCountryInfo.Checked = Properties.Settings.Default.EnableCountryCache;
 
             txtTrackID.Text = Properties.Settings.Default.SongLink;
             txtAlbumID.Text = Properties.Settings.Default.AlbumLink;
@@ -99,30 +98,27 @@ namespace SpotifySongAvailabilityChecker
                 }
             }
 
-            if (chkCacheCountryInfo.Checked)
+            try
             {
-                try
+                if (!File.Exists(Path.Combine(locationForSSACContent, "CountryCache.json")))
+                    File.Create(Path.Combine(locationForSSACContent, "CountryCache.json"));
+                else
                 {
-                    if (!File.Exists(Path.Combine(locationForSSACContent, "CountryCache.json")))
-                        File.Create(Path.Combine(locationForSSACContent, "CountryCache.json"));
-                    else
-                    {
-                        string cache = File.ReadAllText(Path.Combine(locationForSSACContent, "CountryCache.json"));
-                        countries = JsonConvert.DeserializeObject<List<Country>>(cache);
-                    }
+                    string cache = File.ReadAllText(Path.Combine(locationForSSACContent, "CountryCache.json"));
+                    countries = JsonConvert.DeserializeObject<List<Country>>(cache);
                 }
-                catch (IOException io)
-                {
-                    rtbDebugConsole.Text +=
-                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to create or read the country cache file{Environment.NewLine}" +
-                        $"Error: {io}{Environment.NewLine}{Environment.NewLine}";
-                }
-                catch (UnauthorizedAccessException ua)
-                {
-                    rtbDebugConsole.Text +=
-                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to access the country cache file{Environment.NewLine}" +
-                        $"Error: {ua}{Environment.NewLine}{Environment.NewLine}";
-                }
+            }
+            catch (IOException io)
+            {
+                rtbDebugConsole.Text +=
+                    $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to create or read the country cache file{Environment.NewLine}" +
+                    $"Error: {io}{Environment.NewLine}{Environment.NewLine}";
+            }
+            catch (UnauthorizedAccessException ua)
+            {
+                rtbDebugConsole.Text +=
+                    $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to access the country cache file{Environment.NewLine}" +
+                    $"Error: {ua}{Environment.NewLine}{Environment.NewLine}";
             }
 
             VerifyStoragePath();
@@ -698,7 +694,6 @@ namespace SpotifySongAvailabilityChecker
             Properties.Settings.Default.SearchHistoryBy = cbxSearchHistoryType.SelectedIndex;
             Properties.Settings.Default.GeneralColumnSort = cbxDefSortOrder.SelectedIndex;
             Properties.Settings.Default.SelectedAlbum = chkIsAlbum.Checked;
-            Properties.Settings.Default.EnableCountryCache = chkCacheCountryInfo.Checked;
             Properties.Settings.Default.Save();
 
             string searchHistoryObject = JsonConvert.SerializeObject(searches, Formatting.Indented);
@@ -716,7 +711,7 @@ namespace SpotifySongAvailabilityChecker
                 MessageBox.Show($"The program cannot access: {Path.Combine(locationForSSACContent, "SearchHistory.json")}", "File access error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            if (chkCacheCountryInfo.Checked && countries != null)
+            if (countries != null)
             {
                 string countryCache = JsonConvert.SerializeObject(countries, Formatting.Indented);
                 try
