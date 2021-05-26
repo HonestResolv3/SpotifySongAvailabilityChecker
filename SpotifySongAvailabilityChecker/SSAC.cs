@@ -45,6 +45,8 @@ namespace SpotifySongAvailabilityChecker
 
         private void SSAC_Load(object sender, EventArgs e)
         {
+            txtSearchInput.Text = string.Empty;
+
             txtAlbumID.Enabled = false;
             chkAutoSwitchTabs.Checked = true;
             chkEnableProgramResize.Checked = true;
@@ -602,9 +604,12 @@ namespace SpotifySongAvailabilityChecker
                 txtTrackID.Text = string.Empty;
         }
 
-        private void lvwSearchHistory_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+
+        private void btnClearSearchHistory_Click(object sender, EventArgs e)
         {
-            searchSectionIndex = e.ItemIndex;
+            btnResetHistorySearch_Click(sender, e);
+            searches.Clear();
+            lvwSearchHistory.Items.Clear();
         }
 
         private void btnFavoriteSong_Click(object sender, EventArgs e)
@@ -644,6 +649,11 @@ namespace SpotifySongAvailabilityChecker
                     lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = "\u2605";
                 }
             }
+        }
+
+        private void lvwSearchHistory_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            searchSectionIndex = e.ItemIndex;
         }
 
         private void SSAC_FormClosing(object sender, FormClosingEventArgs e)
