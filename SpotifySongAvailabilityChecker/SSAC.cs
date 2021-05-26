@@ -228,19 +228,33 @@ namespace SpotifySongAvailabilityChecker
                 {
                     if (album.AvailableMarkets.Count == 0)
                     {
+                        cbxAvailabilitySearch.Enabled = false;
+                        txtSearchInput.Text = "N/A (Song not available on any markets, choose a new song to re-enable searching)";
+                        txtSearchInput.Enabled = false;
+                        btnSearch.Enabled = false;
+                        btnReset.Enabled = false;
+
                         itemAvailability = new ListViewItem(new string[] { "N/A (Song not available)", "N/A (Song not available)" });
                         lvwAvailability.Items.Add(itemAvailability);
                     }
-
-                    foreach (string s in album.AvailableMarkets)
+                    else
                     {
-                        albumCountry = countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
-                        itemAvailability = new ListViewItem(new string[] { s, albumCountry.Name });
-                        lvwAvailability.Items.Add(itemAvailability);
-                        availability.Add(itemAvailability);
+                        cbxAvailabilitySearch.Enabled = true;
+                        txtSearchInput.Text = string.Empty;
+                        txtSearchInput.Enabled = true;
+                        btnSearch.Enabled = true;
+                        btnReset.Enabled = true;
+
+                        foreach (string s in album.AvailableMarkets)
+                        {
+                            albumCountry = countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
+                            itemAvailability = new ListViewItem(new string[] { s, albumCountry.Name });
+                            lvwAvailability.Items.Add(itemAvailability);
+                            availability.Add(itemAvailability);
+                        }
+                        if (chkAutoSwitchTabs.Checked)
+                            tctrlMain.SelectedIndex = 0;
                     }
-                    if (chkAutoSwitchTabs.Checked)
-                        tctrlMain.SelectedIndex = 0;
                 }
                 catch (ArgumentNullException an)
                 {
@@ -351,20 +365,34 @@ namespace SpotifySongAvailabilityChecker
                 {
                     if (track.AvailableMarkets.Count == 0)
                     {
+                        cbxAvailabilitySearch.Enabled = false;
+                        txtSearchInput.Text = "N/A (Song not available on any markets, choose a new song to re-enable searching)";
+                        txtSearchInput.Enabled = false;
+                        btnSearch.Enabled = false;
+                        btnReset.Enabled = false;
+
                         itemAvailability = new ListViewItem(new string[] { "N/A (Song not available)", "N/A (Song not available)" });
                         lvwAvailability.Items.Add(itemAvailability);
                     }
-
-
-                    foreach (string s in track.AvailableMarkets)
+                    else
                     {
-                        trackCountry = countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
-                        itemAvailability = new ListViewItem(new string[] { s, trackCountry.Name });
-                        lvwAvailability.Items.Add(itemAvailability);
-                        availability.Add(itemAvailability);
+
+                        cbxAvailabilitySearch.Enabled = true;
+                        txtSearchInput.Text = string.Empty;
+                        txtSearchInput.Enabled = true;
+                        btnSearch.Enabled = true;
+                        btnReset.Enabled = true;
+
+                        foreach (string s in track.AvailableMarkets)
+                        {
+                            trackCountry = countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
+                            itemAvailability = new ListViewItem(new string[] { s, trackCountry.Name });
+                            lvwAvailability.Items.Add(itemAvailability);
+                            availability.Add(itemAvailability);
+                        }
+                        if (chkAutoSwitchTabs.Checked)
+                            tctrlMain.SelectedIndex = 0;
                     }
-                    if (chkAutoSwitchTabs.Checked)
-                        tctrlMain.SelectedIndex = 0;
                 }
                 catch (ArgumentNullException an)
                 {
@@ -408,6 +436,12 @@ namespace SpotifySongAvailabilityChecker
                 availabilitySubsection = availability.Where(r => r.SubItems[cbxAvailabilitySearch.SelectedIndex].Text.Contains(txtSearchInput.Text.ToUpperInvariant())).ToList();
             else
                 availabilitySubsection = availability.Where(r => r.SubItems[cbxAvailabilitySearch.SelectedIndex].Text.Contains(txtSearchInput.Text)).ToList();
+
+            if (availabilitySubsection.Count == 0)
+            {
+                MessageBox.Show("There are no results that match", "No matching results", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             lvwAvailability.Items.Clear();
             foreach (ListViewItem item in availabilitySubsection)
