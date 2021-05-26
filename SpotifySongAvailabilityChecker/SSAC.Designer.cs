@@ -90,6 +90,7 @@ namespace SpotifySongAvailabilityChecker
             this.rtbDebugConsole = new System.Windows.Forms.RichTextBox();
             this.btnClearInput = new System.Windows.Forms.Button();
             this.btnClearSearchHistory = new System.Windows.Forms.Button();
+            this.chkCacheCountryInfo = new System.Windows.Forms.CheckBox();
             this.gbxInput.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tpgSearchHistory.SuspendLayout();
@@ -564,10 +565,11 @@ namespace SpotifySongAvailabilityChecker
             // 
             this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxGeneral.Controls.Add(this.chkCacheCountryInfo);
             this.gbxGeneral.Controls.Add(this.chkEnableExperiments);
-            this.gbxGeneral.Location = new System.Drawing.Point(6, 238);
+            this.gbxGeneral.Location = new System.Drawing.Point(6, 221);
             this.gbxGeneral.Name = "gbxGeneral";
-            this.gbxGeneral.Size = new System.Drawing.Size(530, 41);
+            this.gbxGeneral.Size = new System.Drawing.Size(530, 63);
             this.gbxGeneral.TabIndex = 5;
             this.gbxGeneral.TabStop = false;
             this.gbxGeneral.Text = "General Settings";
@@ -588,7 +590,7 @@ namespace SpotifySongAvailabilityChecker
             this.gbxProgramDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxProgramDisplay.Controls.Add(this.chkEnableProgramResize);
-            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 181);
+            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 164);
             this.gbxProgramDisplay.Name = "gbxProgramDisplay";
             this.gbxProgramDisplay.Size = new System.Drawing.Size(530, 45);
             this.gbxProgramDisplay.TabIndex = 4;
@@ -614,7 +616,7 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox2.Controls.Add(this.lblDefSortOrder);
             this.groupBox2.Controls.Add(this.chkAllowColumnReorder);
             this.groupBox2.Controls.Add(this.chkShowGridlines);
-            this.groupBox2.Location = new System.Drawing.Point(6, 79);
+            this.groupBox2.Location = new System.Drawing.Point(6, 62);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(530, 89);
             this.groupBox2.TabIndex = 3;
@@ -672,7 +674,7 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.chkAutoSwitchTabs);
-            this.groupBox3.Location = new System.Drawing.Point(6, 23);
+            this.groupBox3.Location = new System.Drawing.Point(6, 6);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(530, 43);
             this.groupBox3.TabIndex = 2;
@@ -745,6 +747,16 @@ namespace SpotifySongAvailabilityChecker
             this.btnClearSearchHistory.Text = "Clear Search History";
             this.btnClearSearchHistory.UseVisualStyleBackColor = true;
             this.btnClearSearchHistory.Click += new System.EventHandler(this.btnClearSearchHistory_Click);
+            // 
+            // chkCacheCountryInfo
+            // 
+            this.chkCacheCountryInfo.AutoSize = true;
+            this.chkCacheCountryInfo.Location = new System.Drawing.Point(10, 42);
+            this.chkCacheCountryInfo.Name = "chkCacheCountryInfo";
+            this.chkCacheCountryInfo.Size = new System.Drawing.Size(215, 17);
+            this.chkCacheCountryInfo.TabIndex = 1;
+            this.chkCacheCountryInfo.Text = "Enable caching country information?";
+            this.chkCacheCountryInfo.UseVisualStyleBackColor = true;
             // 
             // SSAC
             // 
@@ -852,6 +864,7 @@ namespace SpotifySongAvailabilityChecker
         private System.Windows.Forms.RichTextBox rtbDebugConsole;
         private System.Windows.Forms.Button btnClearInput;
         private System.Windows.Forms.Button btnClearSearchHistory;
+        private System.Windows.Forms.CheckBox chkCacheCountryInfo;
     }
 }
 
