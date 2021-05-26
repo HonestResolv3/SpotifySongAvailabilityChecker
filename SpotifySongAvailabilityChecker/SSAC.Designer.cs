@@ -137,7 +137,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnCheckAvailability
             // 
-            this.btnCheckAvailability.Location = new System.Drawing.Point(47, 320);
+            this.btnCheckAvailability.Location = new System.Drawing.Point(47, 318);
             this.btnCheckAvailability.Name = "btnCheckAvailability";
             this.btnCheckAvailability.Size = new System.Drawing.Size(112, 23);
             this.btnCheckAvailability.TabIndex = 15;
@@ -193,7 +193,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnToken
             // 
-            this.btnToken.Location = new System.Drawing.Point(165, 320);
+            this.btnToken.Location = new System.Drawing.Point(165, 318);
             this.btnToken.Name = "btnToken";
             this.btnToken.Size = new System.Drawing.Size(112, 23);
             this.btnToken.TabIndex = 16;
@@ -725,7 +725,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnClearInput
             // 
-            this.btnClearInput.Location = new System.Drawing.Point(283, 320);
+            this.btnClearInput.Location = new System.Drawing.Point(283, 318);
             this.btnClearInput.Name = "btnClearInput";
             this.btnClearInput.Size = new System.Drawing.Size(112, 23);
             this.btnClearInput.TabIndex = 19;
