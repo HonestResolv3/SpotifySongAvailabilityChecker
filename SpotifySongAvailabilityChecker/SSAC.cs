@@ -16,9 +16,7 @@ namespace SpotifySongAvailabilityChecker
     {
         static EmbedIOAuthServer server;
         static SpotifyClient client;
-
-        Dictionary<string, bool> settings = new Dictionary<string, bool>();
-
+    
         readonly List<ListViewItem> availability = new List<ListViewItem>();
         List<ListViewItem> availabilitySubsection;
 
@@ -51,9 +49,26 @@ namespace SpotifySongAvailabilityChecker
             chkAutoSwitchTabs.Checked = true;
             chkEnableProgramResize.Checked = true;
             chkAllowColumnReorder.Checked = true;
+
             cbxDefSortOrder.SelectedIndex = 0;
             cbxSearchHistoryType.SelectedIndex = 0;
             cbxAvailabilitySearch.SelectedIndex = 0;
+
+            chkAutoSwitchTabs.Checked = Properties.Settings.Default.AutoSwitchTabs;
+            chkShowGridlines.Checked = Properties.Settings.Default.ShowGridlines;
+            chkAllowColumnReorder.Checked = Properties.Settings.Default.AllowColumnReorder;
+            chkEnableProgramResize.Checked = Properties.Settings.Default.EnableProgramResize;
+            chkEnableExperiments.Checked = Properties.Settings.Default.EnableExperiments;
+            chkIsAlbum.Checked = Properties.Settings.Default.SelectedAlbum;
+
+            txtTrackID.Text = Properties.Settings.Default.SongLink;
+            txtAlbumID.Text = Properties.Settings.Default.AlbumLink;
+            txtSearchInput.Text = Properties.Settings.Default.AvailabilitySearchInput;
+            txtSearchHistory.Text = Properties.Settings.Default.SearchHistoryInput;
+
+            cbxAvailabilitySearch.SelectedIndex = Properties.Settings.Default.AvailabilitySearchBy;
+            cbxSearchHistoryType.SelectedIndex = Properties.Settings.Default.SearchHistoryBy;
+            cbxDefSortOrder.SelectedIndex = Properties.Settings.Default.GeneralColumnSort;
 
             try
             {
@@ -82,7 +97,6 @@ namespace SpotifySongAvailabilityChecker
             }
 
             VerifyStoragePath();
-            VerifySettingsPath();
 
             if (searches != null)
             {
@@ -205,7 +219,7 @@ namespace SpotifySongAvailabilityChecker
                     rtbAuthors.Text += $"{artist.Name}\n";
 
                 for (int i = 0; i < album.Copyrights.Count; i++)
-                    rtbCopyright.Text += i == 0 ? $"\u00A9{album.Copyrights[i].Text}\n" : $"\u2117{album.Copyrights[i].Text}\n";
+                    rtbCopyright.Text += i == 0 ? $"\u00A9{album.Copyrights[i].Text}{Environment.NewLine}" : $"\u2117{album.Copyrights[i].Text}{Environment.NewLine}";
 
                 lvwAvailability.Items.Clear();
                 availability.Clear();
@@ -262,7 +276,7 @@ namespace SpotifySongAvailabilityChecker
                 catch (ArgumentOutOfRangeException)
                 {
                     MessageBox.Show(
-                        "The information you have provided cannot be converted into an track ID\n\n" +
+                        $"The information you have provided cannot be converted into an track ID{Environment.NewLine}{Environment.NewLine}" +
                         "On a Spotify album, click \"Copy Song Link\"", "Track ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -328,7 +342,7 @@ namespace SpotifySongAvailabilityChecker
                 txtTitle.Text = track.Name;
 
                 foreach (SimpleArtist artist in track.Artists)
-                    rtbAuthors.Text += $"{artist.Name}\n";
+                    rtbAuthors.Text += $"{artist.Name}{Environment.NewLine}";
 
                 lvwAvailability.Items.Clear();
                 availability.Clear();
@@ -438,7 +452,7 @@ namespace SpotifySongAvailabilityChecker
             await server.Stop();
             MessageBox.Show(
                 "There was an error trying to authorize your Spotify account with the program\n\n" +
-                $"Error Message: {error}\n\n" +
+                $"Error Message: {error}{Environment.NewLine}{Environment.NewLine}" +
                 $"State: {state}", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
@@ -447,7 +461,7 @@ namespace SpotifySongAvailabilityChecker
             if (string.IsNullOrWhiteSpace(txtSearchHistory.Text) && cbxSearchHistoryType.SelectedIndex != 0)
             {
                 MessageBox.Show(
-                    "Enter a search term to continue\n\n" +
+                    $"Enter a search term to continue{Environment.NewLine}{Environment.NewLine}" +
                     "(Search by \"Favorites\" does not need a search term)", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -546,6 +560,14 @@ namespace SpotifySongAvailabilityChecker
             }
         }
 
+        private void btnClearInput_Click(object sender, EventArgs e)
+        {
+            if (chkIsAlbum.Checked)
+                txtAlbumID.Text = string.Empty;
+            else
+                txtTrackID.Text = string.Empty;
+        }
+
         private void lvwSearchHistory_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             searchSectionIndex = e.ItemIndex;
@@ -592,8 +614,22 @@ namespace SpotifySongAvailabilityChecker
 
         private void SSAC_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Properties.Settings.Default.AutoSwitchTabs = chkAutoSwitchTabs.Checked;
+            Properties.Settings.Default.ShowGridlines = chkShowGridlines.Checked;
+            Properties.Settings.Default.AllowColumnReorder = chkAllowColumnReorder.Checked;
+            Properties.Settings.Default.EnableProgramResize = chkEnableProgramResize.Checked;
+            Properties.Settings.Default.EnableExperiments = chkEnableExperiments.Checked;
+            Properties.Settings.Default.SongLink = txtTrackID.Text;
+            Properties.Settings.Default.AlbumLink = txtAlbumID.Text;
+            Properties.Settings.Default.AvailabilitySearchInput = txtSearchInput.Text;
+            Properties.Settings.Default.SearchHistoryInput = txtSearchHistory.Text;
+            Properties.Settings.Default.AvailabilitySearchBy = cbxAvailabilitySearch.SelectedIndex;
+            Properties.Settings.Default.SearchHistoryBy = cbxSearchHistoryType.SelectedIndex;
+            Properties.Settings.Default.GeneralColumnSort = cbxDefSortOrder.SelectedIndex;
+            Properties.Settings.Default.SelectedAlbum = chkIsAlbum.Checked;
+            Properties.Settings.Default.Save();
+
             string searchHistoryObject = JsonConvert.SerializeObject(searches, Formatting.Indented);
-            string settingsObject = JsonConvert.SerializeObject(settings, Formatting.Indented);
 
             try
             {
@@ -606,19 +642,6 @@ namespace SpotifySongAvailabilityChecker
             catch (IOException)
             {
                 MessageBox.Show($"The program cannot access: {Path.Combine(locationForSSACContent, "SearchHistory.json")}", "File access error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            try
-            {
-                File.WriteAllText(Path.Combine(locationForSSACContent, "Settings.json"), settingsObject);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                MessageBox.Show($"The program does not have the proper rights to save the search history at: {Path.Combine(locationForSSACContent, "Settings.json")}", "Permissions error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (IOException)
-            {
-                MessageBox.Show($"The program cannot access: {Path.Combine(locationForSSACContent, "Settings.json")}", "File access error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -698,12 +721,6 @@ namespace SpotifySongAvailabilityChecker
 
             if (!File.Exists(Path.Combine(locationForSSACContent, "SearchHistory.json")))
                 _ = File.Create(Path.Combine(locationForSSACContent, "SearchHistory.json"));
-        }
-
-        private void VerifySettingsPath()
-        {
-            if (!File.Exists(Path.Combine(locationForSSACContent, "Settings.json")))
-                _ = File.Create(Path.Combine(locationForSSACContent, "Settings.json"));
         }
     }
 }

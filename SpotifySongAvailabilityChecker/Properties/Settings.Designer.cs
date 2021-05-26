@@ -8,21 +8,174 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
-namespace SpotifySongAvailabilityChecker.Properties
-{
+namespace SpotifySongAvailabilityChecker.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoSwitchTabs {
+            get {
+                return ((bool)(this["AutoSwitchTabs"]));
+            }
+            set {
+                this["AutoSwitchTabs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowGridlines {
+            get {
+                return ((bool)(this["ShowGridlines"]));
+            }
+            set {
+                this["ShowGridlines"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AllowColumnReorder {
+            get {
+                return ((bool)(this["AllowColumnReorder"]));
+            }
+            set {
+                this["AllowColumnReorder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableProgramResize {
+            get {
+                return ((bool)(this["EnableProgramResize"]));
+            }
+            set {
+                this["EnableProgramResize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableExperiments {
+            get {
+                return ((bool)(this["EnableExperiments"]));
+            }
+            set {
+                this["EnableExperiments"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SongLink {
+            get {
+                return ((string)(this["SongLink"]));
+            }
+            set {
+                this["SongLink"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AlbumLink {
+            get {
+                return ((string)(this["AlbumLink"]));
+            }
+            set {
+                this["AlbumLink"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AvailabilitySearchInput {
+            get {
+                return ((string)(this["AvailabilitySearchInput"]));
+            }
+            set {
+                this["AvailabilitySearchInput"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SearchHistoryInput {
+            get {
+                return ((string)(this["SearchHistoryInput"]));
+            }
+            set {
+                this["SearchHistoryInput"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AvailabilitySearchBy {
+            get {
+                return ((int)(this["AvailabilitySearchBy"]));
+            }
+            set {
+                this["AvailabilitySearchBy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SearchHistoryBy {
+            get {
+                return ((int)(this["SearchHistoryBy"]));
+            }
+            set {
+                this["SearchHistoryBy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GeneralColumnSort {
+            get {
+                return ((int)(this["GeneralColumnSort"]));
+            }
+            set {
+                this["GeneralColumnSort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SelectedAlbum {
+            get {
+                return ((bool)(this["SelectedAlbum"]));
+            }
+            set {
+                this["SelectedAlbum"] = value;
             }
         }
     }
