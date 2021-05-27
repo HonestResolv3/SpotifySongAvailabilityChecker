@@ -90,6 +90,8 @@ namespace SpotifySongAvailabilityChecker
             this.tpgDebugConsole = new System.Windows.Forms.TabPage();
             this.rtbDebugConsole = new System.Windows.Forms.RichTextBox();
             this.btnClearInput = new System.Windows.Forms.Button();
+            this.txtNumCountries = new System.Windows.Forms.TextBox();
+            this.lblNumCountries = new System.Windows.Forms.Label();
             this.gbxInput.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tpgSearchHistory.SuspendLayout();
@@ -108,7 +110,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             this.txtTrackID.Location = new System.Drawing.Point(77, 20);
             this.txtTrackID.Name = "txtTrackID";
-            this.txtTrackID.Size = new System.Drawing.Size(340, 22);
+            this.txtTrackID.Size = new System.Drawing.Size(439, 22);
             this.txtTrackID.TabIndex = 2;
             // 
             // lblTrackID
@@ -124,7 +126,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             this.txtAlbumID.Location = new System.Drawing.Point(77, 49);
             this.txtAlbumID.Name = "txtAlbumID";
-            this.txtAlbumID.Size = new System.Drawing.Size(340, 22);
+            this.txtAlbumID.Size = new System.Drawing.Size(439, 22);
             this.txtAlbumID.TabIndex = 4;
             // 
             // lblAlbumID
@@ -138,7 +140,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnCheckAvailability
             // 
-            this.btnCheckAvailability.Location = new System.Drawing.Point(47, 318);
+            this.btnCheckAvailability.Location = new System.Drawing.Point(98, 346);
             this.btnCheckAvailability.Name = "btnCheckAvailability";
             this.btnCheckAvailability.Size = new System.Drawing.Size(112, 23);
             this.btnCheckAvailability.TabIndex = 15;
@@ -149,7 +151,7 @@ namespace SpotifySongAvailabilityChecker
             // chkIsAlbum
             // 
             this.chkIsAlbum.AutoSize = true;
-            this.chkIsAlbum.Location = new System.Drawing.Point(183, 111);
+            this.chkIsAlbum.Location = new System.Drawing.Point(235, 111);
             this.chkIsAlbum.Name = "chkIsAlbum";
             this.chkIsAlbum.Size = new System.Drawing.Size(75, 17);
             this.chkIsAlbum.TabIndex = 7;
@@ -160,7 +162,7 @@ namespace SpotifySongAvailabilityChecker
             // lblAuthor
             // 
             this.lblAuthor.AutoSize = true;
-            this.lblAuthor.Location = new System.Drawing.Point(20, 51);
+            this.lblAuthor.Location = new System.Drawing.Point(20, 49);
             this.lblAuthor.Name = "lblAuthor";
             this.lblAuthor.Size = new System.Drawing.Size(54, 13);
             this.lblAuthor.TabIndex = 11;
@@ -169,7 +171,7 @@ namespace SpotifySongAvailabilityChecker
             // lblContentTitle
             // 
             this.lblContentTitle.AutoSize = true;
-            this.lblContentTitle.Location = new System.Drawing.Point(38, 23);
+            this.lblContentTitle.Location = new System.Drawing.Point(38, 21);
             this.lblContentTitle.Name = "lblContentTitle";
             this.lblContentTitle.Size = new System.Drawing.Size(35, 13);
             this.lblContentTitle.TabIndex = 9;
@@ -180,7 +182,7 @@ namespace SpotifySongAvailabilityChecker
             this.txtToken.Location = new System.Drawing.Point(94, 78);
             this.txtToken.Name = "txtToken";
             this.txtToken.ReadOnly = true;
-            this.txtToken.Size = new System.Drawing.Size(323, 22);
+            this.txtToken.Size = new System.Drawing.Size(422, 22);
             this.txtToken.TabIndex = 6;
             // 
             // lblToken
@@ -194,7 +196,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnToken
             // 
-            this.btnToken.Location = new System.Drawing.Point(165, 318);
+            this.btnToken.Location = new System.Drawing.Point(216, 346);
             this.btnToken.Name = "btnToken";
             this.btnToken.Size = new System.Drawing.Size(112, 23);
             this.btnToken.TabIndex = 16;
@@ -205,7 +207,7 @@ namespace SpotifySongAvailabilityChecker
             // lblCopyright
             // 
             this.lblCopyright.AutoSize = true;
-            this.lblCopyright.Location = new System.Drawing.Point(10, 98);
+            this.lblCopyright.Location = new System.Drawing.Point(10, 96);
             this.lblCopyright.Name = "lblCopyright";
             this.lblCopyright.Size = new System.Drawing.Size(61, 13);
             this.lblCopyright.TabIndex = 13;
@@ -213,29 +215,29 @@ namespace SpotifySongAvailabilityChecker
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(78, 20);
+            this.txtTitle.Location = new System.Drawing.Point(78, 18);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.ReadOnly = true;
-            this.txtTitle.Size = new System.Drawing.Size(339, 22);
+            this.txtTitle.Size = new System.Drawing.Size(438, 22);
             this.txtTitle.TabIndex = 10;
             // 
             // rtbAuthors
             // 
-            this.rtbAuthors.Location = new System.Drawing.Point(78, 51);
+            this.rtbAuthors.Location = new System.Drawing.Point(78, 49);
             this.rtbAuthors.Name = "rtbAuthors";
             this.rtbAuthors.ReadOnly = true;
             this.rtbAuthors.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbAuthors.Size = new System.Drawing.Size(339, 42);
+            this.rtbAuthors.Size = new System.Drawing.Size(438, 42);
             this.rtbAuthors.TabIndex = 12;
             this.rtbAuthors.Text = "";
             // 
             // rtbCopyright
             // 
-            this.rtbCopyright.Location = new System.Drawing.Point(78, 101);
+            this.rtbCopyright.Location = new System.Drawing.Point(78, 99);
             this.rtbCopyright.Name = "rtbCopyright";
             this.rtbCopyright.ReadOnly = true;
             this.rtbCopyright.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbCopyright.Size = new System.Drawing.Size(339, 42);
+            this.rtbCopyright.Size = new System.Drawing.Size(438, 42);
             this.rtbCopyright.TabIndex = 14;
             this.rtbCopyright.Text = "";
             // 
@@ -250,13 +252,15 @@ namespace SpotifySongAvailabilityChecker
             this.gbxInput.Controls.Add(this.txtToken);
             this.gbxInput.Location = new System.Drawing.Point(7, 8);
             this.gbxInput.Name = "gbxInput";
-            this.gbxInput.Size = new System.Drawing.Size(432, 139);
+            this.gbxInput.Size = new System.Drawing.Size(522, 139);
             this.gbxInput.TabIndex = 0;
             this.gbxInput.TabStop = false;
             this.gbxInput.Text = "Content Input";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtNumCountries);
+            this.groupBox1.Controls.Add(this.lblNumCountries);
             this.groupBox1.Controls.Add(this.txtTitle);
             this.groupBox1.Controls.Add(this.lblContentTitle);
             this.groupBox1.Controls.Add(this.rtbCopyright);
@@ -265,7 +269,7 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox1.Controls.Add(this.lblCopyright);
             this.groupBox1.Location = new System.Drawing.Point(7, 153);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(432, 153);
+            this.groupBox1.Size = new System.Drawing.Size(522, 180);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Content Information";
@@ -285,7 +289,7 @@ namespace SpotifySongAvailabilityChecker
             this.tpgSearchHistory.Location = new System.Drawing.Point(4, 22);
             this.tpgSearchHistory.Name = "tpgSearchHistory";
             this.tpgSearchHistory.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgSearchHistory.Size = new System.Drawing.Size(542, 309);
+            this.tpgSearchHistory.Size = new System.Drawing.Size(541, 341);
             this.tpgSearchHistory.TabIndex = 1;
             this.tpgSearchHistory.Text = "Search History";
             this.tpgSearchHistory.UseVisualStyleBackColor = true;
@@ -293,7 +297,7 @@ namespace SpotifySongAvailabilityChecker
             // btnClearSearchHistory
             // 
             this.btnClearSearchHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearSearchHistory.Location = new System.Drawing.Point(335, 279);
+            this.btnClearSearchHistory.Location = new System.Drawing.Point(336, 309);
             this.btnClearSearchHistory.Name = "btnClearSearchHistory";
             this.btnClearSearchHistory.Size = new System.Drawing.Size(120, 23);
             this.btnClearSearchHistory.TabIndex = 34;
@@ -304,7 +308,7 @@ namespace SpotifySongAvailabilityChecker
             // btnFavoriteSong
             // 
             this.btnFavoriteSong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFavoriteSong.Location = new System.Drawing.Point(206, 279);
+            this.btnFavoriteSong.Location = new System.Drawing.Point(207, 309);
             this.btnFavoriteSong.Name = "btnFavoriteSong";
             this.btnFavoriteSong.Size = new System.Drawing.Size(123, 23);
             this.btnFavoriteSong.TabIndex = 33;
@@ -315,7 +319,7 @@ namespace SpotifySongAvailabilityChecker
             // btnUseSearch
             // 
             this.btnUseSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUseSearch.Location = new System.Drawing.Point(88, 279);
+            this.btnUseSearch.Location = new System.Drawing.Point(89, 309);
             this.btnUseSearch.Name = "btnUseSearch";
             this.btnUseSearch.Size = new System.Drawing.Size(112, 23);
             this.btnUseSearch.TabIndex = 32;
@@ -346,7 +350,7 @@ namespace SpotifySongAvailabilityChecker
             "Link"});
             this.cbxSearchHistoryType.Location = new System.Drawing.Point(68, 34);
             this.cbxSearchHistoryType.Name = "cbxSearchHistoryType";
-            this.cbxSearchHistoryType.Size = new System.Drawing.Size(232, 21);
+            this.cbxSearchHistoryType.Size = new System.Drawing.Size(231, 21);
             this.cbxSearchHistoryType.TabIndex = 28;
             // 
             // lblSearchPrompt
@@ -361,7 +365,7 @@ namespace SpotifySongAvailabilityChecker
             // btnSearchHistory
             // 
             this.btnSearchHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearchHistory.Location = new System.Drawing.Point(307, 33);
+            this.btnSearchHistory.Location = new System.Drawing.Point(306, 33);
             this.btnSearchHistory.Name = "btnSearchHistory";
             this.btnSearchHistory.Size = new System.Drawing.Size(112, 23);
             this.btnSearchHistory.TabIndex = 29;
@@ -375,14 +379,14 @@ namespace SpotifySongAvailabilityChecker
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearchHistory.Location = new System.Drawing.Point(87, 6);
             this.txtSearchHistory.Name = "txtSearchHistory";
-            this.txtSearchHistory.Size = new System.Drawing.Size(449, 22);
+            this.txtSearchHistory.Size = new System.Drawing.Size(448, 22);
             this.txtSearchHistory.TabIndex = 26;
             this.txtSearchHistory.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchHistory_KeyPress);
             // 
             // btnResetHistorySearch
             // 
             this.btnResetHistorySearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnResetHistorySearch.Location = new System.Drawing.Point(424, 33);
+            this.btnResetHistorySearch.Location = new System.Drawing.Point(423, 33);
             this.btnResetHistorySearch.Name = "btnResetHistorySearch";
             this.btnResetHistorySearch.Size = new System.Drawing.Size(112, 23);
             this.btnResetHistorySearch.TabIndex = 30;
@@ -406,7 +410,7 @@ namespace SpotifySongAvailabilityChecker
             this.lvwSearchHistory.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.lvwSearchHistory.Location = new System.Drawing.Point(6, 62);
             this.lvwSearchHistory.Name = "lvwSearchHistory";
-            this.lvwSearchHistory.Size = new System.Drawing.Size(530, 210);
+            this.lvwSearchHistory.Size = new System.Drawing.Size(529, 239);
             this.lvwSearchHistory.TabIndex = 31;
             this.lvwSearchHistory.UseCompatibleStateImageBehavior = false;
             this.lvwSearchHistory.View = System.Windows.Forms.View.Details;
@@ -448,7 +452,7 @@ namespace SpotifySongAvailabilityChecker
             this.tpgAvailability.Location = new System.Drawing.Point(4, 22);
             this.tpgAvailability.Name = "tpgAvailability";
             this.tpgAvailability.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgAvailability.Size = new System.Drawing.Size(542, 309);
+            this.tpgAvailability.Size = new System.Drawing.Size(541, 341);
             this.tpgAvailability.TabIndex = 0;
             this.tpgAvailability.Text = "Availability";
             this.tpgAvailability.UseVisualStyleBackColor = true;
@@ -464,7 +468,7 @@ namespace SpotifySongAvailabilityChecker
             "Country Name"});
             this.cbxAvailabilitySearch.Location = new System.Drawing.Point(68, 34);
             this.cbxAvailabilitySearch.Name = "cbxAvailabilitySearch";
-            this.cbxAvailabilitySearch.Size = new System.Drawing.Size(233, 21);
+            this.cbxAvailabilitySearch.Size = new System.Drawing.Size(232, 21);
             this.cbxAvailabilitySearch.TabIndex = 21;
             // 
             // label1
@@ -497,7 +501,7 @@ namespace SpotifySongAvailabilityChecker
             this.lvwAvailability.HideSelection = false;
             this.lvwAvailability.Location = new System.Drawing.Point(6, 62);
             this.lvwAvailability.Name = "lvwAvailability";
-            this.lvwAvailability.Size = new System.Drawing.Size(530, 245);
+            this.lvwAvailability.Size = new System.Drawing.Size(529, 277);
             this.lvwAvailability.TabIndex = 24;
             this.lvwAvailability.UseCompatibleStateImageBehavior = false;
             this.lvwAvailability.View = System.Windows.Forms.View.Details;
@@ -518,14 +522,14 @@ namespace SpotifySongAvailabilityChecker
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearchInput.Location = new System.Drawing.Point(87, 6);
             this.txtSearchInput.Name = "txtSearchInput";
-            this.txtSearchInput.Size = new System.Drawing.Size(449, 22);
+            this.txtSearchInput.Size = new System.Drawing.Size(448, 22);
             this.txtSearchInput.TabIndex = 19;
             this.txtSearchInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchInput_KeyPress);
             // 
             // btnReset
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Location = new System.Drawing.Point(424, 33);
+            this.btnReset.Location = new System.Drawing.Point(423, 33);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(112, 23);
             this.btnReset.TabIndex = 23;
@@ -536,7 +540,7 @@ namespace SpotifySongAvailabilityChecker
             // btnSearch
             // 
             this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearch.Location = new System.Drawing.Point(307, 33);
+            this.btnSearch.Location = new System.Drawing.Point(306, 33);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(112, 23);
             this.btnSearch.TabIndex = 22;
@@ -551,10 +555,10 @@ namespace SpotifySongAvailabilityChecker
             this.tctrlMain.Controls.Add(this.tpgAvailability);
             this.tctrlMain.Controls.Add(this.tpgSearchHistory);
             this.tctrlMain.Controls.Add(this.tpgSettings);
-            this.tctrlMain.Location = new System.Drawing.Point(445, 8);
+            this.tctrlMain.Location = new System.Drawing.Point(535, 8);
             this.tctrlMain.Name = "tctrlMain";
             this.tctrlMain.SelectedIndex = 0;
-            this.tctrlMain.Size = new System.Drawing.Size(550, 335);
+            this.tctrlMain.Size = new System.Drawing.Size(549, 367);
             this.tctrlMain.TabIndex = 17;
             // 
             // tpgSettings
@@ -566,7 +570,7 @@ namespace SpotifySongAvailabilityChecker
             this.tpgSettings.Location = new System.Drawing.Point(4, 22);
             this.tpgSettings.Name = "tpgSettings";
             this.tpgSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgSettings.Size = new System.Drawing.Size(542, 309);
+            this.tpgSettings.Size = new System.Drawing.Size(587, 341);
             this.tpgSettings.TabIndex = 3;
             this.tpgSettings.Text = "Settings";
             this.tpgSettings.UseVisualStyleBackColor = true;
@@ -576,9 +580,9 @@ namespace SpotifySongAvailabilityChecker
             this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxGeneral.Controls.Add(this.chkEnableExperiments);
-            this.gbxGeneral.Location = new System.Drawing.Point(6, 237);
+            this.gbxGeneral.Location = new System.Drawing.Point(6, 271);
             this.gbxGeneral.Name = "gbxGeneral";
-            this.gbxGeneral.Size = new System.Drawing.Size(530, 40);
+            this.gbxGeneral.Size = new System.Drawing.Size(575, 40);
             this.gbxGeneral.TabIndex = 5;
             this.gbxGeneral.TabStop = false;
             this.gbxGeneral.Text = "General Settings";
@@ -599,9 +603,9 @@ namespace SpotifySongAvailabilityChecker
             this.gbxProgramDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxProgramDisplay.Controls.Add(this.chkEnableProgramResize);
-            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 180);
+            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 199);
             this.gbxProgramDisplay.Name = "gbxProgramDisplay";
-            this.gbxProgramDisplay.Size = new System.Drawing.Size(530, 45);
+            this.gbxProgramDisplay.Size = new System.Drawing.Size(575, 45);
             this.gbxProgramDisplay.TabIndex = 4;
             this.gbxProgramDisplay.TabStop = false;
             this.gbxProgramDisplay.Text = "Main Display";
@@ -625,9 +629,9 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox2.Controls.Add(this.lblDefSortOrder);
             this.groupBox2.Controls.Add(this.chkAllowColumnReorder);
             this.groupBox2.Controls.Add(this.chkShowGridlines);
-            this.groupBox2.Location = new System.Drawing.Point(6, 78);
+            this.groupBox2.Location = new System.Drawing.Point(6, 87);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(530, 89);
+            this.groupBox2.Size = new System.Drawing.Size(575, 89);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "List Display";
@@ -685,7 +689,7 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox3.Controls.Add(this.chkAutoSwitchTabs);
             this.groupBox3.Location = new System.Drawing.Point(6, 22);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(530, 43);
+            this.groupBox3.Size = new System.Drawing.Size(575, 43);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Searching";
@@ -706,10 +710,10 @@ namespace SpotifySongAvailabilityChecker
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tctrlDebugging.Controls.Add(this.tpgDebugConsole);
-            this.tctrlDebugging.Location = new System.Drawing.Point(7, 348);
+            this.tctrlDebugging.Location = new System.Drawing.Point(7, 381);
             this.tctrlDebugging.Name = "tctrlDebugging";
             this.tctrlDebugging.SelectedIndex = 0;
-            this.tctrlDebugging.Size = new System.Drawing.Size(988, 297);
+            this.tctrlDebugging.Size = new System.Drawing.Size(1077, 334);
             this.tctrlDebugging.TabIndex = 18;
             // 
             // tpgDebugConsole
@@ -718,7 +722,7 @@ namespace SpotifySongAvailabilityChecker
             this.tpgDebugConsole.Location = new System.Drawing.Point(4, 22);
             this.tpgDebugConsole.Name = "tpgDebugConsole";
             this.tpgDebugConsole.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgDebugConsole.Size = new System.Drawing.Size(980, 271);
+            this.tpgDebugConsole.Size = new System.Drawing.Size(1069, 308);
             this.tpgDebugConsole.TabIndex = 0;
             this.tpgDebugConsole.Text = "Program Errors";
             this.tpgDebugConsole.UseVisualStyleBackColor = true;
@@ -732,13 +736,13 @@ namespace SpotifySongAvailabilityChecker
             this.rtbDebugConsole.Name = "rtbDebugConsole";
             this.rtbDebugConsole.ReadOnly = true;
             this.rtbDebugConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbDebugConsole.Size = new System.Drawing.Size(968, 259);
+            this.rtbDebugConsole.Size = new System.Drawing.Size(1057, 296);
             this.rtbDebugConsole.TabIndex = 15;
             this.rtbDebugConsole.Text = "";
             // 
             // btnClearInput
             // 
-            this.btnClearInput.Location = new System.Drawing.Point(283, 318);
+            this.btnClearInput.Location = new System.Drawing.Point(334, 346);
             this.btnClearInput.Name = "btnClearInput";
             this.btnClearInput.Size = new System.Drawing.Size(112, 23);
             this.btnClearInput.TabIndex = 19;
@@ -746,11 +750,28 @@ namespace SpotifySongAvailabilityChecker
             this.btnClearInput.UseVisualStyleBackColor = true;
             this.btnClearInput.Click += new System.EventHandler(this.btnClearInput_Click);
             // 
+            // txtNumCountries
+            // 
+            this.txtNumCountries.Location = new System.Drawing.Point(254, 149);
+            this.txtNumCountries.Name = "txtNumCountries";
+            this.txtNumCountries.ReadOnly = true;
+            this.txtNumCountries.Size = new System.Drawing.Size(262, 22);
+            this.txtNumCountries.TabIndex = 16;
+            // 
+            // lblNumCountries
+            // 
+            this.lblNumCountries.AutoSize = true;
+            this.lblNumCountries.Location = new System.Drawing.Point(9, 152);
+            this.lblNumCountries.Name = "lblNumCountries";
+            this.lblNumCountries.Size = new System.Drawing.Size(239, 13);
+            this.lblNumCountries.TabIndex = 15;
+            this.lblNumCountries.Text = "Number of Countries the song is available in:";
+            // 
             // SSAC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1001, 651);
+            this.ClientSize = new System.Drawing.Size(1090, 721);
             this.Controls.Add(this.btnClearInput);
             this.Controls.Add(this.tctrlDebugging);
             this.Controls.Add(this.groupBox1);
@@ -852,6 +873,8 @@ namespace SpotifySongAvailabilityChecker
         private System.Windows.Forms.RichTextBox rtbDebugConsole;
         private System.Windows.Forms.Button btnClearInput;
         private System.Windows.Forms.Button btnClearSearchHistory;
+        private System.Windows.Forms.TextBox txtNumCountries;
+        private System.Windows.Forms.Label lblNumCountries;
     }
 }
 

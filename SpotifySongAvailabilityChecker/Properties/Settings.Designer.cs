@@ -178,5 +178,17 @@ namespace SpotifySongAvailabilityChecker.Properties {
                 this["SelectedAlbum"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SelectedAreaOfProgram {
+            get {
+                return ((int)(this["SelectedAreaOfProgram"]));
+            }
+            set {
+                this["SelectedAreaOfProgram"] = value;
+            }
+        }
     }
 }

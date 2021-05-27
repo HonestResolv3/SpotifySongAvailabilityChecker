@@ -46,15 +46,7 @@ namespace SpotifySongAvailabilityChecker
         private void SSAC_Load(object sender, EventArgs e)
         {
             txtSearchInput.Text = string.Empty;
-
             txtAlbumID.Enabled = false;
-            chkAutoSwitchTabs.Checked = true;
-            chkEnableProgramResize.Checked = true;
-            chkAllowColumnReorder.Checked = true;
-
-            cbxDefSortOrder.SelectedIndex = 0;
-            cbxSearchHistoryType.SelectedIndex = 0;
-            cbxAvailabilitySearch.SelectedIndex = 0;
 
             chkAutoSwitchTabs.Checked = Properties.Settings.Default.AutoSwitchTabs;
             chkShowGridlines.Checked = Properties.Settings.Default.ShowGridlines;
@@ -71,6 +63,8 @@ namespace SpotifySongAvailabilityChecker
             cbxAvailabilitySearch.SelectedIndex = Properties.Settings.Default.AvailabilitySearchBy;
             cbxSearchHistoryType.SelectedIndex = Properties.Settings.Default.SearchHistoryBy;
             cbxDefSortOrder.SelectedIndex = Properties.Settings.Default.GeneralColumnSort;
+
+            tctrlMain.SelectedTab = tctrlMain.TabPages[Properties.Settings.Default.SelectedAreaOfProgram];
 
             try
             {
@@ -261,6 +255,8 @@ namespace SpotifySongAvailabilityChecker
 
                         itemAvailability = new ListViewItem(new string[] { "N/A (Song not available)", "N/A (Song not available)" });
                         lvwAvailability.Items.Add(itemAvailability);
+
+                        txtNumCountries.Text = "N/A (0 countries)";
                     }
                     else
                     {
@@ -277,6 +273,7 @@ namespace SpotifySongAvailabilityChecker
                             lvwAvailability.Items.Add(itemAvailability);
                             availability.Add(itemAvailability);
                         }
+                        txtNumCountries.Text = album.AvailableMarkets.Count.ToString();
                         if (chkAutoSwitchTabs.Checked)
                             tctrlMain.SelectedIndex = 0;
                     }
@@ -398,6 +395,8 @@ namespace SpotifySongAvailabilityChecker
 
                         itemAvailability = new ListViewItem(new string[] { "N/A (Song not available)", "N/A (Song not available)" });
                         lvwAvailability.Items.Add(itemAvailability);
+
+                        txtNumCountries.Text = "N/A (0 countries)";
                     }
                     else
                     {
@@ -415,6 +414,7 @@ namespace SpotifySongAvailabilityChecker
                             lvwAvailability.Items.Add(itemAvailability);
                             availability.Add(itemAvailability);
                         }
+                        txtNumCountries.Text = track.AvailableMarkets.Count.ToString();
                         if (chkAutoSwitchTabs.Checked)
                             tctrlMain.SelectedIndex = 0;
                     }
@@ -694,6 +694,7 @@ namespace SpotifySongAvailabilityChecker
             Properties.Settings.Default.SearchHistoryBy = cbxSearchHistoryType.SelectedIndex;
             Properties.Settings.Default.GeneralColumnSort = cbxDefSortOrder.SelectedIndex;
             Properties.Settings.Default.SelectedAlbum = chkIsAlbum.Checked;
+            Properties.Settings.Default.SelectedAreaOfProgram = tctrlMain.SelectedIndex;
             Properties.Settings.Default.Save();
 
             string searchHistoryObject = JsonConvert.SerializeObject(searches, Formatting.Indented);
