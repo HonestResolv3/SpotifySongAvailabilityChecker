@@ -53,6 +53,8 @@ namespace SpotifySongAvailabilityChecker
             txtSearchInput.Text = string.Empty;
             txtAlbumID.Enabled = false;
 
+            btnCheckAvailability.Enabled = false;
+
             chkAutoSwitchTabs.Checked = Properties.Settings.Default.AutoSwitchTabs;
             chkShowGridlines.Checked = Properties.Settings.Default.ShowGridlines;
             chkAllowColumnReorder.Checked = Properties.Settings.Default.AllowColumnReorder;
@@ -85,9 +87,13 @@ namespace SpotifySongAvailabilityChecker
                 {
                     string cache = File.ReadAllText(Path.Combine(locationForSSACContent, "CountryCache.json"));
                     countries = JsonConvert.DeserializeObject<List<Country>>(cache);
-                    foreach (Country c in countries)
-                        countryAvailability.Add(c.Alpha2Code);
-                    Text = "Spotify Song Availability Checker";
+                    if (countries != null)
+                    {
+                        foreach (Country c in countries)
+                            countryAvailability.Add(c.Alpha2Code);
+                        Text = "Spotify Song Availability Checker";
+                        btnCheckAvailability.Enabled = true;
+                    }
                 }
             }
             catch (IOException io)
@@ -111,6 +117,7 @@ namespace SpotifySongAvailabilityChecker
                     foreach (Country c in countries)
                         countryAvailability.Add(c.Alpha2Code);
                     Text = "Spotify Song Availability Checker";
+                    btnCheckAvailability.Enabled = true;
                 }
             }
             catch (Exception ex)
