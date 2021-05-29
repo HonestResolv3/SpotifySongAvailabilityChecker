@@ -747,6 +747,9 @@ namespace SpotifySongAvailabilityChecker
             // 
             // tctrlProgramErrors
             // 
+            this.tctrlProgramErrors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tctrlProgramErrors.Controls.Add(this.tabPage1);
             this.tctrlProgramErrors.Location = new System.Drawing.Point(7, 376);
             this.tctrlProgramErrors.Name = "tctrlProgramErrors";
