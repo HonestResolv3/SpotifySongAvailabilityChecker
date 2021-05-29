@@ -312,6 +312,7 @@ namespace SpotifySongAvailabilityChecker
                             availability.Add(s);
                         }
                         txtNumCountries.Text = album.AvailableMarkets.Count.ToString();
+                        txtNumUnavailCountries.Text = countryAvailability.Except(availability).Count().ToString();
                         if (chkAutoSwitchTabs.Checked)
                             tctrlMain.SelectedIndex = 0;
                     }
@@ -455,6 +456,7 @@ namespace SpotifySongAvailabilityChecker
                             availability.Add(s);
                         }
                         txtNumCountries.Text = track.AvailableMarkets.Count.ToString();
+                        txtNumUnavailCountries.Text = countryAvailability.Except(availability).Count().ToString();
                         if (chkAutoSwitchTabs.Checked)
                             tctrlMain.SelectedIndex = 0;
                     }
