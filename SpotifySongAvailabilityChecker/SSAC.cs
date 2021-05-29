@@ -19,7 +19,6 @@ namespace SpotifySongAvailabilityChecker
     
         readonly List<string> availability = new List<string>();
         readonly List<string> countryAvailability = new List<string>();
-        readonly List<string> countryAvailabilityName = new List<string>();
 
         List<string> countryNames;
         List<string> availabilitySubsection;
@@ -48,8 +47,9 @@ namespace SpotifySongAvailabilityChecker
             InitializeComponent();
         }
 
-        private void SSAC_Load(object sender, EventArgs e)
+        private async void SSAC_Load(object sender, EventArgs e)
         {
+            Text = "Spotify Song Availability Checker - Loading...";
             txtSearchInput.Text = string.Empty;
             txtAlbumID.Enabled = false;
 
@@ -79,6 +79,49 @@ namespace SpotifySongAvailabilityChecker
 
             try
             {
+                if (!File.Exists(Path.Combine(locationForSSACContent, "CountryCache.json")))
+                    File.Create(Path.Combine(locationForSSACContent, "CountryCache.json"));
+                else
+                {
+                    string cache = File.ReadAllText(Path.Combine(locationForSSACContent, "CountryCache.json"));
+                    countries = JsonConvert.DeserializeObject<List<Country>>(cache);
+                    foreach (Country c in countries)
+                        countryAvailability.Add(c.Alpha2Code);
+                    Text = "Spotify Song Availability Checker";
+                }
+            }
+            catch (IOException io)
+            {
+                rtbDebugConsole.Text +=
+                    $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to create or read the country cache file{Environment.NewLine}" +
+                    $"Error: {io}{Environment.NewLine}{Environment.NewLine}";
+            }
+            catch (UnauthorizedAccessException ua)
+            {
+                rtbDebugConsole.Text +=
+                    $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to access the country cache file{Environment.NewLine}" +
+                    $"Error: {ua}{Environment.NewLine}{Environment.NewLine}";
+            }
+
+            try
+            {
+                if (countries == null)
+                {
+                    countries = await RESTCountriesAPI.GetAllCountriesAsync();
+                    foreach (Country c in countries)
+                        countryAvailability.Add(c.Alpha2Code);
+                    Text = "Spotify Song Availability Checker";
+                }
+            }
+            catch (Exception ex)
+            {
+                rtbDebugConsole.Text +=
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to get the countries to cache{Environment.NewLine}" +
+                        $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
+            }
+
+            try
+            {
                 if (File.Exists(Path.Combine(locationForSSACContent, "SearchHistory.json")))
                     searches = JsonConvert.DeserializeObject<List<SearchObject>>(File.ReadAllText(Path.Combine(locationForSSACContent, "SearchHistory.json")));
                 else
@@ -101,31 +144,6 @@ namespace SpotifySongAvailabilityChecker
                         $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to delete the search history file{Environment.NewLine}" +
                         $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
                 }
-            }
-
-            try
-            {
-                if (!File.Exists(Path.Combine(locationForSSACContent, "CountryCache.json")))
-                    File.Create(Path.Combine(locationForSSACContent, "CountryCache.json"));
-                else
-                {
-                    string cache = File.ReadAllText(Path.Combine(locationForSSACContent, "CountryCache.json"));
-                    countries = JsonConvert.DeserializeObject<List<Country>>(cache);
-                    foreach (Country c in countries)
-                        countryAvailability.Add(c.Alpha2Code);
-                }
-            }
-            catch (IOException io)
-            {
-                rtbDebugConsole.Text +=
-                    $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to create or read the country cache file{Environment.NewLine}" +
-                    $"Error: {io}{Environment.NewLine}{Environment.NewLine}";
-            }
-            catch (UnauthorizedAccessException ua)
-            {
-                rtbDebugConsole.Text +=
-                    $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to access the country cache file{Environment.NewLine}" +
-                    $"Error: {ua}{Environment.NewLine}{Environment.NewLine}";
             }
 
             VerifyStoragePath();
@@ -154,19 +172,12 @@ namespace SpotifySongAvailabilityChecker
             }
         }
 
-        private async void btnCheckAvailability_Click(object sender, EventArgs e)
+        private void btnCheckAvailability_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtToken.Text))
             {
                 MessageBox.Show("Please generate an access token by clicking \"Get Access Token\" to continue", "Missing access token", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
-
-            if (countries == null)
-            {
-                countries = await RESTCountriesAPI.GetAllCountriesAsync();
-                foreach (Country c in countries)
-                    countryAvailability.Add(c.Alpha2Code);
             }
 
             if (chkIsAlbum.Checked)
