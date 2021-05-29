@@ -47,6 +47,8 @@ namespace SpotifySongAvailabilityChecker
             this.rtbCopyright = new System.Windows.Forms.RichTextBox();
             this.gbxInput = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtNumCountries = new System.Windows.Forms.TextBox();
+            this.lblNumCountries = new System.Windows.Forms.Label();
             this.tpgSearchHistory = new System.Windows.Forms.TabPage();
             this.btnClearSearchHistory = new System.Windows.Forms.Button();
             this.btnFavoriteSong = new System.Windows.Forms.Button();
@@ -90,8 +92,6 @@ namespace SpotifySongAvailabilityChecker
             this.tpgDebugConsole = new System.Windows.Forms.TabPage();
             this.rtbDebugConsole = new System.Windows.Forms.RichTextBox();
             this.btnClearInput = new System.Windows.Forms.Button();
-            this.txtNumCountries = new System.Windows.Forms.TextBox();
-            this.lblNumCountries = new System.Windows.Forms.Label();
             this.gbxInput.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tpgSearchHistory.SuspendLayout();
@@ -140,7 +140,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnCheckAvailability
             // 
-            this.btnCheckAvailability.Location = new System.Drawing.Point(98, 346);
+            this.btnCheckAvailability.Location = new System.Drawing.Point(97, 346);
             this.btnCheckAvailability.Name = "btnCheckAvailability";
             this.btnCheckAvailability.Size = new System.Drawing.Size(112, 23);
             this.btnCheckAvailability.TabIndex = 15;
@@ -196,7 +196,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnToken
             // 
-            this.btnToken.Location = new System.Drawing.Point(216, 346);
+            this.btnToken.Location = new System.Drawing.Point(215, 346);
             this.btnToken.Name = "btnToken";
             this.btnToken.Size = new System.Drawing.Size(112, 23);
             this.btnToken.TabIndex = 16;
@@ -273,6 +273,23 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Content Information";
+            // 
+            // txtNumCountries
+            // 
+            this.txtNumCountries.Location = new System.Drawing.Point(254, 149);
+            this.txtNumCountries.Name = "txtNumCountries";
+            this.txtNumCountries.ReadOnly = true;
+            this.txtNumCountries.Size = new System.Drawing.Size(262, 22);
+            this.txtNumCountries.TabIndex = 16;
+            // 
+            // lblNumCountries
+            // 
+            this.lblNumCountries.AutoSize = true;
+            this.lblNumCountries.Location = new System.Drawing.Point(9, 152);
+            this.lblNumCountries.Name = "lblNumCountries";
+            this.lblNumCountries.Size = new System.Drawing.Size(239, 13);
+            this.lblNumCountries.TabIndex = 15;
+            this.lblNumCountries.Text = "Number of Countries the song is available in:";
             // 
             // tpgSearchHistory
             // 
@@ -465,7 +482,8 @@ namespace SpotifySongAvailabilityChecker
             this.cbxAvailabilitySearch.FormattingEnabled = true;
             this.cbxAvailabilitySearch.Items.AddRange(new object[] {
             "Country Code",
-            "Country Name"});
+            "Country Name",
+            "Unavailablity"});
             this.cbxAvailabilitySearch.Location = new System.Drawing.Point(68, 34);
             this.cbxAvailabilitySearch.Name = "cbxAvailabilitySearch";
             this.cbxAvailabilitySearch.Size = new System.Drawing.Size(232, 21);
@@ -570,7 +588,7 @@ namespace SpotifySongAvailabilityChecker
             this.tpgSettings.Location = new System.Drawing.Point(4, 22);
             this.tpgSettings.Name = "tpgSettings";
             this.tpgSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgSettings.Size = new System.Drawing.Size(587, 341);
+            this.tpgSettings.Size = new System.Drawing.Size(541, 341);
             this.tpgSettings.TabIndex = 3;
             this.tpgSettings.Text = "Settings";
             this.tpgSettings.UseVisualStyleBackColor = true;
@@ -742,30 +760,13 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnClearInput
             // 
-            this.btnClearInput.Location = new System.Drawing.Point(334, 346);
+            this.btnClearInput.Location = new System.Drawing.Point(333, 346);
             this.btnClearInput.Name = "btnClearInput";
             this.btnClearInput.Size = new System.Drawing.Size(112, 23);
             this.btnClearInput.TabIndex = 19;
             this.btnClearInput.Text = "Clear Input";
             this.btnClearInput.UseVisualStyleBackColor = true;
             this.btnClearInput.Click += new System.EventHandler(this.btnClearInput_Click);
-            // 
-            // txtNumCountries
-            // 
-            this.txtNumCountries.Location = new System.Drawing.Point(254, 149);
-            this.txtNumCountries.Name = "txtNumCountries";
-            this.txtNumCountries.ReadOnly = true;
-            this.txtNumCountries.Size = new System.Drawing.Size(262, 22);
-            this.txtNumCountries.TabIndex = 16;
-            // 
-            // lblNumCountries
-            // 
-            this.lblNumCountries.AutoSize = true;
-            this.lblNumCountries.Location = new System.Drawing.Point(9, 152);
-            this.lblNumCountries.Name = "lblNumCountries";
-            this.lblNumCountries.Size = new System.Drawing.Size(239, 13);
-            this.lblNumCountries.TabIndex = 15;
-            this.lblNumCountries.Text = "Number of Countries the song is available in:";
             // 
             // SSAC
             // 

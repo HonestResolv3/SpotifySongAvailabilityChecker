@@ -17,8 +17,12 @@ namespace SpotifySongAvailabilityChecker
         static EmbedIOAuthServer server;
         static SpotifyClient client;
     
-        readonly List<ListViewItem> availability = new List<ListViewItem>();
-        List<ListViewItem> availabilitySubsection;
+        readonly List<string> availability = new List<string>();
+        readonly List<string> countryAvailability = new List<string>();
+        readonly List<string> countryAvailabilityName = new List<string>();
+
+        List<string> countryNames;
+        List<string> availabilitySubsection;
 
         List<SearchObject> searches = new List<SearchObject>();
         List<SearchObject> searchSubsection;
@@ -30,6 +34,7 @@ namespace SpotifySongAvailabilityChecker
 
         Country albumCountry;
         Country trackCountry;
+        Country availabilityCountry;
 
         SearchObject albumObj;
         SearchObject trackObj;
@@ -57,9 +62,15 @@ namespace SpotifySongAvailabilityChecker
 
             txtTrackID.Text = Properties.Settings.Default.SongLink;
             txtAlbumID.Text = Properties.Settings.Default.AlbumLink;
-            txtSearchInput.Text = Properties.Settings.Default.AvailabilitySearchInput;
+
+            txtSearchInput.Text = "N/A (Search up a song or album to use this area)";
+            txtSearchInput.Enabled = false;
+            btnSearch.Enabled = false;
+            btnReset.Enabled = false;
+
             txtSearchHistory.Text = Properties.Settings.Default.SearchHistoryInput;
 
+            cbxAvailabilitySearch.Enabled = false;
             cbxAvailabilitySearch.SelectedIndex = Properties.Settings.Default.AvailabilitySearchBy;
             cbxSearchHistoryType.SelectedIndex = Properties.Settings.Default.SearchHistoryBy;
             cbxDefSortOrder.SelectedIndex = Properties.Settings.Default.GeneralColumnSort;
@@ -100,6 +111,8 @@ namespace SpotifySongAvailabilityChecker
                 {
                     string cache = File.ReadAllText(Path.Combine(locationForSSACContent, "CountryCache.json"));
                     countries = JsonConvert.DeserializeObject<List<Country>>(cache);
+                    foreach (Country c in countries)
+                        countryAvailability.Add(c.Alpha2Code);
                 }
             }
             catch (IOException io)
@@ -150,7 +163,11 @@ namespace SpotifySongAvailabilityChecker
             }
 
             if (countries == null)
+            {
                 countries = await RESTCountriesAPI.GetAllCountriesAsync();
+                foreach (Country c in countries)
+                    countryAvailability.Add(c.Alpha2Code);
+            }
 
             if (chkIsAlbum.Checked)
             {
@@ -235,10 +252,12 @@ namespace SpotifySongAvailabilityChecker
                 rtbCopyright.Text = string.Empty;
 
                 foreach (SimpleArtist artist in album.Artists)
-                    rtbAuthors.Text += $"{artist.Name}\n";
+                    rtbAuthors.Text += $"{artist.Name}{Environment.NewLine}";
+                rtbAuthors.Text = rtbAuthors.Text.Substring(0, rtbAuthors.Text.Length - 1);
 
                 for (int i = 0; i < album.Copyrights.Count; i++)
                     rtbCopyright.Text += i == 0 ? $"\u00A9{album.Copyrights[i].Text}{Environment.NewLine}" : $"\u2117{album.Copyrights[i].Text}{Environment.NewLine}";
+                rtbCopyright.Text = rtbCopyright.Text.Substring(0, rtbCopyright.Text.Length - 1);
 
                 lvwAvailability.Items.Clear();
                 availability.Clear();
@@ -271,7 +290,8 @@ namespace SpotifySongAvailabilityChecker
                             albumCountry = countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
                             itemAvailability = new ListViewItem(new string[] { s, albumCountry.Name });
                             lvwAvailability.Items.Add(itemAvailability);
-                            availability.Add(itemAvailability);
+                            countryAvailability.Add(trackCountry.Alpha2Code);
+                            availability.Add(s);
                         }
                         txtNumCountries.Text = album.AvailableMarkets.Count.ToString();
                         if (chkAutoSwitchTabs.Checked)
@@ -379,6 +399,7 @@ namespace SpotifySongAvailabilityChecker
 
                 foreach (SimpleArtist artist in track.Artists)
                     rtbAuthors.Text += $"{artist.Name}{Environment.NewLine}";
+                rtbAuthors.Text = rtbAuthors.Text.Substring(0, rtbAuthors.Text.Length - 1);
 
                 lvwAvailability.Items.Clear();
                 availability.Clear();
@@ -412,7 +433,8 @@ namespace SpotifySongAvailabilityChecker
                             trackCountry = countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
                             itemAvailability = new ListViewItem(new string[] { s, trackCountry.Name });
                             lvwAvailability.Items.Add(itemAvailability);
-                            availability.Add(itemAvailability);
+                            countryAvailability.Add(trackCountry.Alpha2Code);
+                            availability.Add(s);
                         }
                         txtNumCountries.Text = track.AvailableMarkets.Count.ToString();
                         if (chkAutoSwitchTabs.Checked)
@@ -451,33 +473,68 @@ namespace SpotifySongAvailabilityChecker
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtSearchInput.Text))
+            if (string.IsNullOrWhiteSpace(txtSearchInput.Text) && cbxAvailabilitySearch.SelectedIndex != 2)
             {
-                MessageBox.Show("Enter a search term to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Enter a search term to continue" +
+                    $"{Environment.NewLine}{Environment.NewLine}Search by \"Unavailability\" does not require a term", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (cbxAvailabilitySearch.SelectedIndex == 0)
-                availabilitySubsection = availability.Where(r => r.SubItems[cbxAvailabilitySearch.SelectedIndex].Text.Contains(txtSearchInput.Text.ToUpperInvariant())).ToList();
-            else
-                availabilitySubsection = availability.Where(r => r.SubItems[cbxAvailabilitySearch.SelectedIndex].Text.Contains(txtSearchInput.Text)).ToList();
+            switch (cbxAvailabilitySearch.SelectedIndex)
+            {
+                case 0:
+                    availabilitySubsection = availability.Where(r => r.Contains(txtSearchInput.Text.ToUpperInvariant())).ToList();
+                    break;
+                case 1:
+                    countryNames = countryAvailability.Where(cn => cn.Contains(txtSearchInput.Text)).ToList();
+                    break;
+                case 2:
+                    availabilitySubsection = countryAvailability.Except(availability).ToList();
+                    break;
+            }
 
-            if (availabilitySubsection.Count == 0)
+            if (availabilitySubsection != null && availabilitySubsection.Count == 0)
             {
                 MessageBox.Show("There are no results that match", "No matching results", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             lvwAvailability.Items.Clear();
-            foreach (ListViewItem item in availabilitySubsection)
-                lvwAvailability.Items.Add(item);
+
+            switch (cbxAvailabilitySearch.SelectedIndex)
+            {
+                case 0:
+                    foreach (string item in availabilitySubsection)
+                    {
+                        availabilityCountry = countries.FirstOrDefault(a => a.Alpha2Code.Contains(item));
+                        lvwAvailability.Items.Add(new ListViewItem(new string[] { item, availabilityCountry.Name }));
+                    }
+                    break;
+                case 1:
+                    foreach (string name in countryNames)
+                    {
+                        availabilityCountry = countries.FirstOrDefault(a => a.Name.Contains(name));
+                        lvwAvailability.Items.Add(new ListViewItem(new string[] { availabilityCountry.Alpha2Code, name }));
+                    }
+                    break;
+                case 2:
+                    foreach (string item in availabilitySubsection)
+                    {
+                        availabilityCountry = countries.FirstOrDefault(a => a.Alpha2Code.Equals(item));
+                        lvwAvailability.Items.Add(new ListViewItem(new string[] { item, availabilityCountry.Name }));
+                    }
+                    break;
+            }
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
             lvwAvailability.Items.Clear();
-            foreach (ListViewItem item in availability)
-                lvwAvailability.Items.Add(item);
+            foreach (string item in availability)
+            {
+                availabilityCountry = countries.FirstOrDefault(a => a.Alpha2Code.Equals(item));
+                lvwAvailability.Items.Add(new ListViewItem(new string[] { item, availabilityCountry.Name }));
+            }
         }
 
         private void txtSearchInput_KeyPress(object sender, KeyPressEventArgs e)
@@ -510,7 +567,7 @@ namespace SpotifySongAvailabilityChecker
             server.ErrorReceived -= OnErrorReceived;
             await server.Stop();
             MessageBox.Show(
-                "There was an error trying to authorize your Spotify account with the program\n\n" +
+                "There was an error trying to authorize your Spotify account with the program{Environment.NewLine}{Environment.NewLine}" +
                 $"Error Message: {error}{Environment.NewLine}{Environment.NewLine}" +
                 $"State: {state}", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
