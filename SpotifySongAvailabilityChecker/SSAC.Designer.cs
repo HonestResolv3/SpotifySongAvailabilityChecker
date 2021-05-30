@@ -621,9 +621,9 @@ namespace SpotifySongAvailabilityChecker
             this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxGeneral.Controls.Add(this.chkEnableExperiments);
-            this.gbxGeneral.Location = new System.Drawing.Point(6, 271);
+            this.gbxGeneral.Location = new System.Drawing.Point(6, 280);
             this.gbxGeneral.Name = "gbxGeneral";
-            this.gbxGeneral.Size = new System.Drawing.Size(575, 40);
+            this.gbxGeneral.Size = new System.Drawing.Size(529, 40);
             this.gbxGeneral.TabIndex = 5;
             this.gbxGeneral.TabStop = false;
             this.gbxGeneral.Text = "General Settings";
@@ -644,9 +644,9 @@ namespace SpotifySongAvailabilityChecker
             this.gbxProgramDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxProgramDisplay.Controls.Add(this.chkEnableProgramResize);
-            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 199);
+            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 208);
             this.gbxProgramDisplay.Name = "gbxProgramDisplay";
-            this.gbxProgramDisplay.Size = new System.Drawing.Size(575, 45);
+            this.gbxProgramDisplay.Size = new System.Drawing.Size(529, 45);
             this.gbxProgramDisplay.TabIndex = 4;
             this.gbxProgramDisplay.TabStop = false;
             this.gbxProgramDisplay.Text = "Main Display";
@@ -670,9 +670,9 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox2.Controls.Add(this.lblDefSortOrder);
             this.groupBox2.Controls.Add(this.chkAllowColumnReorder);
             this.groupBox2.Controls.Add(this.chkShowGridlines);
-            this.groupBox2.Location = new System.Drawing.Point(6, 87);
+            this.groupBox2.Location = new System.Drawing.Point(6, 96);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(575, 89);
+            this.groupBox2.Size = new System.Drawing.Size(529, 89);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "List Display";
@@ -728,9 +728,9 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.chkAutoSwitchTabs);
-            this.groupBox3.Location = new System.Drawing.Point(6, 22);
+            this.groupBox3.Location = new System.Drawing.Point(6, 31);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(575, 43);
+            this.groupBox3.Size = new System.Drawing.Size(529, 43);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Searching";
