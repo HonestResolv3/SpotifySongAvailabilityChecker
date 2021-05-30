@@ -28,12 +28,10 @@ Added:
 - [Settings] - Input and new settings toggles will save on close.
 
 Changed:
-
-    [API] - RegionInfo replaced with RESTCountries-NET for country information.
-    [Main UI] - Adjusted size of the entire program including list views.
-    [Main UI] - No results for a search entry will display a message box saying so.
-    [Back-end] - .JSON reading and writing is improved to make it proper.
+- [API] - RegionInfo replaced with RESTCountries-NET for country information.
+- [Main UI] - Adjusted size of the entire program including list views.
+- [Main UI] - No results for a search entry will display a message box saying so.
+- [Back-end] - .JSON reading and writing is improved to make it proper.
 
 Fixed:
-
-    [Main UI] - Drop down boxes for search filters are now read-only.
+- [Main UI] - Drop down boxes for search filters are now read-only.
