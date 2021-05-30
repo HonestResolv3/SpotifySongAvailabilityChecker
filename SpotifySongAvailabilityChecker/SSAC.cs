@@ -197,6 +197,7 @@ namespace SpotifySongAvailabilityChecker
 
                 lvwAvailability.Items.Clear();
                 availability.Clear();
+                availabilityName.Clear();
 
                 try
                 {
@@ -340,6 +341,7 @@ namespace SpotifySongAvailabilityChecker
 
                 lvwAvailability.Items.Clear();
                 availability.Clear();
+                availabilityName.Clear();
 
                 try
                 {
