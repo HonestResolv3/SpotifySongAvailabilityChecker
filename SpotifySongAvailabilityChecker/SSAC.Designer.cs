@@ -334,7 +334,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnClearSearchHistory
             // 
-            this.btnClearSearchHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearSearchHistory.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnClearSearchHistory.Location = new System.Drawing.Point(336, 329);
             this.btnClearSearchHistory.Name = "btnClearSearchHistory";
             this.btnClearSearchHistory.Size = new System.Drawing.Size(120, 23);
@@ -345,7 +345,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnFavoriteSong
             // 
-            this.btnFavoriteSong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFavoriteSong.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnFavoriteSong.Location = new System.Drawing.Point(207, 329);
             this.btnFavoriteSong.Name = "btnFavoriteSong";
             this.btnFavoriteSong.Size = new System.Drawing.Size(123, 23);
@@ -356,7 +356,7 @@ namespace SpotifySongAvailabilityChecker
             // 
             // btnUseSearch
             // 
-            this.btnUseSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUseSearch.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnUseSearch.Location = new System.Drawing.Point(89, 329);
             this.btnUseSearch.Name = "btnUseSearch";
             this.btnUseSearch.Size = new System.Drawing.Size(112, 23);
@@ -503,7 +503,9 @@ namespace SpotifySongAvailabilityChecker
             this.cbxAvailabilitySearch.FormattingEnabled = true;
             this.cbxAvailabilitySearch.Items.AddRange(new object[] {
             "Country Code",
+            "Country Code (Unavailability)",
             "Country Name",
+            "Country Name (Unavailability)",
             "Unavailablity"});
             this.cbxAvailabilitySearch.Location = new System.Drawing.Point(68, 34);
             this.cbxAvailabilitySearch.Name = "cbxAvailabilitySearch";

@@ -4,6 +4,7 @@ using RESTCountries.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SpotifySongAvailabilityChecker
@@ -11,11 +12,11 @@ namespace SpotifySongAvailabilityChecker
     public partial class Startup : Form
     {
         public static List<string> errors = new List<string>();
+        public static List<string> countryAvailability = new List<string>();
+        public static List<string> countryNameAvailability = new List<string>();
         public static List<Country> countries;
         public static List<SearchObject> searches = new List<SearchObject>();
         public static List<ListViewItem> items = new List<ListViewItem>();
-
-        readonly public static List<string> countryAvailability = new List<string>();
 
         readonly static string locationForSSACContent = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SSAC_Storage");
 
@@ -33,11 +34,14 @@ namespace SpotifySongAvailabilityChecker
                 else
                 {
                     string cache = File.ReadAllText(Path.Combine(locationForSSACContent, "CountryCache.json"));
-                    countries = JsonConvert.DeserializeObject<List<Country>>(cache);
+                    countries = JsonConvert.DeserializeObject<List<Country>>(cache).ToList();
                     if (countries != null)
                     {
                         foreach (Country c in countries)
+                        {
                             countryAvailability.Add(c.Alpha2Code);
+                            countryNameAvailability.Add(c.Name);
+                        }
                         Text = "Spotify Song Availability Checker";
                     }
                 }
@@ -60,13 +64,16 @@ namespace SpotifySongAvailabilityChecker
                 {
                     countries = await RESTCountriesAPI.GetAllCountriesAsync();
                     foreach (Country c in countries)
+                    {
                         countryAvailability.Add(c.Alpha2Code);
+                        countryNameAvailability.Add(c.Name);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 errors.Add($"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to get the countries to cache{Environment.NewLine}" +
-                        $"Error: {ex}{Environment.NewLine}{Environment.NewLine}");
+                    $"Error: {ex}{Environment.NewLine}{Environment.NewLine}");
             }
 
             try
