@@ -1,9 +1,9 @@
 # Changelog
 
-# v1.0-alpha (Ending at [this](https://github.com/CasualHonest/SpotifySongAvailabilityChecker/commit/68be80e90d23cccdda9e4114e1b29068236a73ea) commit):
+# v1 (Ending at [this](https://github.com/CasualHonest/SpotifySongAvailabilityChecker/commit/68be80e90d23cccdda9e4114e1b29068236a73ea) commit):
 - [Program] - Initial release
 
-# v1.0-beta (Ending at [this](https://github.com/CasualHonest/SpotifySongAvailabilityChecker/commit/14a6e73dcfdf44b346047948bafd15298b21cc06) commit):
+# v2 (Ending at [this](https://github.com/CasualHonest/SpotifySongAvailabilityChecker/commit/14a6e73dcfdf44b346047948bafd15298b21cc06) commit):
 Added:
 - [Main UI] - Song/Album Search History.
 - [Main UI] - Album Copyright Information.
@@ -15,7 +15,7 @@ Changed
 Fixed
 - [Main UI] - Indexes for controls in the Windows Form
 
-# v1.0 (Ending at [this](https://github.com/CasualHonest/SpotifySongAvailabilityChecker/commit/9108c52d33442b4ce64d08ec9e1af17c30fa079a) commit):
+# v2.5 (Ending at [this](https://github.com/CasualHonest/SpotifySongAvailabilityChecker/commit/9108c52d33442b4ce64d08ec9e1af17c30fa079a) commit):
 Added:
 - [Main UI] - Favorite entries in Search History.
 - [Main UI] - Clear input button for Song/Album URL's.
