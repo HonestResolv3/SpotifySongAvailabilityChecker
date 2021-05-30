@@ -47,6 +47,8 @@ namespace SpotifySongAvailabilityChecker
             this.rtbCopyright = new System.Windows.Forms.RichTextBox();
             this.gbxInput = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtNumUnavailCountries = new System.Windows.Forms.TextBox();
+            this.lblNumUnavailCountries = new System.Windows.Forms.Label();
             this.txtNumCountries = new System.Windows.Forms.TextBox();
             this.lblNumCountries = new System.Windows.Forms.Label();
             this.tpgSearchHistory = new System.Windows.Forms.TabPage();
@@ -92,8 +94,6 @@ namespace SpotifySongAvailabilityChecker
             this.btnClearInput = new System.Windows.Forms.Button();
             this.tctrlProgramErrors = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.txtNumUnavailCountries = new System.Windows.Forms.TextBox();
-            this.lblNumUnavailCountries = new System.Windows.Forms.Label();
             this.gbxInput.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tpgSearchHistory.SuspendLayout();
@@ -277,6 +277,23 @@ namespace SpotifySongAvailabilityChecker
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Content Information";
+            // 
+            // txtNumUnavailCountries
+            // 
+            this.txtNumUnavailCountries.Location = new System.Drawing.Point(275, 178);
+            this.txtNumUnavailCountries.Name = "txtNumUnavailCountries";
+            this.txtNumUnavailCountries.ReadOnly = true;
+            this.txtNumUnavailCountries.Size = new System.Drawing.Size(241, 22);
+            this.txtNumUnavailCountries.TabIndex = 18;
+            // 
+            // lblNumUnavailCountries
+            // 
+            this.lblNumUnavailCountries.AutoSize = true;
+            this.lblNumUnavailCountries.Location = new System.Drawing.Point(9, 181);
+            this.lblNumUnavailCountries.Name = "lblNumUnavailCountries";
+            this.lblNumUnavailCountries.Size = new System.Drawing.Size(260, 13);
+            this.lblNumUnavailCountries.TabIndex = 17;
+            this.lblNumUnavailCountries.Text = "Number of Countries the song is not available in:";
             // 
             // txtNumCountries
             // 
@@ -592,7 +609,7 @@ namespace SpotifySongAvailabilityChecker
             this.tpgSettings.Location = new System.Drawing.Point(4, 22);
             this.tpgSettings.Name = "tpgSettings";
             this.tpgSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgSettings.Size = new System.Drawing.Size(541, 340);
+            this.tpgSettings.Size = new System.Drawing.Size(541, 360);
             this.tpgSettings.TabIndex = 3;
             this.tpgSettings.Text = "Settings";
             this.tpgSettings.UseVisualStyleBackColor = true;
@@ -772,23 +789,6 @@ namespace SpotifySongAvailabilityChecker
             this.tabPage1.Text = "Program Errors";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // txtNumUnavailCountries
-            // 
-            this.txtNumUnavailCountries.Location = new System.Drawing.Point(275, 178);
-            this.txtNumUnavailCountries.Name = "txtNumUnavailCountries";
-            this.txtNumUnavailCountries.ReadOnly = true;
-            this.txtNumUnavailCountries.Size = new System.Drawing.Size(241, 22);
-            this.txtNumUnavailCountries.TabIndex = 18;
-            // 
-            // lblNumUnavailCountries
-            // 
-            this.lblNumUnavailCountries.AutoSize = true;
-            this.lblNumUnavailCountries.Location = new System.Drawing.Point(9, 181);
-            this.lblNumUnavailCountries.Name = "lblNumUnavailCountries";
-            this.lblNumUnavailCountries.Size = new System.Drawing.Size(260, 13);
-            this.lblNumUnavailCountries.TabIndex = 17;
-            this.lblNumUnavailCountries.Text = "Number of Countries the song is not available in:";
-            // 
             // SSAC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -807,6 +807,7 @@ namespace SpotifySongAvailabilityChecker
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1106, 690);
             this.Name = "SSAC";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Spotify Song Availability Checker";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SSAC_FormClosing);
             this.Load += new System.EventHandler(this.SSAC_Load);

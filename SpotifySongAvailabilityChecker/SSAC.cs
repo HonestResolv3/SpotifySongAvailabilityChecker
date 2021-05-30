@@ -18,15 +18,11 @@ namespace SpotifySongAvailabilityChecker
         static SpotifyClient client;
     
         readonly List<string> availability = new List<string>();
-        readonly List<string> countryAvailability = new List<string>();
 
         List<string> countryNames;
         List<string> availabilitySubsection;
 
-        List<SearchObject> searches = new List<SearchObject>();
         List<SearchObject> searchSubsection;
-
-        List<Country> countries;
 
         ListViewItem itemAvailability;
         ListViewItem itemSearch;
@@ -45,15 +41,20 @@ namespace SpotifySongAvailabilityChecker
         public SSAC()
         {
             InitializeComponent();
+
+            if (Startup.errors.Count != 0)
+                foreach (string error in Startup.errors)
+                    rtbDebugConsole.Text += error;
+
+            if (Startup.items.Count != 0)
+                foreach (ListViewItem item in Startup.items)
+                    lvwSearchHistory.Items.Add(item);
         }
 
-        private async void SSAC_Load(object sender, EventArgs e)
+        private void SSAC_Load(object sender, EventArgs e)
         {
-            Text = "Spotify Song Availability Checker - Loading...";
             txtSearchInput.Text = string.Empty;
             txtAlbumID.Enabled = false;
-
-            btnCheckAvailability.Enabled = false;
 
             chkAutoSwitchTabs.Checked = Properties.Settings.Default.AutoSwitchTabs;
             chkShowGridlines.Checked = Properties.Settings.Default.ShowGridlines;
@@ -78,91 +79,6 @@ namespace SpotifySongAvailabilityChecker
             cbxDefSortOrder.SelectedIndex = Properties.Settings.Default.GeneralColumnSort;
 
             tctrlMain.SelectedTab = tctrlMain.TabPages[Properties.Settings.Default.SelectedAreaOfProgram];
-
-            try
-            {
-                if (!File.Exists(Path.Combine(locationForSSACContent, "CountryCache.json")))
-                    File.Create(Path.Combine(locationForSSACContent, "CountryCache.json"));
-                else
-                {
-                    string cache = File.ReadAllText(Path.Combine(locationForSSACContent, "CountryCache.json"));
-                    countries = JsonConvert.DeserializeObject<List<Country>>(cache);
-                    if (countries != null)
-                    {
-                        foreach (Country c in countries)
-                            countryAvailability.Add(c.Alpha2Code);
-                        Text = "Spotify Song Availability Checker";
-                        btnCheckAvailability.Enabled = true;
-                    }
-                }
-            }
-            catch (IOException io)
-            {
-                rtbDebugConsole.Text +=
-                    $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to create or read the country cache file{Environment.NewLine}" +
-                    $"Error: {io}{Environment.NewLine}{Environment.NewLine}";
-            }
-            catch (UnauthorizedAccessException ua)
-            {
-                rtbDebugConsole.Text +=
-                    $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to access the country cache file{Environment.NewLine}" +
-                    $"Error: {ua}{Environment.NewLine}{Environment.NewLine}";
-            }
-
-            try
-            {
-                if (countries == null)
-                {
-                    countries = await RESTCountriesAPI.GetAllCountriesAsync();
-                    foreach (Country c in countries)
-                        countryAvailability.Add(c.Alpha2Code);
-                    Text = "Spotify Song Availability Checker";
-                    btnCheckAvailability.Enabled = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                rtbDebugConsole.Text +=
-                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to get the countries to cache{Environment.NewLine}" +
-                        $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
-            }
-
-            try
-            {
-                if (File.Exists(Path.Combine(locationForSSACContent, "SearchHistory.json")))
-                    searches = JsonConvert.DeserializeObject<List<SearchObject>>(File.ReadAllText(Path.Combine(locationForSSACContent, "SearchHistory.json")));
-                else
-                    searches = new List<SearchObject>();
-
-                if (searches == null)
-                    searches = new List<SearchObject>();
-            }
-            catch
-            {
-                rtbDebugConsole.Text +=
-                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] The search history file is not in the right format, attempting to delete{Environment.NewLine}{Environment.NewLine}";
-                try
-                {
-                    File.Delete(Path.Combine(locationForSSACContent, "SearchHistory.json"));
-                }
-                catch (Exception ex)
-                {
-                    rtbDebugConsole.Text +=
-                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to delete the search history file{Environment.NewLine}" +
-                        $"Error: {ex}{Environment.NewLine}{Environment.NewLine}";
-                }
-            }
-
-            VerifyStoragePath();
-
-            if (searches != null)
-            {
-                foreach (SearchObject obj in searches)
-                {
-                    ListViewItem item = new ListViewItem(new string[] { obj.GetFavoriteUnicode(), obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
-                    lvwSearchHistory.Items.Add(item);
-                }
-            }
         }
 
         private void chkIsAlbum_CheckedChanged(object sender, EventArgs e)
@@ -191,7 +107,7 @@ namespace SpotifySongAvailabilityChecker
             {
                 if (string.IsNullOrWhiteSpace(txtAlbumID.Text))
                 {
-                    MessageBox.Show("Please enter in an album URL to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please enter in an album link to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -220,7 +136,7 @@ namespace SpotifySongAvailabilityChecker
                     Exception ex = ae.GetBaseException();
 
                     if (ex is APIException)
-                        MessageBox.Show("Please provide a valid album URL", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Please provide a valid album link", "Album ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else if (ex is APIUnauthorizedException)
                         MessageBox.Show("Please use a new access token as the current one has expired", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
@@ -243,12 +159,12 @@ namespace SpotifySongAvailabilityChecker
 
                 try
                 {
-                    VerifyStoragePath();
+                    Startup.VerifyStoragePath();
                 }
                 catch (UnauthorizedAccessException ua)
                 {
                     rtbDebugConsole.Text +=
-                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to verify the storage file (Does the program have the proper permissions?){Environment.NewLine}" +
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to verify the storage file (Does the program have the proper permissions to access the file?){Environment.NewLine}" +
                         $"Error: {ua}{Environment.NewLine}{Environment.NewLine}";
                     return;
                 }
@@ -261,7 +177,7 @@ namespace SpotifySongAvailabilityChecker
                 }
 
                 btnResetHistorySearch_Click(sender, e);
-                searches.Add(albumObj);
+                Startup.searches.Add(albumObj);
                 itemSearch = new ListViewItem(new string[] { albumObj.GetFavoriteUnicode(), albumObj.Title, albumObj.Author, albumObj.Type.ToString(), albumObj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(itemSearch);
 
@@ -305,14 +221,14 @@ namespace SpotifySongAvailabilityChecker
 
                         foreach (string s in album.AvailableMarkets)
                         {
-                            albumCountry = countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
+                            albumCountry = Startup.countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
                             itemAvailability = new ListViewItem(new string[] { s, albumCountry.Name });
                             lvwAvailability.Items.Add(itemAvailability);
-                            countryAvailability.Add(trackCountry.Alpha2Code);
+                            Startup.countryAvailability.Add(trackCountry.Alpha2Code);
                             availability.Add(s);
                         }
                         txtNumCountries.Text = album.AvailableMarkets.Count.ToString();
-                        txtNumUnavailCountries.Text = countryAvailability.Except(availability).Count().ToString();
+                        txtNumUnavailCountries.Text = Startup.countryAvailability.Except(availability).Count().ToString();
                         if (chkAutoSwitchTabs.Checked)
                             tctrlMain.SelectedIndex = 0;
                     }
@@ -336,7 +252,7 @@ namespace SpotifySongAvailabilityChecker
             {
                 if (string.IsNullOrWhiteSpace(txtTrackID.Text))
                 {
-                    MessageBox.Show("Please enter in a track URL to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please enter in a song link to continue", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -352,7 +268,7 @@ namespace SpotifySongAvailabilityChecker
                 {
                     MessageBox.Show(
                         $"The information you have provided cannot be converted into an track ID{Environment.NewLine}{Environment.NewLine}" +
-                        "On a Spotify album, click \"Copy Song Link\"", "Track ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        "On a Spotify song, click \"Copy Song Link\"", "Song ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -365,7 +281,7 @@ namespace SpotifySongAvailabilityChecker
                     Exception ex = ae.GetBaseException();
 
                     if (ex is APIException)
-                        MessageBox.Show("Please provide a valid track URL", "Track ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Please provide a valid song link", "Song ID error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else if (ex is APIUnauthorizedException)
                         MessageBox.Show("Please use a new access token as the current one has expired", "Authorization error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
@@ -388,12 +304,12 @@ namespace SpotifySongAvailabilityChecker
 
                 try
                 {
-                    VerifyStoragePath();
+                    Startup.VerifyStoragePath();
                 }
                 catch (UnauthorizedAccessException ua)
                 {
                     rtbDebugConsole.Text +=
-                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to verify the storage file (Does the program have the proper permissions?){Environment.NewLine}" +
+                        $"[{DateTime.Now.ToString("HH:mm:ss tt")}] There was an error trying to verify the storage file (Does the program have the proper permissions to access the file?){Environment.NewLine}" +
                         $"Error: {ua}{Environment.NewLine}{Environment.NewLine}";
                     return;
                 }
@@ -406,7 +322,7 @@ namespace SpotifySongAvailabilityChecker
                 }
 
                 btnResetHistorySearch_Click(sender, e);
-                searches.Add(trackObj);
+                Startup.searches.Add(trackObj);
                 itemSearch = new ListViewItem(new string[] { trackObj.GetFavoriteUnicode(), trackObj.Title, trackObj.Author, trackObj.Type.ToString(), trackObj.GetCorrectLink() });
                 lvwSearchHistory.Items.Add(itemSearch);
 
@@ -449,14 +365,14 @@ namespace SpotifySongAvailabilityChecker
 
                         foreach (string s in track.AvailableMarkets)
                         {
-                            trackCountry = countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
+                            trackCountry = Startup.countries.FirstOrDefault(c => c.Alpha2Code.Equals(s));
                             itemAvailability = new ListViewItem(new string[] { s, trackCountry.Name });
                             lvwAvailability.Items.Add(itemAvailability);
-                            countryAvailability.Add(trackCountry.Alpha2Code);
+                            Startup.countryAvailability.Add(trackCountry.Alpha2Code);
                             availability.Add(s);
                         }
                         txtNumCountries.Text = track.AvailableMarkets.Count.ToString();
-                        txtNumUnavailCountries.Text = countryAvailability.Except(availability).Count().ToString();
+                        txtNumUnavailCountries.Text = Startup.countryAvailability.Except(availability).Count().ToString();
                         if (chkAutoSwitchTabs.Checked)
                             tctrlMain.SelectedIndex = 0;
                     }
@@ -506,10 +422,10 @@ namespace SpotifySongAvailabilityChecker
                     availabilitySubsection = availability.Where(r => r.Contains(txtSearchInput.Text.ToUpperInvariant())).ToList();
                     break;
                 case 1:
-                    countryNames = countryAvailability.Where(cn => cn.Contains(txtSearchInput.Text)).ToList();
+                    countryNames = Startup.countryAvailability.Where(cn => cn.Contains(txtSearchInput.Text)).ToList();
                     break;
                 case 2:
-                    availabilitySubsection = countryAvailability.Except(availability).ToList();
+                    availabilitySubsection = Startup.countryAvailability.Except(availability).ToList();
                     break;
             }
 
@@ -526,21 +442,21 @@ namespace SpotifySongAvailabilityChecker
                 case 0:
                     foreach (string item in availabilitySubsection)
                     {
-                        availabilityCountry = countries.FirstOrDefault(a => a.Alpha2Code.Contains(item));
+                        availabilityCountry = Startup.countries.FirstOrDefault(a => a.Alpha2Code.Contains(item));
                         lvwAvailability.Items.Add(new ListViewItem(new string[] { item, availabilityCountry.Name }));
                     }
                     break;
                 case 1:
                     foreach (string name in countryNames)
                     {
-                        availabilityCountry = countries.FirstOrDefault(a => a.Name.Contains(name));
+                        availabilityCountry = Startup.countries.FirstOrDefault(a => a.Name.Contains(name));
                         lvwAvailability.Items.Add(new ListViewItem(new string[] { availabilityCountry.Alpha2Code, name }));
                     }
                     break;
                 case 2:
                     foreach (string item in availabilitySubsection)
                     {
-                        availabilityCountry = countries.FirstOrDefault(a => a.Alpha2Code.Equals(item));
+                        availabilityCountry = Startup.countries.FirstOrDefault(a => a.Alpha2Code.Equals(item));
                         lvwAvailability.Items.Add(new ListViewItem(new string[] { item, availabilityCountry.Name }));
                     }
                     break;
@@ -552,7 +468,7 @@ namespace SpotifySongAvailabilityChecker
             lvwAvailability.Items.Clear();
             foreach (string item in availability)
             {
-                availabilityCountry = countries.FirstOrDefault(a => a.Alpha2Code.Equals(item));
+                availabilityCountry = Startup.countries.FirstOrDefault(a => a.Alpha2Code.Equals(item));
                 lvwAvailability.Items.Add(new ListViewItem(new string[] { item, availabilityCountry.Name }));
             }
         }
@@ -605,19 +521,19 @@ namespace SpotifySongAvailabilityChecker
             switch (cbxSearchHistoryType.SelectedIndex)
             {
                 case 0:
-                    searchSubsection = searches.Where(r => r.IsFavorite).ToList();
+                    searchSubsection = Startup.searches.Where(r => r.IsFavorite).ToList();
                     break;
                 case 1:
-                    searchSubsection = searches.Where(r => r.Title.Contains(txtSearchHistory.Text)).ToList();
+                    searchSubsection = Startup.searches.Where(r => r.Title.Contains(txtSearchHistory.Text)).ToList();
                     break;
                 case 2:
-                    searchSubsection = searches.Where(r => r.Author.Contains(txtSearchHistory.Text)).ToList();
+                    searchSubsection = Startup.searches.Where(r => r.Author.Contains(txtSearchHistory.Text)).ToList();
                     break;
                 case 3:
-                    searchSubsection = searches.Where(r => r.Type.ToString().Contains(txtSearchHistory.Text)).ToList();
+                    searchSubsection = Startup.searches.Where(r => r.Type.ToString().Contains(txtSearchHistory.Text)).ToList();
                     break;
                 case 4:
-                    searchSubsection = searches.Where(r => r.GetCorrectLink().Contains(txtSearchHistory.Text)).ToList();
+                    searchSubsection = Startup.searches.Where(r => r.GetCorrectLink().Contains(txtSearchHistory.Text)).ToList();
                     break;
             }
 
@@ -642,9 +558,9 @@ namespace SpotifySongAvailabilityChecker
         {
             searchActivated = false;
             lvwSearchHistory.Items.Clear();
-            if (searches != null)
+            if (Startup.searches != null)
             {
-                foreach (SearchObject obj in searches)
+                foreach (SearchObject obj in Startup.searches)
                 {
                     ListViewItem item = new ListViewItem(new string[] { obj.GetFavoriteUnicode(), obj.Title, obj.Author, obj.Type.ToString(), obj.GetCorrectLink() });
                     lvwSearchHistory.Items.Add(item);
@@ -669,8 +585,8 @@ namespace SpotifySongAvailabilityChecker
             }
             else
             {
-                urlToUse = searches[searchSectionIndex].GetCorrectLink();
-                type = searches[searchSectionIndex].Type;
+                urlToUse = Startup.searches[searchSectionIndex].GetCorrectLink();
+                type = Startup.searches[searchSectionIndex].Type;
             }
 
             switch (type)
@@ -708,7 +624,7 @@ namespace SpotifySongAvailabilityChecker
         private void btnClearSearchHistory_Click(object sender, EventArgs e)
         {
             btnResetHistorySearch_Click(sender, e);
-            searches.Clear();
+            Startup.searches.Clear();
             lvwSearchHistory.Items.Clear();
         }
 
@@ -723,29 +639,29 @@ namespace SpotifySongAvailabilityChecker
             if (searchActivated)
             {
                 SearchObject obj = searchSubsection[searchSectionIndex];
-                if (searches[searches.IndexOf(obj)].IsFavorite)
+                if (Startup.searches[Startup.searches.IndexOf(obj)].IsFavorite)
                 {
-                    searches[searches.IndexOf(obj)].IsFavorite = false;
+                    Startup.searches[Startup.searches.IndexOf(obj)].IsFavorite = false;
                     lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = string.Empty;
                     lvwSearchHistory.Items.RemoveAt(searchSectionIndex);
                     searchSubsection.Remove(obj);
                 }
                 else
                 {
-                    searches[searches.IndexOf(obj)].IsFavorite = true;
+                    Startup.searches[Startup.searches.IndexOf(obj)].IsFavorite = true;
                     lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = "\u2605";
                 }
             }
             else
             {
-                if (searches[searchSectionIndex].IsFavorite)
+                if (Startup.searches[searchSectionIndex].IsFavorite)
                 {
-                    searches[searchSectionIndex].IsFavorite = false;
+                    Startup.searches[searchSectionIndex].IsFavorite = false;
                     lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = string.Empty;
                 }
                 else
                 {
-                    searches[searchSectionIndex].IsFavorite = true;
+                    Startup.searches[searchSectionIndex].IsFavorite = true;
                     lvwSearchHistory.Items[searchSectionIndex].SubItems[0].Text = "\u2605";
                 }
             }
@@ -774,7 +690,7 @@ namespace SpotifySongAvailabilityChecker
             Properties.Settings.Default.SelectedAreaOfProgram = tctrlMain.SelectedIndex;
             Properties.Settings.Default.Save();
 
-            string searchHistoryObject = JsonConvert.SerializeObject(searches, Formatting.Indented);
+            string searchHistoryObject = JsonConvert.SerializeObject(Startup.searches, Formatting.Indented);
 
             try
             {
@@ -786,12 +702,12 @@ namespace SpotifySongAvailabilityChecker
             }
             catch (IOException)
             {
-                MessageBox.Show($"The program cannot access: {Path.Combine(locationForSSACContent, "SearchHistory.json")}", "File access error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
 
-            if (countries != null)
+            if (Startup.countries != null)
             {
-                string countryCache = JsonConvert.SerializeObject(countries, Formatting.Indented);
+                string countryCache = JsonConvert.SerializeObject(Startup.countries, Formatting.Indented);
                 try
                 {
                     File.WriteAllText(Path.Combine(locationForSSACContent, "CountryCache.json"), countryCache);
@@ -874,15 +790,6 @@ namespace SpotifySongAvailabilityChecker
                 cbxDefSortOrder.Enabled = true;
             else
                 cbxDefSortOrder.Enabled = false;
-        }
-
-        private void VerifyStoragePath()
-        {
-            if (!Directory.Exists(locationForSSACContent))
-                _ = Directory.CreateDirectory(locationForSSACContent);
-
-            if (!File.Exists(Path.Combine(locationForSSACContent, "SearchHistory.json")))
-                _ = File.Create(Path.Combine(locationForSSACContent, "SearchHistory.json"));
         }
     }
 }

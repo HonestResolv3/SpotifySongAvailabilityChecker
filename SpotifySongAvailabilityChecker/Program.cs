@@ -13,7 +13,7 @@ namespace SpotifySongAvailabilityChecker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SSAC());
+            Application.Run(new Startup());
         }
     }
 }
