@@ -15,6 +15,9 @@ Important Information:
 Releases:
 - [MEGA Link](https://mega.nz/folder/rfwmHRbK#xDXRs8WSEfs2wKTWczSAJQ)
 
+Changelog:
+- [GitHub Link](https://github.com/CasualHonest/SpotifySongAvailabilityChecker/blob/main/Changelog.md)
+
 Credits:
 - [JohnnyCrazy](https://github.com/JohnnyCrazy) - [SpotifyAPI-NET](https://github.com/JohnnyCrazy/SpotifyAPI-NET)
 - [egbakou](https://github.com/egbakou) - [RESTCountries.NET](https://github.com/egbakou/RESTCountries.NET)
