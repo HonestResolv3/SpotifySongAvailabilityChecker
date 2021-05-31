@@ -23,9 +23,6 @@
     <Setting Name="AlbumLink" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AvailabilitySearchInput" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="SearchHistoryInput" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -43,6 +40,9 @@
     </Setting>
     <Setting Name="SelectedAreaOfProgram" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="EnableClearingBothInputs" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

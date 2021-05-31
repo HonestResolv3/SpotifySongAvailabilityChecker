@@ -110,18 +110,6 @@ namespace SpotifySongAvailabilityChecker.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AvailabilitySearchInput {
-            get {
-                return ((string)(this["AvailabilitySearchInput"]));
-            }
-            set {
-                this["AvailabilitySearchInput"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string SearchHistoryInput {
             get {
                 return ((string)(this["SearchHistoryInput"]));
@@ -188,6 +176,18 @@ namespace SpotifySongAvailabilityChecker.Properties {
             }
             set {
                 this["SelectedAreaOfProgram"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableClearingBothInputs {
+            get {
+                return ((bool)(this["EnableClearingBothInputs"]));
+            }
+            set {
+                this["EnableClearingBothInputs"] = value;
             }
         }
     }

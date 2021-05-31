@@ -83,17 +83,18 @@ namespace SpotifySongAvailabilityChecker
             this.chkEnableExperiments = new System.Windows.Forms.CheckBox();
             this.gbxProgramDisplay = new System.Windows.Forms.GroupBox();
             this.chkEnableProgramResize = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbxListDisplaySettings = new System.Windows.Forms.GroupBox();
             this.cbxDefSortOrder = new System.Windows.Forms.ComboBox();
             this.lblDefSortOrder = new System.Windows.Forms.Label();
             this.chkAllowColumnReorder = new System.Windows.Forms.CheckBox();
             this.chkShowGridlines = new System.Windows.Forms.CheckBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.gbxSearchSettings = new System.Windows.Forms.GroupBox();
             this.chkAutoSwitchTabs = new System.Windows.Forms.CheckBox();
             this.rtbDebugConsole = new System.Windows.Forms.RichTextBox();
             this.btnClearInput = new System.Windows.Forms.Button();
             this.tctrlProgramErrors = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkEnableClearingBothInputs = new System.Windows.Forms.CheckBox();
             this.gbxInput.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tpgSearchHistory.SuspendLayout();
@@ -102,8 +103,8 @@ namespace SpotifySongAvailabilityChecker
             this.tpgSettings.SuspendLayout();
             this.gbxGeneral.SuspendLayout();
             this.gbxProgramDisplay.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.gbxListDisplaySettings.SuspendLayout();
+            this.gbxSearchSettings.SuspendLayout();
             this.tctrlProgramErrors.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -606,8 +607,8 @@ namespace SpotifySongAvailabilityChecker
             // 
             this.tpgSettings.Controls.Add(this.gbxGeneral);
             this.tpgSettings.Controls.Add(this.gbxProgramDisplay);
-            this.tpgSettings.Controls.Add(this.groupBox2);
-            this.tpgSettings.Controls.Add(this.groupBox3);
+            this.tpgSettings.Controls.Add(this.gbxListDisplaySettings);
+            this.tpgSettings.Controls.Add(this.gbxSearchSettings);
             this.tpgSettings.Location = new System.Drawing.Point(4, 22);
             this.tpgSettings.Name = "tpgSettings";
             this.tpgSettings.Padding = new System.Windows.Forms.Padding(3);
@@ -620,10 +621,11 @@ namespace SpotifySongAvailabilityChecker
             // 
             this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxGeneral.Controls.Add(this.chkEnableClearingBothInputs);
             this.gbxGeneral.Controls.Add(this.chkEnableExperiments);
-            this.gbxGeneral.Location = new System.Drawing.Point(6, 280);
+            this.gbxGeneral.Location = new System.Drawing.Point(6, 269);
             this.gbxGeneral.Name = "gbxGeneral";
-            this.gbxGeneral.Size = new System.Drawing.Size(529, 40);
+            this.gbxGeneral.Size = new System.Drawing.Size(529, 64);
             this.gbxGeneral.TabIndex = 5;
             this.gbxGeneral.TabStop = false;
             this.gbxGeneral.Text = "General Settings";
@@ -644,7 +646,7 @@ namespace SpotifySongAvailabilityChecker
             this.gbxProgramDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxProgramDisplay.Controls.Add(this.chkEnableProgramResize);
-            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 208);
+            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 197);
             this.gbxProgramDisplay.Name = "gbxProgramDisplay";
             this.gbxProgramDisplay.Size = new System.Drawing.Size(529, 45);
             this.gbxProgramDisplay.TabIndex = 4;
@@ -662,20 +664,20 @@ namespace SpotifySongAvailabilityChecker
             this.chkEnableProgramResize.UseVisualStyleBackColor = true;
             this.chkEnableProgramResize.CheckedChanged += new System.EventHandler(this.chkEnableProgramResize_CheckedChanged);
             // 
-            // groupBox2
+            // gbxListDisplaySettings
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbxListDisplaySettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.cbxDefSortOrder);
-            this.groupBox2.Controls.Add(this.lblDefSortOrder);
-            this.groupBox2.Controls.Add(this.chkAllowColumnReorder);
-            this.groupBox2.Controls.Add(this.chkShowGridlines);
-            this.groupBox2.Location = new System.Drawing.Point(6, 96);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(529, 89);
-            this.groupBox2.TabIndex = 3;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "List Display";
+            this.gbxListDisplaySettings.Controls.Add(this.cbxDefSortOrder);
+            this.gbxListDisplaySettings.Controls.Add(this.lblDefSortOrder);
+            this.gbxListDisplaySettings.Controls.Add(this.chkAllowColumnReorder);
+            this.gbxListDisplaySettings.Controls.Add(this.chkShowGridlines);
+            this.gbxListDisplaySettings.Location = new System.Drawing.Point(6, 85);
+            this.gbxListDisplaySettings.Name = "gbxListDisplaySettings";
+            this.gbxListDisplaySettings.Size = new System.Drawing.Size(529, 89);
+            this.gbxListDisplaySettings.TabIndex = 3;
+            this.gbxListDisplaySettings.TabStop = false;
+            this.gbxListDisplaySettings.Text = "List Display";
             // 
             // cbxDefSortOrder
             // 
@@ -723,17 +725,17 @@ namespace SpotifySongAvailabilityChecker
             this.chkShowGridlines.UseVisualStyleBackColor = true;
             this.chkShowGridlines.CheckedChanged += new System.EventHandler(this.chkShowGridlines_CheckedChanged);
             // 
-            // groupBox3
+            // gbxSearchSettings
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbxSearchSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.chkAutoSwitchTabs);
-            this.groupBox3.Location = new System.Drawing.Point(6, 31);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(529, 43);
-            this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Searching";
+            this.gbxSearchSettings.Controls.Add(this.chkAutoSwitchTabs);
+            this.gbxSearchSettings.Location = new System.Drawing.Point(6, 20);
+            this.gbxSearchSettings.Name = "gbxSearchSettings";
+            this.gbxSearchSettings.Size = new System.Drawing.Size(529, 43);
+            this.gbxSearchSettings.TabIndex = 2;
+            this.gbxSearchSettings.TabStop = false;
+            this.gbxSearchSettings.Text = "Searching";
             // 
             // chkAutoSwitchTabs
             // 
@@ -791,6 +793,16 @@ namespace SpotifySongAvailabilityChecker
             this.tabPage1.Text = "Program Errors";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // chkEnableClearingBothInputs
+            // 
+            this.chkEnableClearingBothInputs.AutoSize = true;
+            this.chkEnableClearingBothInputs.Location = new System.Drawing.Point(10, 42);
+            this.chkEnableClearingBothInputs.Name = "chkEnableClearingBothInputs";
+            this.chkEnableClearingBothInputs.Size = new System.Drawing.Size(293, 17);
+            this.chkEnableClearingBothInputs.TabIndex = 1;
+            this.chkEnableClearingBothInputs.Text = "Clear both song and album links with \"Clear Input\"?";
+            this.chkEnableClearingBothInputs.UseVisualStyleBackColor = true;
+            // 
             // SSAC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -827,10 +839,10 @@ namespace SpotifySongAvailabilityChecker
             this.gbxGeneral.PerformLayout();
             this.gbxProgramDisplay.ResumeLayout(false);
             this.gbxProgramDisplay.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.gbxListDisplaySettings.ResumeLayout(false);
+            this.gbxListDisplaySettings.PerformLayout();
+            this.gbxSearchSettings.ResumeLayout(false);
+            this.gbxSearchSettings.PerformLayout();
             this.tctrlProgramErrors.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -882,9 +894,9 @@ namespace SpotifySongAvailabilityChecker
         private System.Windows.Forms.ColumnHeader chdrLink;
         private System.Windows.Forms.ColumnHeader chdrFavorite;
         private System.Windows.Forms.TabPage tpgSettings;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gbxListDisplaySettings;
         private System.Windows.Forms.CheckBox chkShowGridlines;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox gbxSearchSettings;
         private System.Windows.Forms.CheckBox chkAutoSwitchTabs;
         private System.Windows.Forms.GroupBox gbxProgramDisplay;
         private System.Windows.Forms.CheckBox chkEnableProgramResize;
@@ -902,6 +914,7 @@ namespace SpotifySongAvailabilityChecker
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TextBox txtNumUnavailCountries;
         private System.Windows.Forms.Label lblNumUnavailCountries;
+        private System.Windows.Forms.CheckBox chkEnableClearingBothInputs;
     }
 }
 

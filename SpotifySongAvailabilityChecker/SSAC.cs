@@ -53,8 +53,6 @@ namespace SpotifySongAvailabilityChecker
                 foreach (ListViewItem item in Startup.items)
                     lvwSearchHistory.Items.Add(item);
 
-
-
             txtSearchInput.Text = string.Empty;
             txtAlbumID.Enabled = false;
 
@@ -64,6 +62,7 @@ namespace SpotifySongAvailabilityChecker
             chkEnableProgramResize.Checked = Properties.Settings.Default.EnableProgramResize;
             chkEnableExperiments.Checked = Properties.Settings.Default.EnableExperiments;
             chkIsAlbum.Checked = Properties.Settings.Default.SelectedAlbum;
+            chkEnableClearingBothInputs.Checked = Properties.Settings.Default.EnableClearingBothInputs;
 
             txtTrackID.Text = Properties.Settings.Default.SongLink;
             txtAlbumID.Text = Properties.Settings.Default.AlbumLink;
@@ -73,7 +72,16 @@ namespace SpotifySongAvailabilityChecker
             btnSearch.Enabled = false;
             btnReset.Enabled = false;
 
-            txtSearchHistory.Text = Properties.Settings.Default.SearchHistoryInput;
+            if (Startup.searches.Count != 0)
+                txtSearchHistory.Text = Properties.Settings.Default.SearchHistoryInput;
+            else
+            {
+                txtSearchHistory.Text = "N/A (There is no history to search, search a song or album to use this area)";
+                txtSearchHistory.Enabled = false;
+                cbxSearchHistoryType.Enabled = false;
+                btnSearchHistory.Enabled = false;
+                btnResetHistorySearch.Enabled = false;
+            }
 
             cbxAvailabilitySearch.Enabled = false;
             cbxAvailabilitySearch.SelectedIndex = Properties.Settings.Default.AvailabilitySearchBy;
@@ -235,6 +243,15 @@ namespace SpotifySongAvailabilityChecker
                         if (chkAutoSwitchTabs.Checked)
                             tctrlMain.SelectedIndex = 0;
                     }
+
+                    if (Startup.searches.Count != 0)
+                    {
+                        txtSearchHistory.Text = string.Empty;
+                        txtSearchHistory.Enabled = true;
+                        cbxSearchHistoryType.Enabled = true;
+                        btnSearchHistory.Enabled = true;
+                        btnResetHistorySearch.Enabled = true;
+                    }
                 }
                 catch (ArgumentNullException an)
                 {
@@ -380,6 +397,15 @@ namespace SpotifySongAvailabilityChecker
                         if (chkAutoSwitchTabs.Checked)
                             tctrlMain.SelectedIndex = 0;
                     }
+
+                    if (Startup.searches.Count != 0)
+                    {
+                        txtSearchHistory.Text = string.Empty;
+                        txtSearchHistory.Enabled = true;
+                        cbxSearchHistoryType.Enabled = true;
+                        btnSearchHistory.Enabled = true;
+                        btnResetHistorySearch.Enabled = true;
+                    }
                 }
                 catch (ArgumentNullException an)
                 {
@@ -439,9 +465,9 @@ namespace SpotifySongAvailabilityChecker
                     break;
             }
 
-            if (availabilitySubsection != null && availabilitySubsection.Count == 0 && (cbxAvailabilitySearch.SelectedIndex < 2 || cbxAvailabilitySearch.SelectedIndex > 3))
+            if ((availabilitySubsection != null && availabilitySubsection.Count == 0 && cbxAvailabilitySearch.SelectedIndex != 3) || (countryNamesSubsection != null && countryNamesSubsection.Count == 0 && cbxAvailabilitySearch.SelectedIndex == 3))
             {
-                MessageBox.Show("There are no results that match", "No matching results", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"There are no results that match the input \"{txtSearchInput.Text}\"", "No matching results", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -460,7 +486,7 @@ namespace SpotifySongAvailabilityChecker
                 case 2:
                     foreach (string item in availabilitySubsection)
                     {
-                        availabilityCountry = Startup.countries.FirstOrDefault(a => a.Alpha2Code.Contains(item));
+                        availabilityCountry = Startup.countries.FirstOrDefault(a => a.Name.Contains(item));
                         lvwAvailability.Items.Add(new ListViewItem(new string[] { availabilityCountry.Alpha2Code, item }));
                     }
                     break;
@@ -633,9 +659,17 @@ namespace SpotifySongAvailabilityChecker
         private void btnClearInput_Click(object sender, EventArgs e)
         {
             if (chkIsAlbum.Checked)
+            {
+                if (chkEnableClearingBothInputs.Checked)
+                    txtTrackID.Text = string.Empty;
                 txtAlbumID.Text = string.Empty;
+            }
             else
+            {
+                if (chkEnableClearingBothInputs.Checked)
+                    txtAlbumID.Text = string.Empty;
                 txtTrackID.Text = string.Empty;
+            }
         }
 
 
@@ -699,13 +733,13 @@ namespace SpotifySongAvailabilityChecker
             Properties.Settings.Default.EnableExperiments = chkEnableExperiments.Checked;
             Properties.Settings.Default.SongLink = txtTrackID.Text;
             Properties.Settings.Default.AlbumLink = txtAlbumID.Text;
-            Properties.Settings.Default.AvailabilitySearchInput = txtSearchInput.Text;
             Properties.Settings.Default.SearchHistoryInput = txtSearchHistory.Text;
             Properties.Settings.Default.AvailabilitySearchBy = cbxAvailabilitySearch.SelectedIndex;
             Properties.Settings.Default.SearchHistoryBy = cbxSearchHistoryType.SelectedIndex;
             Properties.Settings.Default.GeneralColumnSort = cbxDefSortOrder.SelectedIndex;
             Properties.Settings.Default.SelectedAlbum = chkIsAlbum.Checked;
             Properties.Settings.Default.SelectedAreaOfProgram = tctrlMain.SelectedIndex;
+            Properties.Settings.Default.EnableClearingBothInputs = chkEnableClearingBothInputs.Checked;
             Properties.Settings.Default.Save();
 
             string searchHistoryObject = JsonConvert.SerializeObject(Startup.searches, Formatting.Indented);
