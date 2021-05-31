@@ -50,7 +50,6 @@ Added:
 - [Settings] - Filter selection saves on close.
 
 Changed:
-- [Back-end] - Program can no longer run more than one instance at a time.
 - [Back-end] - Country loading and search history code moved to the splash screen.
 - [Back-end] - Removed variable assignments and used static references for List<> objects.
 - [Main UI] - Window / Form size adjusted.
@@ -59,3 +58,7 @@ Fixed:
 - [Main UI] - Searching a song or album that has no available markets disables searching until a new search is performed.
 - [Main UI] - Searching for availability can no longer be done when the program first loads as nothing is displayed.
 - [Main UI] - Searching for search history can no longer be done if there's no search history.
+
+# v3-hotfix1:
+Fixed:
+- [Back-end] - Program can no longer run more than one instance at a time. Preventing errors with reading empty files

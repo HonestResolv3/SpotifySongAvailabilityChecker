@@ -6,14 +6,18 @@ namespace SpotifySongAvailabilityChecker
 {
     static class Program
     {
+        static Mutex mu;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             const string appName = "Spotify Song Availability Checker";
-            _ = new Mutex(true, appName, out bool appNotLoaded);
+            mu = new Mutex(true, appName, out bool appNotLoaded);
 
             if (!appNotLoaded)
             {
@@ -21,8 +25,6 @@ namespace SpotifySongAvailabilityChecker
                 return;
             }
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Startup());
         }
     }
