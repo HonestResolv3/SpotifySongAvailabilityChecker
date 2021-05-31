@@ -36,7 +36,7 @@ Changed:
 Fixed:
 - [Main UI] - Drop down boxes for search filters are now read-only.
 
-# v3:
+# v3 (Ending at [this](https://github.com/CasualHonest/SpotifySongAvailabilityChecker/commit/fc6cd02dce9638b6d800cc234485a7c709588dee) commit):
 Added:
 - [Back-end] - Country information caching/storing.
 - [Main UI] - Splash screen before the program opens.
