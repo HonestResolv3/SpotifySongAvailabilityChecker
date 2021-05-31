@@ -59,6 +59,6 @@ Fixed:
 - [Main UI] - Searching for availability can no longer be done when the program first loads as nothing is displayed.
 - [Main UI] - Searching for search history can no longer be done if there's no search history.
 
-# v3-hotfix1:
+# v3-hotfix1 (Ending at [this](https://github.com/CasualHonest/SpotifySongAvailabilityChecker/commit/2b08182b10746b6d3c67798f7dca6c50b65832fa) commit):
 Fixed:
 - [Back-end] - Program can no longer run more than one instance at a time. Preventing errors with reading empty files
