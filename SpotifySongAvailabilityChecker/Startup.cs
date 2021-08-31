@@ -34,15 +34,18 @@ namespace SpotifySongAvailabilityChecker
                 else
                 {
                     string cache = File.ReadAllText(Path.Combine(locationForSSACContent, "CountryCache.json"));
-                    countries = JsonConvert.DeserializeObject<List<Country>>(cache).ToList();
-                    if (countries != null)
+                    if (!string.IsNullOrWhiteSpace(cache))
                     {
-                        foreach (Country c in countries)
+                        countries = JsonConvert.DeserializeObject<List<Country>>(cache).ToList();
+                        if (countries != null)
                         {
-                            countryAvailability.Add(c.Alpha2Code);
-                            countryNameAvailability.Add(c.Name);
+                            foreach (Country c in countries)
+                            {
+                                countryAvailability.Add(c.Alpha2Code);
+                                countryNameAvailability.Add(c.Name);
+                            }
+                            Text = "Spotify Song Availability Checker";
                         }
-                        Text = "Spotify Song Availability Checker";
                     }
                 }
             }

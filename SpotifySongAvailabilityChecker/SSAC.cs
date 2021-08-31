@@ -221,6 +221,7 @@ namespace SpotifySongAvailabilityChecker
                         lvwAvailability.Items.Add(itemAvailability);
 
                         txtNumCountries.Text = "N/A (0 countries)";
+                        txtNumUnavailCountries.Text = $"{Startup.countryAvailability.Count}";
                     }
                     else
                     {
@@ -374,6 +375,7 @@ namespace SpotifySongAvailabilityChecker
                         lvwAvailability.Items.Add(itemAvailability);
 
                         txtNumCountries.Text = "N/A (0 countries)";
+                        txtNumUnavailCountries.Text = $"{Startup.countryAvailability.Count}";
                     }
                     else
                     {

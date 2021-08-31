@@ -80,6 +80,7 @@ namespace SpotifySongAvailabilityChecker
             this.tctrlMain = new System.Windows.Forms.TabControl();
             this.tpgSettings = new System.Windows.Forms.TabPage();
             this.gbxGeneral = new System.Windows.Forms.GroupBox();
+            this.chkEnableClearingBothInputs = new System.Windows.Forms.CheckBox();
             this.chkEnableExperiments = new System.Windows.Forms.CheckBox();
             this.gbxProgramDisplay = new System.Windows.Forms.GroupBox();
             this.chkEnableProgramResize = new System.Windows.Forms.CheckBox();
@@ -94,7 +95,6 @@ namespace SpotifySongAvailabilityChecker
             this.btnClearInput = new System.Windows.Forms.Button();
             this.tctrlProgramErrors = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.chkEnableClearingBothInputs = new System.Windows.Forms.CheckBox();
             this.gbxInput.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tpgSearchHistory.SuspendLayout();
@@ -630,6 +630,16 @@ namespace SpotifySongAvailabilityChecker
             this.gbxGeneral.TabStop = false;
             this.gbxGeneral.Text = "General Settings";
             // 
+            // chkEnableClearingBothInputs
+            // 
+            this.chkEnableClearingBothInputs.AutoSize = true;
+            this.chkEnableClearingBothInputs.Location = new System.Drawing.Point(10, 42);
+            this.chkEnableClearingBothInputs.Name = "chkEnableClearingBothInputs";
+            this.chkEnableClearingBothInputs.Size = new System.Drawing.Size(293, 17);
+            this.chkEnableClearingBothInputs.TabIndex = 1;
+            this.chkEnableClearingBothInputs.Text = "Clear both song and album links with \"Clear Input\"?";
+            this.chkEnableClearingBothInputs.UseVisualStyleBackColor = true;
+            // 
             // chkEnableExperiments
             // 
             this.chkEnableExperiments.AutoSize = true;
@@ -792,16 +802,6 @@ namespace SpotifySongAvailabilityChecker
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Program Errors";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // chkEnableClearingBothInputs
-            // 
-            this.chkEnableClearingBothInputs.AutoSize = true;
-            this.chkEnableClearingBothInputs.Location = new System.Drawing.Point(10, 42);
-            this.chkEnableClearingBothInputs.Name = "chkEnableClearingBothInputs";
-            this.chkEnableClearingBothInputs.Size = new System.Drawing.Size(293, 17);
-            this.chkEnableClearingBothInputs.TabIndex = 1;
-            this.chkEnableClearingBothInputs.Text = "Clear both song and album links with \"Clear Input\"?";
-            this.chkEnableClearingBothInputs.UseVisualStyleBackColor = true;
             // 
             // SSAC
             // 
