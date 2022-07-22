@@ -1,6 +1,4 @@
 # Spotify Song Availability Checker
-![image](./images/SSAC_Banner.png)
-
 A C# program that uses the Spotify API to check song and album availability on Spotify.
 
 Features:
