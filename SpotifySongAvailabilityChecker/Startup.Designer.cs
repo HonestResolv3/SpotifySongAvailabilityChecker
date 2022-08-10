@@ -29,26 +29,29 @@ namespace SpotifySongAvailabilityChecker
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Startup));
             this.pbxSplashScreen = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbxSplashScreen)).BeginInit();
             this.SuspendLayout();
             // 
             // pbxSplashScreen
             // 
-            this.pbxSplashScreen.Image = global::SpotifySongAvailabilityChecker.Properties.Resources.SSAC_Loading;
+            this.pbxSplashScreen.Image = ((System.Drawing.Image)(resources.GetObject("pbxSplashScreen.Image")));
             this.pbxSplashScreen.Location = new System.Drawing.Point(-1, -1);
+            this.pbxSplashScreen.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pbxSplashScreen.Name = "pbxSplashScreen";
-            this.pbxSplashScreen.Size = new System.Drawing.Size(649, 199);
+            this.pbxSplashScreen.Size = new System.Drawing.Size(650, 201);
             this.pbxSplashScreen.TabIndex = 0;
             this.pbxSplashScreen.TabStop = false;
             // 
             // Startup
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 197);
+            this.ClientSize = new System.Drawing.Size(649, 199);
             this.Controls.Add(this.pbxSplashScreen);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "Startup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Startup";

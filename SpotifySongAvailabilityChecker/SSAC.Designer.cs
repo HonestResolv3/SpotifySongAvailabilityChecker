@@ -62,18 +62,18 @@ namespace SpotifySongAvailabilityChecker
             this.txtSearchHistory = new System.Windows.Forms.TextBox();
             this.btnResetHistorySearch = new System.Windows.Forms.Button();
             this.lvwSearchHistory = new System.Windows.Forms.ListView();
-            this.chdrFavorite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chdrTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chdrAuthor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chdrType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chdrLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chdrFavorite = new System.Windows.Forms.ColumnHeader();
+            this.chdrTitle = new System.Windows.Forms.ColumnHeader();
+            this.chdrAuthor = new System.Windows.Forms.ColumnHeader();
+            this.chdrType = new System.Windows.Forms.ColumnHeader();
+            this.chdrLink = new System.Windows.Forms.ColumnHeader();
             this.tpgAvailability = new System.Windows.Forms.TabPage();
             this.cbxAvailabilitySearch = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lbl = new System.Windows.Forms.Label();
             this.lvwAvailability = new System.Windows.Forms.ListView();
-            this.chdrCountryCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chdrCountry = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chdrCountryCode = new System.Windows.Forms.ColumnHeader();
+            this.chdrCountry = new System.Windows.Forms.ColumnHeader();
             this.txtSearchInput = new System.Windows.Forms.TextBox();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -187,6 +187,7 @@ namespace SpotifySongAvailabilityChecker
             this.txtToken.ReadOnly = true;
             this.txtToken.Size = new System.Drawing.Size(422, 22);
             this.txtToken.TabIndex = 6;
+            this.txtToken.UseSystemPasswordChar = true;
             // 
             // lblToken
             // 
@@ -298,10 +299,10 @@ namespace SpotifySongAvailabilityChecker
             // 
             // txtNumCountries
             // 
-            this.txtNumCountries.Location = new System.Drawing.Point(254, 149);
+            this.txtNumCountries.Location = new System.Drawing.Point(275, 149);
             this.txtNumCountries.Name = "txtNumCountries";
             this.txtNumCountries.ReadOnly = true;
-            this.txtNumCountries.Size = new System.Drawing.Size(262, 22);
+            this.txtNumCountries.Size = new System.Drawing.Size(241, 22);
             this.txtNumCountries.TabIndex = 16;
             // 
             // lblNumCountries
@@ -325,10 +326,10 @@ namespace SpotifySongAvailabilityChecker
             this.tpgSearchHistory.Controls.Add(this.txtSearchHistory);
             this.tpgSearchHistory.Controls.Add(this.btnResetHistorySearch);
             this.tpgSearchHistory.Controls.Add(this.lvwSearchHistory);
-            this.tpgSearchHistory.Location = new System.Drawing.Point(4, 22);
+            this.tpgSearchHistory.Location = new System.Drawing.Point(4, 24);
             this.tpgSearchHistory.Name = "tpgSearchHistory";
             this.tpgSearchHistory.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgSearchHistory.Size = new System.Drawing.Size(541, 360);
+            this.tpgSearchHistory.Size = new System.Drawing.Size(541, 358);
             this.tpgSearchHistory.TabIndex = 1;
             this.tpgSearchHistory.Text = "Search History";
             this.tpgSearchHistory.UseVisualStyleBackColor = true;
@@ -445,7 +446,6 @@ namespace SpotifySongAvailabilityChecker
             this.chdrType,
             this.chdrLink});
             this.lvwSearchHistory.FullRowSelect = true;
-            this.lvwSearchHistory.HideSelection = false;
             this.lvwSearchHistory.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.lvwSearchHistory.Location = new System.Drawing.Point(6, 62);
             this.lvwSearchHistory.Name = "lvwSearchHistory";
@@ -540,7 +540,6 @@ namespace SpotifySongAvailabilityChecker
             this.chdrCountryCode,
             this.chdrCountry});
             this.lvwAvailability.FullRowSelect = true;
-            this.lvwAvailability.HideSelection = false;
             this.lvwAvailability.Location = new System.Drawing.Point(6, 62);
             this.lvwAvailability.Name = "lvwAvailability";
             this.lvwAvailability.Size = new System.Drawing.Size(529, 297);
@@ -623,9 +622,9 @@ namespace SpotifySongAvailabilityChecker
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxGeneral.Controls.Add(this.chkEnableClearingBothInputs);
             this.gbxGeneral.Controls.Add(this.chkEnableExperiments);
-            this.gbxGeneral.Location = new System.Drawing.Point(6, 269);
+            this.gbxGeneral.Location = new System.Drawing.Point(6, 270);
             this.gbxGeneral.Name = "gbxGeneral";
-            this.gbxGeneral.Size = new System.Drawing.Size(529, 64);
+            this.gbxGeneral.Size = new System.Drawing.Size(529, 70);
             this.gbxGeneral.TabIndex = 5;
             this.gbxGeneral.TabStop = false;
             this.gbxGeneral.Text = "General Settings";
@@ -656,7 +655,7 @@ namespace SpotifySongAvailabilityChecker
             this.gbxProgramDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxProgramDisplay.Controls.Add(this.chkEnableProgramResize);
-            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 197);
+            this.gbxProgramDisplay.Location = new System.Drawing.Point(6, 198);
             this.gbxProgramDisplay.Name = "gbxProgramDisplay";
             this.gbxProgramDisplay.Size = new System.Drawing.Size(529, 45);
             this.gbxProgramDisplay.TabIndex = 4;
@@ -682,7 +681,7 @@ namespace SpotifySongAvailabilityChecker
             this.gbxListDisplaySettings.Controls.Add(this.lblDefSortOrder);
             this.gbxListDisplaySettings.Controls.Add(this.chkAllowColumnReorder);
             this.gbxListDisplaySettings.Controls.Add(this.chkShowGridlines);
-            this.gbxListDisplaySettings.Location = new System.Drawing.Point(6, 85);
+            this.gbxListDisplaySettings.Location = new System.Drawing.Point(6, 86);
             this.gbxListDisplaySettings.Name = "gbxListDisplaySettings";
             this.gbxListDisplaySettings.Size = new System.Drawing.Size(529, 89);
             this.gbxListDisplaySettings.TabIndex = 3;
@@ -740,7 +739,7 @@ namespace SpotifySongAvailabilityChecker
             this.gbxSearchSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxSearchSettings.Controls.Add(this.chkAutoSwitchTabs);
-            this.gbxSearchSettings.Location = new System.Drawing.Point(6, 20);
+            this.gbxSearchSettings.Location = new System.Drawing.Point(6, 21);
             this.gbxSearchSettings.Name = "gbxSearchSettings";
             this.gbxSearchSettings.Size = new System.Drawing.Size(529, 43);
             this.gbxSearchSettings.TabIndex = 2;
@@ -815,7 +814,7 @@ namespace SpotifySongAvailabilityChecker
             this.Controls.Add(this.tctrlMain);
             this.Controls.Add(this.btnToken);
             this.Controls.Add(this.btnCheckAvailability);
-            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

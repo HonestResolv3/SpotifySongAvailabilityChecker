@@ -14,6 +14,7 @@ namespace SpotifySongAvailabilityChecker
         static void Main()
         {
             Application.EnableVisualStyles();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.SetCompatibleTextRenderingDefault(false);
 
             const string appName = "Spotify Song Availability Checker";
