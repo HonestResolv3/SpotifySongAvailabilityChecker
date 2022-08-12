@@ -62,3 +62,11 @@ Fixed:
 # v3-hotfix1 (Ending at [this](https://github.com/CasualHonest/SpotifySongAvailabilityChecker/commit/2b08182b10746b6d3c67798f7dca6c50b65832fa) commit):
 Fixed:
 - [Back-end] - Program can no longer run more than one instance at a time. Preventing errors with reading empty files
+
+# v3-hotfix2 (Ending at [this](https://github.com/MeiOwnReality/SpotifySongAvailabilityChecker/commit/917199707009e3666ed33da60a7b28d59726f803) commit):
+Changed:
+- [Project] Project is now in .NET 6.0
+- [References] Removed Costura.Fody as it is incompatible with .NET 6.0
+- [References] Updated RESTCountriesAPI to use the latest API version
+- [UI] Access Token no longer is seen visually when it's obtained, only appearing as *****'s
+
